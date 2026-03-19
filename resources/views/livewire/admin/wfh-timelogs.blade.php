@@ -1,8 +1,23 @@
 <div>
 
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">My TimeLogs</h1>
-        <p class="text-sm text-gray-500 dark:text-zinc-400">Record your Work From Home time in and out</p>
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">My TimeLogs</h1>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">Record your Work From Home time in and out</p>
+        </div>
+        <a href="{{ route('admin.wfh-timelogs.export', [
+                'user_id' => auth()->id(),
+                'date_from' => $filterDateFrom,
+                'date_to' => $filterDateTo,
+            ]) }}"
+            target="_blank"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export PDF
+        </a>
     </div>
 
     {{-- Flash Messages --}}
@@ -293,7 +308,8 @@
                         <div class="flex flex-col justify-center">
                             <div
                                 class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mb-4">
-                                <h3 class="font-semibold text-blue-800 dark:text-blue-400 mb-2">Ready to Start Your Day?
+                                <h3 class="font-semibold text-blue-800 dark:text-blue-400 mb-2">Ready to Start Your
+                                    Day?
                                 </h3>
                                 <p class="text-sm text-blue-600 dark:text-blue-500">
                                     Click the Time In button to automatically record your current time and date.
@@ -398,86 +414,104 @@
                     </tr>
                 </thead>
                 <tbody x-data="{ open: {} }" class="divide-y divide-gray-200 dark:divide-zinc-700">
-        @forelse($timelogs as $timelog)
-            @php($uniqueId = $timelog->id)
-            <!-- Main Row -->
-            <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
-                <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
-                    {{ \Carbon\Carbon::parse($timelog->date)->format('M d, Y') }}
-                </td>
+                    @forelse($timelogs as $timelog)
+                        @php($uniqueId = $timelog->id)
+                        <!-- Main Row -->
+                        <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
+                                {{ \Carbon\Carbon::parse($timelog->date)->format('M d, Y') }}
+                            </td>
 
-                <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
-                    {{ $timelog->time_in ? \Carbon\Carbon::parse($timelog->time_in)->format('h:i A') : '-' }}
-                </td>
+                            <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
+                                {{ $timelog->time_in ? \Carbon\Carbon::parse($timelog->time_in)->format('h:i A') : '-' }}
+                            </td>
 
-                <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
-                    {{ $timelog->time_out ? \Carbon\Carbon::parse($timelog->time_out)->format('h:i A') : '-' }}
-                </td>
+                            <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
+                                {{ $timelog->time_out ? \Carbon\Carbon::parse($timelog->time_out)->format('h:i A') : '-' }}
+                            </td>
 
-                <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
-                    {{ $timelog->total_hours ? number_format($timelog->total_hours, 2) . ' hrs' : '-' }}
-                </td>
+                            <td class="px-4 py-3 text-sm text-gray-900 dark:text-zinc-300">
+                                {{ $timelog->total_hours ? number_format($timelog->total_hours, 2) . ' hrs' : '-' }}
+                            </td>
 
-                <td class="px-4 py-3">
-                    @if ($timelog->latitude && $timelog->longitude)
-                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">
-                            Verified
-                        </span>
-                    @else
-                        <span class="text-gray-400">-</span>
-                    @endif
-                </td>
+                            <td class="px-4 py-3">
+                                @if ($timelog->latitude && $timelog->longitude)
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">
+                                        Verified
+                                    </span>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
+                            </td>
 
-                <td class="px-4 py-3">
-                    @switch($timelog->status)
-                        @case('pending')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
-                                Pending
-                            </span>
-                        @break
+                            <td class="px-4 py-3">
+                                @switch($timelog->status)
+                                    @case('pending')
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                            Pending
+                                        </span>
+                                    @break
 
-                        @case('completed')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                                Completed
-                            </span>
-                        @break
-                    @endswitch
-                </td>
+                                    @case('completed')
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                            Completed
+                                        </span>
+                                    @break
+                                @endswitch
+                            </td>
 
-                <td class="px-4 py-3">
-                    @if ($timelog->accomplishments)
-                        <button
-                            @click="open[{{ $uniqueId }}] = !open[{{ $uniqueId }}]"
-                            class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
-                            x-text="open[{{ $uniqueId }}] ? 'Close' : 'View'">
-                        </button>
-                    @else
-                        <span class="text-gray-400">-</span>
-                    @endif
-                </td>
-            </tr>
+                            <td class="px-4 py-3">
+                                @if ($timelog->accomplishments)
+                                    <button @click="open[{{ $uniqueId }}] = !open[{{ $uniqueId }}]"
+                                        class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+                                        x-text="open[{{ $uniqueId }}] ? 'Close' : 'View'">
+                                    </button>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
+                            </td>
+                        </tr>
 
-            <!-- Accomplishment Row -->
-            <tr x-show="open[{{ $uniqueId }}]" x-transition x-cloak class="bg-gray-50 dark:bg-zinc-700/30">
-                <td colspan="7 " >
-                    <div class=" text-sm text-gray-900 dark:text-zinc-300 max-w-xs px-3 py-2">
-                        {{ $timelog->accomplishments }}
-                    </div>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="7" class="px-4 py-8 text-center text-gray-500 dark:text-zinc-400">
-                    <div class="flex flex-col items-center">
-                        <svg class="w-12 h-12 text-gray-300 dark:text-zinc-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p>No timelogs found. Time in to get started!</p>
-                    </div>
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
+                        <!-- Accomplishment Row -->
+                        <tr x-show="open[{{ $uniqueId }}]" x-transition x-cloak
+                            class="bg-gray-50 dark:bg-zinc-700/30">
+                            <td colspan="7" class="px-6 py-5">
+
+                                <div class="w-full">
+                                    <h3
+                                        class="text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
+                                        Accomplishments
+                                    </h3>
+
+                                    <div class="space-y-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+                                        @foreach (preg_split('/\r\n|\r|\n/', $timelog->accomplishments) as $item)
+                                            @if (trim($item) !== '')
+                                                <p class="whitespace-pre-line">{{ trim($item) }}</p>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-4 py-8 text-center text-gray-500 dark:text-zinc-400">
+                                    <div class="flex flex-col items-center">
+                                        <svg class="w-12 h-12 text-gray-300 dark:text-zinc-600 mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <p>No timelogs found. Time in to get started!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
 
                 </table>
             </div>

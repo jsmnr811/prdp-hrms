@@ -29,27 +29,27 @@ class AdminSeeder extends Seeder
         $permissions = [
             // Dashboard
             'view dashboard',
-            
+
             // Employee management
             'view employees',
             'create employees',
             'edit employees',
             'delete employees',
             'export employees',
-            
+
             // User management
             'view users',
             'create users',
             'edit users',
             'delete users',
-            
+
             // Role & Permission management
             'view roles',
             'create roles',
             'edit roles',
             'delete roles',
             'assign permissions',
-            
+
             // Office/Unit/Position management
             'view offices',
             'create offices',
@@ -63,16 +63,16 @@ class AdminSeeder extends Seeder
             'create positions',
             'edit positions',
             'delete positions',
-            
+
             // Reports
             'view reports',
             'generate reports',
             'export reports',
-            
+
             // System settings
             'view settings',
             'edit settings',
-            
+
             // Profile
             'view profile',
             'edit profile',
@@ -122,9 +122,9 @@ class AdminSeeder extends Seeder
                 'emergency_contact_number' => null,
                 'image' => null,
                 'terms' => 1,
-                'office_id' => null,
-                'unit_id' => null,
-                'position_id' => null,
+                'office_id' => 6,
+                'unit_id' => 8,
+                'position_id' => 79,
                 'employment_status' => 'Hired',
                 'date_hired' => now(),
                 'date_ended' => null,

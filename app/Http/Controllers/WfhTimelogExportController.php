@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WfhTimelog;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class WfhTimelogExportController extends Controller
 {
     public function exportPdf(Request $request)
     {
-        $query = WfhTimelog::with('user');
+        $query = WfhTimelog::with(['user', 'user.employee', 'user.employee.position', 'user.employee.office', 'user.employee.unit']);
 
         // Apply search filter
         if ($request->has('search') && $request->search) {
@@ -39,8 +40,8 @@ class WfhTimelogExportController extends Controller
             $query->where('date', '<=', $request->date_to);
         }
 
-        $timelogs = $query->orderBy('date', 'desc')
-            ->orderBy('time_in', 'desc')
+        $timelogs = $query->orderBy('date', 'asc')
+            ->orderBy('time_in', 'asc')
             ->get();
 
         $dateRange = 'All';
@@ -52,12 +53,45 @@ class WfhTimelogExportController extends Controller
             $dateRange = 'Until: ' . \Carbon\Carbon::parse($request->date_to)->format('M d, Y');
         }
 
-        $pdf = Pdf::loadView('livewire.admin.wfh-timelogs-pdf', [
-            'timelogs' => $timelogs,
-            'dateRange' => $dateRange,
-            'filterStatus' => $request->status,
-        ]);
+        // Check if exporting for a specific user (single user timelog)
+        // or for all users (all timelogs)
+        $isSingleUser = $request->has('user_id') && $request->user_id;
 
-        return $pdf->download('wfh-timelogs-' . now()->format('Y-m-d') . '.pdf');
+        $employeeName = null;
+        $employeePosition = null;
+        $employeeOffice = null;
+        $employeeUnit = null;
+        if ($isSingleUser) {
+            $user = User::with('employee.position', 'employee.office', 'employee.unit')->find($request->user_id);
+            $employeeName = $user ? $user->name : null;
+            $employeePosition = $user && $user->employee && $user->employee->position ? $user->employee->position->name : null;
+            $employeeOffice = $user && $user->employee && $user->employee->office ? $user->employee->office->name : null;
+            $employeeUnit = $user && $user->employee && $user->employee->unit ? $user->employee->unit->name : null;
+        }
+
+        // Determine which view to use based on whether it's single user or all
+        if ($isSingleUser) {
+            // Single user export - use wfh-timelogs-pdf (no employee column, name in header)
+            $pdf = Pdf::loadView('livewire.admin.wfh-timelogs-pdf', [
+                'timelogs' => $timelogs,
+                'dateRange' => $dateRange,
+                'filterStatus' => $request->status,
+                'employeeName' => $employeeName,
+                'employeePosition' => $employeePosition,
+                'employeeOffice' => $employeeOffice,
+                'employeeUnit' => $employeeUnit,
+            ]);
+            $filename = 'wfh-timelogs-' . now()->format('Y-m-d') . '.pdf';
+        } else {
+            // All users export - use wfh-all-timelogs-pdf (grouped by date)
+            $pdf = Pdf::loadView('livewire.admin.wfh-all-timelogs-pdf', [
+                'timelogs' => $timelogs,
+                'dateRange' => $dateRange,
+                'filterStatus' => $request->status,
+            ]);
+            $filename = 'wfh-all-timelogs-' . now()->format('Y-m-d') . '.pdf';
+        }
+
+        return $pdf->stream($filename);
     }
 }

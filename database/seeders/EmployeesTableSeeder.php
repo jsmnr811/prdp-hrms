@@ -14,12 +14,12 @@ class EmployeesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('employees')->delete();
-        
+
         \DB::table('employees')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'employee_number' => '001',
@@ -53,7 +53,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'employee_number' => '0005',
@@ -75,7 +75,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Helen Aure',
                 'emergency_contact_relationship' => 'Wife',
                 'emergency_contact_number' => '9993469489',
-                'image' => 'websuite/employee_photo/aure_edgardo_005.jpg',
+                'image' => 'employee_photo/aure_edgardo_005.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 2,
@@ -87,7 +87,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:26:51',
                 'deleted_at' => NULL,
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'employee_number' => '0009',
@@ -109,7 +109,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Maria Carmen Zara',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9569028038',
-                'image' => 'websuite/employee_photo/barrera_jourvin_0009.png',
+                'image' => 'employee_photo/barrera_jourvin_0009.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 6,
@@ -121,7 +121,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-02-10 11:08:52',
                 'deleted_at' => NULL,
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'employee_number' => '0011',
@@ -143,7 +143,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Nel Cabason',
                 'emergency_contact_relationship' => 'Sister',
                 'emergency_contact_number' => '0922819903',
-                'image' => 'websuite/employee_photo/cabason_evelyn_011.jpeg',
+                'image' => 'employee_photo/cabason_evelyn_011.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 4,
@@ -155,7 +155,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:30:40',
                 'deleted_at' => NULL,
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 5,
                 'employee_number' => '0187',
@@ -177,7 +177,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Aljon',
                 'emergency_contact_relationship' => 'Son',
                 'emergency_contact_number' => '9081537611',
-                'image' => 'websuite/employee_photo/benedicto_angelito_187.jpg',
+                'image' => 'employee_photo/benedicto_angelito_187.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -189,7 +189,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:30:57',
                 'deleted_at' => NULL,
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 6,
                 'employee_number' => '0014',
@@ -211,7 +211,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Gellie L. Cruz',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9396165860',
-                'image' => 'websuite/employee_photo/rivera_raymund_014.jpeg',
+                'image' => 'employee_photo/rivera_raymund_014.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 3,
@@ -223,7 +223,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:31:05',
                 'deleted_at' => NULL,
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 7,
                 'employee_number' => '015',
@@ -257,7 +257,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 8,
                 'employee_number' => '0018',
@@ -279,7 +279,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Jay Albert Ilagan',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9171871205',
-                'image' => 'websuite/employee_photo/ilagan_prescila_18.jpeg',
+                'image' => 'employee_photo/ilagan_prescila_18.jpeg',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -291,7 +291,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:31:20',
                 'deleted_at' => NULL,
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
                 'employee_number' => '0021',
@@ -313,7 +313,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Hyacinth Jaurigue',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9275600002',
-                'image' => 'websuite/employee_photo/jaurigue_arnold_021.jpg',
+                'image' => 'employee_photo/jaurigue_arnold_021.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 2,
@@ -325,7 +325,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:31:29',
                 'deleted_at' => NULL,
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 10,
                 'employee_number' => '0024',
@@ -347,7 +347,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Brian',
                 'emergency_contact_relationship' => 'Son',
                 'emergency_contact_number' => '9294881200',
-                'image' => 'websuite/employee_photo/lagahit_laneta_024.png',
+                'image' => 'employee_photo/lagahit_laneta_024.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -359,7 +359,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:31:38',
                 'deleted_at' => NULL,
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 11,
                 'employee_number' => '0026',
@@ -381,7 +381,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Oscar Lunar Jr.',
                 'emergency_contact_relationship' => 'Husband',
                 'emergency_contact_number' => '9204650093',
-                'image' => 'websuite/employee_photo/lunar_miami_026.png',
+                'image' => 'employee_photo/lunar_miami_026.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -393,7 +393,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:31:46',
                 'deleted_at' => NULL,
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 12,
                 'employee_number' => '0028',
@@ -415,7 +415,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Angelita Martir',
                 'emergency_contact_relationship' => 'Wife',
                 'emergency_contact_number' => '9217508791',
-                'image' => 'websuite/employee_photo/martir_ric jose_028.png',
+                'image' => 'employee_photo/martir_ric jose_028.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -427,7 +427,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:32:03',
                 'deleted_at' => NULL,
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 13,
                 'employee_number' => '0029',
@@ -449,7 +449,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Jermy Marzan',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9205920253',
-                'image' => 'websuite/employee_photo/marzan_crisel_029.jpg',
+                'image' => 'employee_photo/marzan_crisel_029.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -461,7 +461,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:32:11',
                 'deleted_at' => NULL,
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 14,
                 'employee_number' => '0035',
@@ -483,7 +483,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Angeli Pacon',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9778496407',
-                'image' => 'websuite/employee_photo/pacon_joseph_35.png',
+                'image' => 'employee_photo/pacon_joseph_35.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 8,
@@ -495,7 +495,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:32:28',
                 'deleted_at' => NULL,
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 15,
                 'employee_number' => '0037',
@@ -517,7 +517,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Nanette M. Mangupag',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9260868635',
-                'image' => 'websuite/employee_photo/mangupag_stephen_037.png',
+                'image' => 'employee_photo/mangupag_stephen_037.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 8,
@@ -529,7 +529,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 09:11:15',
                 'deleted_at' => NULL,
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 16,
                 'employee_number' => '0042',
@@ -551,7 +551,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Violeta Layson',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9157583564',
-                'image' => 'websuite/employee_photo/layson_jerome_042.jpg',
+                'image' => 'employee_photo/layson_jerome_042.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -563,7 +563,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:33:49',
                 'deleted_at' => NULL,
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 17,
                 'employee_number' => '0043',
@@ -585,7 +585,7 @@ class EmployeesTableSeeder extends Seeder
                 'emergency_contact_name' => 'Grace',
                 'emergency_contact_relationship' => 'Daughter',
                 'emergency_contact_number' => '9693119986',
-                'image' => 'websuite/employee_photo/reyes_gil_043.jpg',
+                'image' => 'employee_photo/reyes_gil_043.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -597,7 +597,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => '2026-01-28 10:33:59',
                 'deleted_at' => NULL,
             ),
-            17 => 
+            17 =>
             array (
                 'id' => 18,
                 'employee_number' => '044',
@@ -631,7 +631,7 @@ class EmployeesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            18 => 
+            18 =>
             array (
                 'id' => 19,
                 'employee_number' => '0049',
@@ -654,7 +654,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Leggo Y. David',
                 'emergency_contact_relationship' => 'Son',
                 'emergency_contact_number' => '9081987501',
-                'image' => 'websuite/employee_photo/david_legario_0049.jpg',
+                'image' => 'employee_photo/david_legario_0049.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -666,7 +666,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-02-10 09:43:44',
                 'deleted_at' => NULL,
             ),
-            19 => 
+            19 =>
             array (
                 'id' => 20,
                 'employee_number' => '0050',
@@ -688,7 +688,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Regina Agasen',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9202604764',
-                'image' => 'websuite/employee_photo/agasen_frederick_050.jpg',
+                'image' => 'employee_photo/agasen_frederick_050.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -700,7 +700,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:34:17',
                 'deleted_at' => NULL,
             ),
-            20 => 
+            20 =>
             array (
                 'id' => 21,
                 'employee_number' => '0051',
@@ -722,7 +722,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Teresita Gulpeo',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9156789438',
-                'image' => 'websuite/employee_photo/reyes_aira_051.jpeg',
+                'image' => 'employee_photo/reyes_aira_051.jpeg',
                 'terms' => 0,
                 'office_id' => 2,
                 'unit_id' => NULL,
@@ -734,7 +734,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:34:25',
                 'deleted_at' => NULL,
             ),
-            21 => 
+            21 =>
             array (
                 'id' => 22,
                 'employee_number' => '0052',
@@ -756,7 +756,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Diana G. Naces',
                 'emergency_contact_relationship' => 'Wife',
                 'emergency_contact_number' => '9493661599',
-                'image' => 'websuite/employee_photo/naces_rene_0052.jpg',
+                'image' => 'employee_photo/naces_rene_0052.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -768,7 +768,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-29 09:53:06',
                 'deleted_at' => NULL,
             ),
-            22 => 
+            22 =>
             array (
                 'id' => 23,
                 'employee_number' => '066',
@@ -802,7 +802,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            23 => 
+            23 =>
             array (
                 'id' => 24,
                 'employee_number' => '0067',
@@ -824,7 +824,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Evangeline Bulabos',
                 'emergency_contact_relationship' => 'Wife',
                 'emergency_contact_number' => '9982558209',
-                'image' => 'websuite/employee_photo/bulabos_anacleto_067.jpg',
+                'image' => 'employee_photo/bulabos_anacleto_067.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -836,7 +836,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:34:35',
                 'deleted_at' => NULL,
             ),
-            24 => 
+            24 =>
             array (
                 'id' => 25,
                 'employee_number' => '0068',
@@ -858,7 +858,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Atty. Christine M. Camacho',
                 'emergency_contact_relationship' => 'Sister',
                 'emergency_contact_number' => '9213456940',
-                'image' => 'websuite/employee_photo/montealto_lovella_068.jpg',
+                'image' => 'employee_photo/montealto_lovella_068.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 3,
@@ -870,7 +870,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:34:43',
                 'deleted_at' => NULL,
             ),
-            25 => 
+            25 =>
             array (
                 'id' => 26,
                 'employee_number' => '0073',
@@ -892,7 +892,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Vicente M. Margallo',
                 'emergency_contact_relationship' => 'Father',
                 'emergency_contact_number' => '9152453437',
-                'image' => 'websuite/employee_photo/margallo_ana victoria_073.png',
+                'image' => 'employee_photo/margallo_ana victoria_073.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 9,
@@ -904,7 +904,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 09:12:36',
                 'deleted_at' => NULL,
             ),
-            26 => 
+            26 =>
             array (
                 'id' => 27,
                 'employee_number' => '0083',
@@ -926,7 +926,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Almo Moron',
                 'emergency_contact_relationship' => 'Auntie',
                 'emergency_contact_number' => '9178711460',
-                'image' => 'websuite/employee_photo/nuelan_roan_083.jpeg',
+                'image' => 'employee_photo/nuelan_roan_083.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 7,
@@ -938,7 +938,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:36:54',
                 'deleted_at' => NULL,
             ),
-            27 => 
+            27 =>
             array (
                 'id' => 28,
                 'employee_number' => '0077',
@@ -960,7 +960,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Aj',
                 'emergency_contact_relationship' => 'Nephew',
                 'emergency_contact_number' => '9603663238',
-                'image' => 'websuite/employee_photo/agawin_ophelia_077.jpg',
+                'image' => 'employee_photo/agawin_ophelia_077.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => NULL,
@@ -972,7 +972,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:37:13',
                 'deleted_at' => NULL,
             ),
-            28 => 
+            28 =>
             array (
                 'id' => 29,
                 'employee_number' => '0086',
@@ -994,7 +994,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Arnold Durante',
                 'emergency_contact_relationship' => 'Husband',
                 'emergency_contact_number' => '9166817939',
-                'image' => 'websuite/employee_photo/durante_donna lynn isidora_086.jpg',
+                'image' => 'employee_photo/durante_donna lynn isidora_086.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => NULL,
@@ -1006,7 +1006,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:37:31',
                 'deleted_at' => NULL,
             ),
-            29 => 
+            29 =>
             array (
                 'id' => 30,
                 'employee_number' => '087',
@@ -1040,7 +1040,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            30 => 
+            30 =>
             array (
                 'id' => 31,
                 'employee_number' => '0090',
@@ -1062,7 +1062,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Uve B Benigay',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9196051103',
-                'image' => 'websuite/employee_photo/benigay_amy_090.jpg',
+                'image' => 'employee_photo/benigay_amy_090.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -1074,7 +1074,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:37:39',
                 'deleted_at' => NULL,
             ),
-            31 => 
+            31 =>
             array (
                 'id' => 32,
                 'employee_number' => '0104',
@@ -1096,7 +1096,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Melba A. Bungcayao',
                 'emergency_contact_relationship' => 'Sister',
                 'emergency_contact_number' => '9228934220',
-                'image' => 'websuite/employee_photo/antonio_teonila_104.png',
+                'image' => 'employee_photo/antonio_teonila_104.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -1108,7 +1108,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:37:54',
                 'deleted_at' => NULL,
             ),
-            32 => 
+            32 =>
             array (
                 'id' => 33,
                 'employee_number' => '0105',
@@ -1130,7 +1130,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Orlando Panabang',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9752443657',
-                'image' => 'websuite/employee_photo/panabang_ireneo_105.jpg',
+                'image' => 'employee_photo/panabang_ireneo_105.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -1142,7 +1142,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:38:03',
                 'deleted_at' => NULL,
             ),
-            33 => 
+            33 =>
             array (
                 'id' => 34,
                 'employee_number' => '106',
@@ -1176,7 +1176,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            34 => 
+            34 =>
             array (
                 'id' => 35,
                 'employee_number' => '0108',
@@ -1198,7 +1198,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Francisca Garcia',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9284482739',
-                'image' => 'websuite/employee_photo/tionloc_jocelyn_108.jpeg',
+                'image' => 'employee_photo/tionloc_jocelyn_108.jpeg',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -1210,7 +1210,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:38:15',
                 'deleted_at' => NULL,
             ),
-            35 => 
+            35 =>
             array (
                 'id' => 36,
                 'employee_number' => '112',
@@ -1244,7 +1244,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            36 => 
+            36 =>
             array (
                 'id' => 37,
                 'employee_number' => '121',
@@ -1278,7 +1278,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            37 => 
+            37 =>
             array (
                 'id' => 38,
                 'employee_number' => '0127',
@@ -1300,7 +1300,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Elvin Omaña',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9185389594',
-                'image' => 'websuite/employee_photo/omaña_harry_0127.jpg',
+                'image' => 'employee_photo/omaña_harry_0127.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 11,
@@ -1312,7 +1312,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:30:05',
                 'deleted_at' => NULL,
             ),
-            38 => 
+            38 =>
             array (
                 'id' => 39,
                 'employee_number' => '0128',
@@ -1334,7 +1334,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Maria Herisa Ladtudan',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9678532295',
-                'image' => 'websuite/employee_photo/prospero_john lonny_128.jpg',
+                'image' => 'employee_photo/prospero_john lonny_128.jpg',
                 'terms' => 0,
                 'office_id' => 2,
                 'unit_id' => NULL,
@@ -1346,7 +1346,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:38:29',
                 'deleted_at' => NULL,
             ),
-            39 => 
+            39 =>
             array (
                 'id' => 40,
                 'employee_number' => '0134',
@@ -1368,7 +1368,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Baybz V. Vasquez',
                 'emergency_contact_relationship' => 'Sister',
                 'emergency_contact_number' => '9399090191',
-                'image' => 'websuite/employee_photo/vasquez_ma. malena_134.jpeg',
+                'image' => 'employee_photo/vasquez_ma. malena_134.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 11,
@@ -1380,7 +1380,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:38:39',
                 'deleted_at' => NULL,
             ),
-            40 => 
+            40 =>
             array (
                 'id' => 41,
                 'employee_number' => '0132',
@@ -1402,7 +1402,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Mary A. Galvez',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9081812813',
-                'image' => 'websuite/employee_photo/galvez_john carl_0132.png',
+                'image' => 'employee_photo/galvez_john carl_0132.png',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -1414,7 +1414,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:38:57',
                 'deleted_at' => NULL,
             ),
-            41 => 
+            41 =>
             array (
                 'id' => 42,
                 'employee_number' => '0151',
@@ -1436,7 +1436,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Luther C. De Gracia',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9624008523',
-                'image' => 'websuite/employee_photo/de gracia_jeizel_151.jpeg',
+                'image' => 'employee_photo/de gracia_jeizel_151.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -1448,7 +1448,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:06',
                 'deleted_at' => NULL,
             ),
-            42 => 
+            42 =>
             array (
                 'id' => 43,
                 'employee_number' => '0154',
@@ -1470,7 +1470,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Annabel C. Odono-Calimpong',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9173334704',
-                'image' => 'websuite/employee_photo/calimpong_joel_154.png',
+                'image' => 'employee_photo/calimpong_joel_154.png',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -1482,7 +1482,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:15',
                 'deleted_at' => NULL,
             ),
-            43 => 
+            43 =>
             array (
                 'id' => 44,
                 'employee_number' => '0156',
@@ -1504,7 +1504,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Mary G. Baldoz',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9454822793',
-                'image' => 'websuite/employee_photo/baldoz_leo mark_156.png',
+                'image' => 'employee_photo/baldoz_leo mark_156.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 8,
@@ -1516,7 +1516,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:26',
                 'deleted_at' => NULL,
             ),
-            44 => 
+            44 =>
             array (
                 'id' => 45,
                 'employee_number' => '0160',
@@ -1538,7 +1538,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Susana Garcia Cabralda',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '0908785247',
-                'image' => 'websuite/employee_photo/alcantara_roxan_0160.jpg',
+                'image' => 'employee_photo/alcantara_roxan_0160.jpg',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -1550,7 +1550,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:41',
                 'deleted_at' => NULL,
             ),
-            45 => 
+            45 =>
             array (
                 'id' => 46,
                 'employee_number' => '0161',
@@ -1572,7 +1572,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             'emergency_contact_name' => 'Allen(Jay) Recio',
                 'emergency_contact_relationship' => 'Partner',
                 'emergency_contact_number' => '9178153644',
-                'image' => 'websuite/employee_photo/monsalud_maribel_161.jpg',
+                'image' => 'employee_photo/monsalud_maribel_161.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -1584,7 +1584,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:49',
                 'deleted_at' => NULL,
             ),
-            46 => 
+            46 =>
             array (
                 'id' => 47,
                 'employee_number' => '0162',
@@ -1606,7 +1606,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Ma. Purita Mariano',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9178572791',
-                'image' => 'websuite/employee_photo/mariano_francis raymond_162.jpg',
+                'image' => 'employee_photo/mariano_francis raymond_162.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => NULL,
@@ -1618,7 +1618,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:39:57',
                 'deleted_at' => NULL,
             ),
-            47 => 
+            47 =>
             array (
                 'id' => 48,
                 'employee_number' => '0163',
@@ -1640,7 +1640,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Minda S Manantan',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9178378729',
-                'image' => 'websuite/employee_photo/manantan_renato_168.png',
+                'image' => 'employee_photo/manantan_renato_168.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 10,
@@ -1652,7 +1652,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 09:17:13',
                 'deleted_at' => NULL,
             ),
-            48 => 
+            48 =>
             array (
                 'id' => 49,
                 'employee_number' => '0172',
@@ -1674,7 +1674,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Evelyn Valeriano',
                 'emergency_contact_relationship' => 'Housemate',
                 'emergency_contact_number' => '9205455372',
-                'image' => 'websuite/employee_photo/gasacao_consolacion_172.jpeg',
+                'image' => 'employee_photo/gasacao_consolacion_172.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 2,
@@ -1686,7 +1686,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-02-10 08:27:57',
                 'deleted_at' => NULL,
             ),
-            49 => 
+            49 =>
             array (
                 'id' => 50,
                 'employee_number' => '0173',
@@ -1708,7 +1708,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Rosaura G. Abaya',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9082587484',
-                'image' => 'websuite/employee_photo/abaya_roy_0173.jpg',
+                'image' => 'employee_photo/abaya_roy_0173.jpg',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -1720,7 +1720,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:40:36',
                 'deleted_at' => NULL,
             ),
-            50 => 
+            50 =>
             array (
                 'id' => 51,
                 'employee_number' => '0175',
@@ -1742,7 +1742,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Kevin G. Corpuz',
                 'emergency_contact_relationship' => 'Husband',
                 'emergency_contact_number' => '9165664316',
-                'image' => 'websuite/employee_photo/corpuz_ruby_175.jpg',
+                'image' => 'employee_photo/corpuz_ruby_175.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -1754,7 +1754,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:40:44',
                 'deleted_at' => NULL,
             ),
-            51 => 
+            51 =>
             array (
                 'id' => 52,
                 'employee_number' => '0181',
@@ -1776,7 +1776,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Julieta M. Alvarez',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9973429642',
-                'image' => 'websuite/employee_photo/alvarez_edelita_181.jpg',
+                'image' => 'employee_photo/alvarez_edelita_181.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 1,
@@ -1788,7 +1788,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:41:10',
                 'deleted_at' => NULL,
             ),
-            52 => 
+            52 =>
             array (
                 'id' => 53,
                 'employee_number' => '0183',
@@ -1810,7 +1810,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Kimberly Suarez',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9387881672',
-                'image' => 'websuite/employee_photo/suarez_jerome_183.png',
+                'image' => 'employee_photo/suarez_jerome_183.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 8,
@@ -1822,7 +1822,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:41:17',
                 'deleted_at' => NULL,
             ),
-            53 => 
+            53 =>
             array (
                 'id' => 54,
                 'employee_number' => '0185',
@@ -1844,7 +1844,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Ricky Carrillo',
                 'emergency_contact_relationship' => 'Father',
                 'emergency_contact_number' => '9985624706',
-                'image' => 'websuite/employee_photo/carrillo_jan kyle_185.png',
+                'image' => 'employee_photo/carrillo_jan kyle_185.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 9,
@@ -1856,7 +1856,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:41:29',
                 'deleted_at' => NULL,
             ),
-            54 => 
+            54 =>
             array (
                 'id' => 55,
                 'employee_number' => '0188',
@@ -1878,7 +1878,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Agrifina Raguindin',
                 'emergency_contact_relationship' => 'Aunt',
                 'emergency_contact_number' => '9983200520',
-                'image' => 'websuite/employee_photo/pascual_romaeca joy_188.jpg',
+                'image' => 'employee_photo/pascual_romaeca joy_188.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 7,
@@ -1890,7 +1890,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:41:36',
                 'deleted_at' => NULL,
             ),
-            55 => 
+            55 =>
             array (
                 'id' => 56,
                 'employee_number' => '0189',
@@ -1912,7 +1912,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Cezar Relleve',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9358369208',
-                'image' => 'websuite/employee_photo/relleve_kristina kay_189.png',
+                'image' => 'employee_photo/relleve_kristina kay_189.png',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -1924,7 +1924,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:41:44',
                 'deleted_at' => NULL,
             ),
-            56 => 
+            56 =>
             array (
                 'id' => 57,
                 'employee_number' => '191',
@@ -1958,7 +1958,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            57 => 
+            57 =>
             array (
                 'id' => 58,
                 'employee_number' => '192',
@@ -1992,7 +1992,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            58 => 
+            58 =>
             array (
                 'id' => 59,
                 'employee_number' => '0198',
@@ -2014,7 +2014,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Maria Cristina L. Vista',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9239511061',
-                'image' => 'websuite/employee_photo/vista_anna monica_198.png',
+                'image' => 'employee_photo/vista_anna monica_198.png',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -2026,7 +2026,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:42:15',
                 'deleted_at' => NULL,
             ),
-            59 => 
+            59 =>
             array (
                 'id' => 60,
                 'employee_number' => '0199',
@@ -2048,7 +2048,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Betty P. Ponce',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9953607073',
-                'image' => 'websuite/employee_photo/ponce_jan kelvin_199.jpg',
+                'image' => 'employee_photo/ponce_jan kelvin_199.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 3,
@@ -2060,7 +2060,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:42:27',
                 'deleted_at' => NULL,
             ),
-            60 => 
+            60 =>
             array (
                 'id' => 61,
                 'employee_number' => '200',
@@ -2094,7 +2094,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            61 => 
+            61 =>
             array (
                 'id' => 62,
                 'employee_number' => '229',
@@ -2128,7 +2128,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            62 => 
+            62 =>
             array (
                 'id' => 63,
                 'employee_number' => '0214',
@@ -2150,7 +2150,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Bernard Mascariñas Barao',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9600344863',
-                'image' => 'websuite/employee_photo/barao_julie ace brandon_214.jpg',
+                'image' => 'employee_photo/barao_julie ace brandon_214.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 9,
@@ -2162,7 +2162,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:42:39',
                 'deleted_at' => NULL,
             ),
-            63 => 
+            63 =>
             array (
                 'id' => 64,
                 'employee_number' => '0215',
@@ -2184,7 +2184,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Carmina M. Roxas',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9456103069',
-                'image' => 'websuite/employee_photo/roxas_rowena_215.png',
+                'image' => 'employee_photo/roxas_rowena_215.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 7,
@@ -2196,7 +2196,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:08',
                 'deleted_at' => NULL,
             ),
-            64 => 
+            64 =>
             array (
                 'id' => 65,
                 'employee_number' => '0216',
@@ -2218,7 +2218,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Judy Lyn Dela Rosa',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9171087560',
-                'image' => 'websuite/employee_photo/dela rosa_bernardo luis_216.png',
+                'image' => 'employee_photo/dela rosa_bernardo luis_216.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 6,
@@ -2230,7 +2230,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:18',
                 'deleted_at' => NULL,
             ),
-            65 => 
+            65 =>
             array (
                 'id' => 66,
                 'employee_number' => '0218',
@@ -2252,7 +2252,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Cheryl B. Tolentino',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9650743883',
-                'image' => 'websuite/employee_photo/tolentino_eliseo_0218.png',
+                'image' => 'employee_photo/tolentino_eliseo_0218.png',
                 'terms' => 0,
                 'office_id' => 3,
                 'unit_id' => NULL,
@@ -2264,7 +2264,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-02-10 09:43:07',
                 'deleted_at' => NULL,
             ),
-            66 => 
+            66 =>
             array (
                 'id' => 67,
                 'employee_number' => '0219',
@@ -2286,7 +2286,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Marietta G. De Gracia',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9691898425',
-                'image' => 'websuite/employee_photo/salazar_may ann_219.jpg',
+                'image' => 'employee_photo/salazar_may ann_219.jpg',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -2298,7 +2298,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:25',
                 'deleted_at' => NULL,
             ),
-            67 => 
+            67 =>
             array (
                 'id' => 68,
                 'employee_number' => '0220',
@@ -2320,7 +2320,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Evelyn Mansia',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9486564975',
-                'image' => 'websuite/employee_photo/mansia_evonie dawn_220.png',
+                'image' => 'employee_photo/mansia_evonie dawn_220.png',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -2332,7 +2332,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:32',
                 'deleted_at' => NULL,
             ),
-            68 => 
+            68 =>
             array (
                 'id' => 69,
                 'employee_number' => '0222',
@@ -2354,7 +2354,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Corazon Tangcangco',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9178329049',
-                'image' => 'websuite/employee_photo/tangcangco_mary hazelred_222.jpg',
+                'image' => 'employee_photo/tangcangco_mary hazelred_222.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 1,
@@ -2366,7 +2366,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:38',
                 'deleted_at' => NULL,
             ),
-            69 => 
+            69 =>
             array (
                 'id' => 70,
                 'employee_number' => '0223',
@@ -2388,7 +2388,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Sarah Carbungco',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9338677965',
-                'image' => 'websuite/employee_photo/carbungco_rey mark_223.jpg',
+                'image' => 'employee_photo/carbungco_rey mark_223.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 4,
@@ -2400,7 +2400,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:43:46',
                 'deleted_at' => NULL,
             ),
-            70 => 
+            70 =>
             array (
                 'id' => 71,
                 'employee_number' => '0227',
@@ -2422,7 +2422,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Christine Timoteo',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9356310792',
-                'image' => 'websuite/employee_photo/timoteo_crizzel_0227.png',
+                'image' => 'employee_photo/timoteo_crizzel_0227.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 3,
@@ -2434,7 +2434,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-02-09 11:04:51',
                 'deleted_at' => NULL,
             ),
-            71 => 
+            71 =>
             array (
                 'id' => 72,
                 'employee_number' => '0232',
@@ -2456,7 +2456,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Hazel O. Liwanag',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9632727663',
-                'image' => 'websuite/employee_photo/burburan_orlando_232.png',
+                'image' => 'employee_photo/burburan_orlando_232.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 5,
@@ -2468,7 +2468,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:44:05',
                 'deleted_at' => NULL,
             ),
-            72 => 
+            72 =>
             array (
                 'id' => 73,
                 'employee_number' => '2401',
@@ -2490,7 +2490,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Susan L. Pantanoza',
                 'emergency_contact_relationship' => 'Aunt',
                 'emergency_contact_number' => '9289927420',
-                'image' => 'websuite/employee_photo/sarangaya_gabriel_2401.png',
+                'image' => 'employee_photo/sarangaya_gabriel_2401.png',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 10,
@@ -2502,7 +2502,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:44:14',
                 'deleted_at' => NULL,
             ),
-            73 => 
+            73 =>
             array (
                 'id' => 74,
                 'employee_number' => '2402',
@@ -2536,7 +2536,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            74 => 
+            74 =>
             array (
                 'id' => 75,
                 'employee_number' => '2403',
@@ -2558,7 +2558,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Manual Samson',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9772567887',
-                'image' => 'websuite/employee_photo/samson_levi jabez_2403.jpeg',
+                'image' => 'employee_photo/samson_levi jabez_2403.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 11,
@@ -2570,7 +2570,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:44:22',
                 'deleted_at' => NULL,
             ),
-            75 => 
+            75 =>
             array (
                 'id' => 76,
                 'employee_number' => '2404',
@@ -2592,7 +2592,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Mariel Joyce P. Davalos',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9761234214',
-                'image' => 'websuite/employee_photo/davalos_joseph ryan_2404.jpg',
+                'image' => 'employee_photo/davalos_joseph ryan_2404.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 7,
@@ -2604,7 +2604,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:44:33',
                 'deleted_at' => NULL,
             ),
-            76 => 
+            76 =>
             array (
                 'id' => 77,
                 'employee_number' => '2405',
@@ -2626,7 +2626,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'John Paul L. Repalda',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9165848465',
-                'image' => 'websuite/employee_photo/laggui_jordan_2405.jpg',
+                'image' => 'employee_photo/laggui_jordan_2405.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 7,
@@ -2638,7 +2638,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:44:50',
                 'deleted_at' => NULL,
             ),
-            77 => 
+            77 =>
             array (
                 'id' => 79,
                 'employee_number' => '2407',
@@ -2660,7 +2660,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Abegail Sarmiento',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9159231938',
-                'image' => 'websuite/employee_photo/tamayo_roniel john_2407.jpg',
+                'image' => 'employee_photo/tamayo_roniel john_2407.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 9,
@@ -2672,7 +2672,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:45:01',
                 'deleted_at' => NULL,
             ),
-            78 => 
+            78 =>
             array (
                 'id' => 80,
                 'employee_number' => '2408',
@@ -2694,7 +2694,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Leo Brian Cayabyab',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9275155145',
-                'image' => 'websuite/employee_photo/cayabyab_angelica joy_2408.jpg',
+                'image' => 'employee_photo/cayabyab_angelica joy_2408.jpg',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -2706,7 +2706,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:45:11',
                 'deleted_at' => NULL,
             ),
-            79 => 
+            79 =>
             array (
                 'id' => 81,
                 'employee_number' => '2411',
@@ -2728,7 +2728,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Irma Oblan',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9061511783',
-                'image' => 'websuite/employee_photo/oblan_jesimari_2411.jpg',
+                'image' => 'employee_photo/oblan_jesimari_2411.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 6,
@@ -2740,7 +2740,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:45:19',
                 'deleted_at' => NULL,
             ),
-            80 => 
+            80 =>
             array (
                 'id' => 82,
                 'employee_number' => '2414',
@@ -2762,7 +2762,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Eric D. Castel',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9177988380',
-                'image' => 'websuite/employee_photo/castel_raisa joy_2414.jpeg',
+                'image' => 'employee_photo/castel_raisa joy_2414.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 6,
@@ -2774,7 +2774,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:45:32',
                 'deleted_at' => NULL,
             ),
-            81 => 
+            81 =>
             array (
                 'id' => 83,
                 'employee_number' => '2416',
@@ -2796,7 +2796,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Reo Aure',
                 'emergency_contact_relationship' => 'Father',
                 'emergency_contact_number' => '9360544051',
-                'image' => 'websuite/employee_photo/aure_jasmin_2416.jpg',
+                'image' => 'employee_photo/aure_jasmin_2416.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 8,
@@ -2808,7 +2808,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-03-18 08:26:03',
                 'deleted_at' => NULL,
             ),
-            82 => 
+            82 =>
             array (
                 'id' => 84,
                 'employee_number' => '2417',
@@ -2830,7 +2830,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Aida P. Baldecasa',
                 'emergency_contact_relationship' => 'Mother',
                 'emergency_contact_number' => '9078769132',
-                'image' => 'websuite/employee_photo/baldecasa_aileen_2417.jpeg',
+                'image' => 'employee_photo/baldecasa_aileen_2417.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 11,
@@ -2842,7 +2842,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:45:56',
                 'deleted_at' => NULL,
             ),
-            83 => 
+            83 =>
             array (
                 'id' => 85,
                 'employee_number' => '2418',
@@ -2864,7 +2864,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Charito Ballesteros',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9457765349',
-                'image' => 'websuite/employee_photo/ballesteros_genesi mae_2418.jpeg',
+                'image' => 'employee_photo/ballesteros_genesi mae_2418.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 11,
@@ -2876,7 +2876,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:04',
                 'deleted_at' => NULL,
             ),
-            84 => 
+            84 =>
             array (
                 'id' => 86,
                 'employee_number' => '2419',
@@ -2898,7 +2898,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Edna Baldo',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9955400038',
-                'image' => 'websuite/employee_photo/baldo_cherry ann_2419.png',
+                'image' => 'employee_photo/baldo_cherry ann_2419.png',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -2910,7 +2910,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:12',
                 'deleted_at' => NULL,
             ),
-            85 => 
+            85 =>
             array (
                 'id' => 87,
                 'employee_number' => '2421',
@@ -2932,7 +2932,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Jessica Libarnes',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9175204357',
-                'image' => 'websuite/employee_photo/libarnes_jo marie_2421.jpg',
+                'image' => 'employee_photo/libarnes_jo marie_2421.jpg',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -2944,7 +2944,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:27',
                 'deleted_at' => NULL,
             ),
-            86 => 
+            86 =>
             array (
                 'id' => 88,
                 'employee_number' => '2422',
@@ -2966,7 +2966,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'William Gante',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9085760878',
-                'image' => 'websuite/employee_photo/gante_hannah faye_2422.jpg',
+                'image' => 'employee_photo/gante_hannah faye_2422.jpg',
                 'terms' => 0,
                 'office_id' => 1,
                 'unit_id' => NULL,
@@ -2978,7 +2978,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:35',
                 'deleted_at' => NULL,
             ),
-            87 => 
+            87 =>
             array (
                 'id' => 89,
                 'employee_number' => '2423',
@@ -3000,7 +3000,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Hazel Joy B. Pedrita',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9279659241',
-                'image' => 'websuite/employee_photo/pedrita_dandy_2423.jpg',
+                'image' => 'employee_photo/pedrita_dandy_2423.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 3,
@@ -3012,7 +3012,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:45',
                 'deleted_at' => NULL,
             ),
-            88 => 
+            88 =>
             array (
                 'id' => 90,
                 'employee_number' => '2424',
@@ -3034,7 +3034,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Joelyn T. Papio',
                 'emergency_contact_relationship' => 'Partner',
                 'emergency_contact_number' => '9688859925',
-                'image' => 'websuite/employee_photo/perez_raymond karl_2424.jfif',
+                'image' => 'employee_photo/perez_raymond karl_2424.jfif',
                 'terms' => 0,
                 'office_id' => 1,
                 'unit_id' => NULL,
@@ -3046,7 +3046,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:46:57',
                 'deleted_at' => NULL,
             ),
-            89 => 
+            89 =>
             array (
                 'id' => 91,
                 'employee_number' => '2425',
@@ -3068,7 +3068,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Norma Bulusan',
                 'emergency_contact_relationship' => 'Parent',
                 'emergency_contact_number' => '9338104820',
-                'image' => 'websuite/employee_photo/bulusan_nwynn vrenely faith_2425.jpg',
+                'image' => 'employee_photo/bulusan_nwynn vrenely faith_2425.jpg',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -3080,7 +3080,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:47:05',
                 'deleted_at' => NULL,
             ),
-            90 => 
+            90 =>
             array (
                 'id' => 92,
                 'employee_number' => '2526',
@@ -3102,7 +3102,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Dr. Jazmine Rosanna P. Feliciano',
                 'emergency_contact_relationship' => 'Sibling',
                 'emergency_contact_number' => '9217291192',
-                'image' => 'websuite/employee_photo/feliciano_ma. romina_2526.jpg',
+                'image' => 'employee_photo/feliciano_ma. romina_2526.jpg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 6,
@@ -3114,7 +3114,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:47:13',
                 'deleted_at' => NULL,
             ),
-            91 => 
+            91 =>
             array (
                 'id' => 93,
                 'employee_number' => '2527',
@@ -3136,7 +3136,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Rommel T. Hallares',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9308942925',
-                'image' => 'websuite/employee_photo/hallares_cathirine_2527.jpg',
+                'image' => 'employee_photo/hallares_cathirine_2527.jpg',
                 'terms' => 0,
                 'office_id' => 5,
                 'unit_id' => NULL,
@@ -3148,7 +3148,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-02-10 10:08:50',
                 'deleted_at' => NULL,
             ),
-            92 => 
+            92 =>
             array (
                 'id' => 94,
                 'employee_number' => '0209',
@@ -3170,7 +3170,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Mark Jason K. Dimapilis',
                 'emergency_contact_relationship' => 'Son',
                 'emergency_contact_number' => '9166090294',
-                'image' => 'websuite/employee_photo/dimapilis_maria elizabeth_209.jpeg',
+                'image' => 'employee_photo/dimapilis_maria elizabeth_209.jpeg',
                 'terms' => 0,
                 'office_id' => 6,
                 'unit_id' => 1,
@@ -3182,7 +3182,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 10:47:29',
                 'deleted_at' => NULL,
             ),
-            93 => 
+            93 =>
             array (
                 'id' => 99,
                 'employee_number' => '0109',
@@ -3204,7 +3204,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'emergency_contact_name' => 'Jamesiah Badua-Lompero',
                 'emergency_contact_relationship' => 'Spouse',
                 'emergency_contact_number' => '9454522477',
-                'image' => 'websuite/employee_photo/lompero_paul kevin_109.jpeg',
+                'image' => 'employee_photo/lompero_paul kevin_109.jpeg',
                 'terms' => 0,
                 'office_id' => 4,
                 'unit_id' => NULL,
@@ -3216,42 +3216,8 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
                 'updated_at' => '2026-01-28 09:24:19',
                 'deleted_at' => NULL,
             ),
-            94 => 
-            array (
-                'id' => 106,
-                'employee_number' => '0000',
-                'first_name' => 'System',
-                'last_name' => 'Administrator',
-                'middle_name' => NULL,
-                'middle_initial' => NULL,
-                'suffix' => NULL,
-                'contact_number' => NULL,
-                'email' => 'admin@prdp.gov.ph',
-                'gender' => NULL,
-                'birth_date' => NULL,
-                'tin' => NULL,
-                'blood_type' => NULL,
-                'landbank_account' => NULL,
-                'height' => NULL,
-                'weight' => NULL,
-                'address' => NULL,
-                'emergency_contact_name' => NULL,
-                'emergency_contact_relationship' => NULL,
-                'emergency_contact_number' => NULL,
-                'image' => NULL,
-                'terms' => 1,
-                'office_id' => NULL,
-                'unit_id' => NULL,
-                'position_id' => NULL,
-                'employment_status' => 'Hired',
-                'date_hired' => '2026-03-19',
-                'date_ended' => NULL,
-                'created_at' => '2026-03-19 01:02:12',
-                'updated_at' => '2026-03-19 01:02:12',
-                'deleted_at' => NULL,
-            ),
         ));
-        
-        
+
+
     }
 }

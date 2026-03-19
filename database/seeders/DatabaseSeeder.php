@@ -21,16 +21,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-          $this->call(ComponentsTableSeeder::class);
+        $this->call(ComponentsTableSeeder::class);
         $this->call(OfficesTableSeeder::class);
         $this->call(PositionsTableSeeder::class);
         $this->call(UnitsTableSeeder::class);
-                $this->call(UsersTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
-        $this->call([
-            AdminSeeder::class,      // Create administrator first
-            EmployeeRoleSeeder::class,   // Create other employees
-        ]);
+        $this->call(AdminSeeder::class);
+        $this->call(EmployeeUsersSeeder::class);
+        $this->call(EmployeeRoleSeeder::class);
 
     }
 }

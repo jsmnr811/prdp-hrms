@@ -24978,6 +24978,10 @@ namespace App\Livewire\Admin {
      */
     class WfhAllTimelogs extends \Livewire\Component {
             }
+    /**
+     */
+    class WfhMonitoring extends \Livewire\Component {
+            }
     }
 
 

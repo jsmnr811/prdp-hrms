@@ -5,6 +5,7 @@ use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\WfhTimelogs;
 use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhAllTimelogs;
+use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
 
     // WFH All Timelogs
     Route::get('/admin/wfh-all-timelogs', WfhAllTimelogs::class)->name('admin.wfh-all-timelogs');
+
+    // WFH Monitoring (Map)
+    Route::get('/admin/wfh-monitoring', WfhMonitoring::class)->name('admin.wfh-monitoring');
 
     // WFH Timelog Export PDF
     Route::get('/admin/wfh-timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('admin.wfh-timelogs.export');
