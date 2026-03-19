@@ -14,3 +14,6 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Hide elements before Alpine.js loads */
+[x-cloak] { display: none !important; }

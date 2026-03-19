@@ -17,6 +17,13 @@ return new class extends Migration
         $pivotRole = $columnNames['role_pivot_key'] ?? 'role_id';
         $pivotPermission = $columnNames['permission_pivot_key'] ?? 'permission_id';
 
+            Schema::dropIfExists($tableNames['role_has_permissions']);
+            Schema::dropIfExists($tableNames['model_has_roles']);
+            Schema::dropIfExists($tableNames['model_has_permissions']);
+            Schema::dropIfExists($tableNames['roles']);
+            Schema::dropIfExists($tableNames['permissions']);
+
+
         throw_if(empty($tableNames), Exception::class, 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         throw_if($teams && empty($columnNames['team_foreign_key'] ?? null), Exception::class, 'Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
 

@@ -65,7 +65,16 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'Asia/Manila'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | WFH Timelog Settings
+    |--------------------------------------------------------------------------
+    */
+    'wfh_require_location' => env('WFH_REQUIRE_LOCATION', false),
+    'wfh_require_image' => env('WFH_REQUIRE_IMAGE', false),
+    'wfh_require_image_location' => env('WFH_REQUIRE_IMAGE_LOCATION', false),
 
     /*
     |--------------------------------------------------------------------------
