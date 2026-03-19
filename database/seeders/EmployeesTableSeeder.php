@@ -22,7 +22,7 @@ class EmployeesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'employee_number' => '001',
+                'employee_number' => '0001',
                 'first_name' => 'ELIZA',
                 'last_name' => 'CADDARAO',
                 'middle_name' => 'ABAD',
@@ -226,7 +226,7 @@ class EmployeesTableSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'employee_number' => '015',
+                'employee_number' => '0015',
                 'first_name' => 'IRENEO',
                 'last_name' => 'PANABANG',
                 'middle_name' => 'BANGON',
@@ -600,7 +600,7 @@ class EmployeesTableSeeder extends Seeder
             17 =>
             array (
                 'id' => 18,
-                'employee_number' => '044',
+                'employee_number' => '0044',
                 'first_name' => 'VINCENT',
                 'last_name' => 'EGUIZABAL',
                 'middle_name' => 'VILLAFUERTE',
@@ -771,7 +771,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             22 =>
             array (
                 'id' => 23,
-                'employee_number' => '066',
+                'employee_number' => '0066',
                 'first_name' => 'AGUSTIN',
                 'last_name' => 'VICENTE',
                 'middle_name' => 'YARTE',
@@ -1009,7 +1009,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             29 =>
             array (
                 'id' => 30,
-                'employee_number' => '087',
+                'employee_number' => '0087',
                 'first_name' => 'RONALD',
                 'last_name' => 'RAGMA',
                 'middle_name' => 'CABANATAN',
@@ -1145,7 +1145,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             33 =>
             array (
                 'id' => 34,
-                'employee_number' => '106',
+                'employee_number' => '0106',
                 'first_name' => 'HEIDELBERG',
                 'last_name' => 'GARCIA',
                 'middle_name' => 'DELA PEÑA',
@@ -1213,7 +1213,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             35 =>
             array (
                 'id' => 36,
-                'employee_number' => '112',
+                'employee_number' => '0112',
                 'first_name' => 'AUGOSTO',
                 'last_name' => 'MEDENILLA',
                 'middle_name' => 'PERDIZ',
@@ -1247,7 +1247,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             36 =>
             array (
                 'id' => 37,
-                'employee_number' => '121',
+                'employee_number' => '0121',
                 'first_name' => 'FERNANDO',
                 'last_name' => 'LAMOSTE',
                 'middle_name' => 'LOPOZ',
@@ -1927,7 +1927,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             56 =>
             array (
                 'id' => 57,
-                'employee_number' => '191',
+                'employee_number' => '0191',
                 'first_name' => 'MARIA TERESA',
                 'last_name' => 'DEMAIN',
                 'middle_name' => 'CANA',
@@ -1961,7 +1961,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             57 =>
             array (
                 'id' => 58,
-                'employee_number' => '192',
+                'employee_number' => '0192',
                 'first_name' => 'JINKY',
                 'last_name' => 'MAGAYAGA',
                 'middle_name' => 'ALONZO',
@@ -2063,7 +2063,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             60 =>
             array (
                 'id' => 61,
-                'employee_number' => '200',
+                'employee_number' => '0200',
                 'first_name' => 'JIMMY',
                 'last_name' => 'CALDOZA',
                 'middle_name' => 'LASCO',
@@ -2097,7 +2097,7 @@ Cor. Antique St., Bankers Iii, Brgy. Dela Paz, Antipolo City, Rizal',
             61 =>
             array (
                 'id' => 62,
-                'employee_number' => '229',
+                'employee_number' => '0229',
                 'first_name' => 'MARIA ELIZABETH',
                 'last_name' => 'DIMAPILIS',
                 'middle_name' => '',
