@@ -4,10 +4,8 @@
         {{-- Header --}}
         <div class="text-center space-y-2">
             {{-- Logo --}}
-            <img
-                src="{{ asset('assets/images/Scale-Up Logo.png') }}"
-                @dark src="{{ asset('assets/images/Scale-Up Logo_White.png') }}"
-                alt="PRDP HRMS Logo"
+            <img src="{{ asset('assets/images/Scale-Up Logo.png') }}" @dark
+                src="{{ asset('assets/images/Scale-Up Logo_White.png') }}" alt="PRDP HRMS Logo"
                 class="h-30 mx-auto w-auto object-contain">
 
             {{-- Title --}}
@@ -23,24 +21,26 @@
         </div>
 
         {{-- Existing Account Alert - Shows when user already has an account --}}
-        @if($hasExistingAccount)
+        @if ($hasExistingAccount)
             <flux:callout variant="warning" icon="exclamation-triangle" class="mt-4">
                 <flux:callout.heading>Account Already Exists</flux:callout.heading>
                 <flux:callout.text>
-                    You already have a user account in the system. Please <a href="{{ route('login') }}" class="font-semibold underline hover:text-warning-600">login here</a> instead of registering. Please contact system administrator if there is an error in the system.
+                    You already have a user account in the system. Please <a href="{{ route('login') }}"
+                        class="font-semibold underline hover:text-warning-600">login here</a> instead of registering.
+                    Please contact system administrator if there is an error in the system.
                 </flux:callout.text>
             </flux:callout>
         @endif
 
         {{-- Employee Check Message --}}
-        @if($employeeCheckMessage && !$hasExistingAccount)
+        @if ($employeeCheckMessage && !$hasExistingAccount)
             <flux:callout variant="info" icon="information-circle" class="mt-4">
                 {{ $employeeCheckMessage }}
             </flux:callout>
         @endif
 
         {{-- Success Message --}}
-        @if($registrationSuccess)
+        @if ($registrationSuccess)
             <flux:callout variant="success" icon="check-circle" class="mt-4">
                 <flux:callout.heading>Registration Successful!</flux:callout.heading>
                 <flux:callout.text>
@@ -50,7 +50,7 @@
         @endif
 
         {{-- Error Message --}}
-        @if($registrationError)
+        @if ($registrationError)
             <flux:callout variant="danger" icon="exclamation-circle" class="mt-4">
                 <flux:callout.heading>Registration Failed</flux:callout.heading>
                 <flux:callout.text>
@@ -72,10 +72,7 @@
                     {{-- Employee Number --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Employee Number</flux:label>
-                        <flux:input
-                            wire:model="employee_number"
-                            type="text"
-                            placeholder="Enter employee number"
+                        <flux:input wire:model="employee_number" type="text" placeholder="Enter employee number"
                             class="h-11" />
                         <flux:description class="text-xs text-zinc-400">
                             Enter the employee number provided by HR
@@ -86,9 +83,10 @@
                     {{-- Office/Component --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Office/Component</flux:label>
-                        <select wire:model="office_id" wire:change="$refresh" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                        <select wire:model="office_id" wire:change="$refresh"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
                             <option value="">Select Office</option>
-                            @foreach($offices as $office)
+                            @foreach ($offices as $office)
                                 <option value="{{ $office->id }}">{{ $office->name }}</option>
                             @endforeach
                         </select>
@@ -96,36 +94,38 @@
                     </flux:field>
 
                     {{-- Unit - ONLY show for I-SUPPORT office --}}
-                    @if($office_id && $showUnit)
-                    <flux:field>
-                        <flux:label class="text-sm font-medium">Unit</flux:label>
-                        <select wire:model="unit_id" wire:change="$refresh" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
-                            <option value="">Select Unit</option>
-                            @foreach($units as $unit)
-                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                            @endforeach
-                        </select>
-                        <flux:error name="unit_id" />
-                    </flux:field>
+                    @if ($office_id && $showUnit)
+                        <flux:field>
+                            <flux:label class="text-sm font-medium">Unit</flux:label>
+                            <select wire:model="unit_id" wire:change="$refresh"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                                <option value="">Select Unit</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                @endforeach
+                            </select>
+                            <flux:error name="unit_id" />
+                        </flux:field>
                     @endif
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {{-- Position --}}
-                    @if($office_id)
-                    <flux:field>
-                        <flux:label class="text-sm font-medium">Position</flux:label>
-                        <select wire:model="position_id" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
-                            <option value="">Select Position</option>
-                            @foreach($positions as $position)
-                                <option value="{{ $position->id }}">{{ $position->name }}</option>
-                            @endforeach
-                        </select>
-                        <flux:description class="text-xs text-zinc-400">
-                            All available positions
-                        </flux:description>
-                        <flux:error name="position_id" />
-                    </flux:field>
+                    @if ($office_id)
+                        <flux:field>
+                            <flux:label class="text-sm font-medium">Position</flux:label>
+                            <select wire:model="position_id"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                                <option value="">Select Position</option>
+                                @foreach ($positions as $position)
+                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                @endforeach
+                            </select>
+                            <flux:description class="text-xs text-zinc-400">
+                                All available positions
+                            </flux:description>
+                            <flux:error name="position_id" />
+                        </flux:field>
                     @endif
                 </div>
             </div>
@@ -140,10 +140,7 @@
                     {{-- First Name --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">First Name</flux:label>
-                        <flux:input
-                            wire:model="first_name"
-                            type="text"
-                            placeholder="Enter first name"
+                        <flux:input wire:model="first_name" type="text" placeholder="Enter first name"
                             class="h-11" />
                         <flux:error name="first_name" />
                     </flux:field>
@@ -151,10 +148,7 @@
                     {{-- Last Name --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Last Name</flux:label>
-                        <flux:input
-                            wire:model="last_name"
-                            type="text"
-                            placeholder="Enter last name"
+                        <flux:input wire:model="last_name" type="text" placeholder="Enter last name"
                             class="h-11" />
                         <flux:error name="last_name" />
                     </flux:field>
@@ -162,10 +156,7 @@
                     {{-- Middle Name --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Middle Name</flux:label>
-                        <flux:input
-                            wire:model="middle_name"
-                            type="text"
-                            placeholder="Enter middle name (optional)"
+                        <flux:input wire:model="middle_name" type="text" placeholder="Enter middle name (optional)"
                             class="h-11" />
                         <flux:error name="middle_name" />
                     </flux:field>
@@ -175,10 +166,7 @@
                     {{-- Suffix --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Suffix</flux:label>
-                        <flux:input
-                            wire:model="suffix"
-                            type="text"
-                            placeholder="e.g., Jr., Sr., III"
+                        <flux:input wire:model="suffix" type="text" placeholder="e.g., Jr., Sr., III"
                             class="h-11" />
                         <flux:description class="text-xs text-zinc-400">
                             Optional (Jr., Sr., etc.)
@@ -189,9 +177,10 @@
                     {{-- Gender --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Gender</flux:label>
-                        <select wire:model="gender" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                        <select wire:model="gender"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
                             <option value="">Select Gender</option>
-                            @foreach($genderOptions as $gender)
+                            @foreach ($genderOptions as $gender)
                                 <option value="{{ $gender }}">{{ $gender }}</option>
                             @endforeach
                         </select>
@@ -201,10 +190,7 @@
                     {{-- Date of Birth --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Date of Birth</flux:label>
-                        <flux:input
-                            wire:model="birth_date"
-                            type="date"
-                            class="h-11" />
+                        <flux:input wire:model="birth_date" type="date" class="h-11" />
                         <flux:error name="birth_date" />
                     </flux:field>
                 </div>
@@ -213,10 +199,7 @@
                     {{-- Contact Number --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Contact Number</flux:label>
-                        <flux:input
-                            wire:model="contact_number"
-                            type="text"
-                            placeholder="e.g., 09123456789"
+                        <flux:input wire:model="contact_number" type="text" placeholder="e.g., 09123456789"
                             class="h-11">
                             <x-slot name="iconLeading">
                                 <flux:icon.phone variant="mini" />
@@ -228,11 +211,7 @@
                     {{-- Email Address --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Email Address</flux:label>
-                        <flux:input
-                            wire:model="email"
-                            type="email"
-                            placeholder="you@example.com"
-                            class="h-11">
+                        <flux:input wire:model="email" type="email" placeholder="you@example.com" class="h-11">
                             <x-slot name="iconLeading">
                                 <flux:icon.envelope variant="mini" />
                             </x-slot>
@@ -243,15 +222,10 @@
                     {{-- TIN --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Tax ID Number (TIN)</flux:label>
-                        <flux:input
-                            x-data="{}"
+                        <flux:input x-data="{}"
                             x-on:input="$el.value = $el.value.replace(/[^0-9]/g, '').replace(/(\d{3})(?=\d)/g, '$1-').substring(0, 11)"
-                            x-on:keydown="$el.value = $el.value.replace(/[^0-9\-]/g, '')"
-                            wire:model="tin"
-                            type="text"
-                            placeholder="XXX-XXX-XXX"
-                            maxlength="11"
-                            class="h-11" />
+                            x-on:keydown="$el.value = $el.value.replace(/[^0-9\-]/g, '')" wire:model="tin"
+                            type="text" placeholder="XXX-XXX-XXX" maxlength="11" class="h-11" />
                         <flux:description class="text-xs text-zinc-400">
                             9 digits (format: XXX-XXX-XXX)
                         </flux:description>
@@ -270,9 +244,10 @@
                     {{-- Blood Type --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Blood Type</flux:label>
-                        <select wire:model="blood_type" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                        <select wire:model="blood_type"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
                             <option value="">Select Blood Type</option>
-                            @foreach($bloodTypeOptions as $bloodType)
+                            @foreach ($bloodTypeOptions as $bloodType)
                                 <option value="{{ $bloodType }}">{{ $bloodType }}</option>
                             @endforeach
                         </select>
@@ -282,11 +257,7 @@
                     {{-- Weight --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Weight (Kg)</flux:label>
-                        <flux:input
-                            wire:model="weight"
-                            type="number"
-                            step="0.01"
-                            placeholder="e.g., 70.5"
+                        <flux:input wire:model="weight" type="number" step="0.01" placeholder="e.g., 70.5"
                             class="h-11" />
                         <flux:error name="weight" />
                     </flux:field>
@@ -295,9 +266,7 @@
                 {{-- Permanent Address --}}
                 <flux:field>
                     <flux:label class="text-sm font-medium">Permanent Address</flux:label>
-                    <flux:textarea
-                        wire:model="address"
-                        placeholder="Enter complete permanent address"
+                    <flux:textarea wire:model="address" placeholder="Enter complete permanent address"
                         rows="3" />
                     <flux:error name="address" />
                 </flux:field>
@@ -313,10 +282,7 @@
                     {{-- Emergency Contact Name --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Contact Person Name</flux:label>
-                        <flux:input
-                            wire:model="emergency_contact_name"
-                            type="text"
-                            placeholder="Full name"
+                        <flux:input wire:model="emergency_contact_name" type="text" placeholder="Full name"
                             class="h-11">
                             <x-slot name="iconLeading">
                                 <flux:icon.user variant="mini" />
@@ -328,9 +294,10 @@
                     {{-- Relationship --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Relationship</flux:label>
-                        <select wire:model="emergency_contact_relationship" class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                        <select wire:model="emergency_contact_relationship"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
                             <option value="">Select Relationship</option>
-                            @foreach($relationshipOptions as $relationship)
+                            @foreach ($relationshipOptions as $relationship)
                                 <option value="{{ $relationship }}">{{ $relationship }}</option>
                             @endforeach
                         </select>
@@ -340,11 +307,8 @@
                     {{-- Emergency Contact Number --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Contact Number</flux:label>
-                        <flux:input
-                            wire:model="emergency_contact_number"
-                            type="text"
-                            placeholder="e.g., 09123456789"
-                            class="h-11">
+                        <flux:input wire:model="emergency_contact_number" type="text"
+                            placeholder="e.g., 09123456789" class="h-11">
                             <x-slot name="iconLeading">
                                 <flux:icon.phone variant="mini" />
                             </x-slot>
@@ -363,10 +327,7 @@
                 <flux:field>
                     <flux:label class="text-sm font-medium">Upload Photo</flux:label>
                     <div class="mt-2">
-                        <input
-                            type="file"
-                            wire:model="image"
-                            accept="image/*"
+                        <input type="file" wire:model="image" accept="image/*"
                             class="block w-full text-sm text-zinc-500
                                 file:mr-4 file:py-2 file:px-4
                                 file:rounded-md file:border-0
@@ -381,12 +342,10 @@
                     <flux:error name="image" />
 
                     {{-- New Image Preview --}}
-                    @if($image)
+                    @if ($image)
                         <div class="mt-4">
                             <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">Photo Preview:</p>
-                            <img
-                                src="{{ $image->temporaryUrl() }}"
-                                alt="Photo Preview"
+                            <img src="{{ $image->temporaryUrl() }}" alt="Photo Preview"
                                 class="h-32 w-32 object-cover rounded-lg border-2 border-blue-500 dark:border-blue-400" />
                         </div>
                     @endif
@@ -395,10 +354,7 @@
 
             {{-- Submit Button --}}
             <div class="pt-4">
-                <flux:button
-                    type="submit"
-                    variant="primary"
-                    class="w-full h-12 text-sm font-medium tracking-wide"
+                <flux:button type="submit" variant="primary" class="w-full h-12 text-sm font-medium tracking-wide"
                     wire:loading.attr="disabled">
                     <span wire:loading.remove>
                         Register Employee
@@ -416,4 +372,12 @@
             © {{ date('Y') }} PRDP HRMS. All rights reserved.
         </div>
     </flux:card>
+
+    {{-- Back to Login Link --}}
+    <div class="text-center mt-4">
+        <a href="{{ route('login') }}"
+            class="text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 underline">
+            Back to Login
+        </a>
+    </div>
 </div>

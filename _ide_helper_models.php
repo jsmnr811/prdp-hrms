@@ -197,6 +197,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $employee_id
  * @property string $employee_number
  * @property string $username
  * @property string $password
@@ -228,6 +229,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmployeeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmployeeNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginAt($value)
@@ -247,11 +249,22 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property-read \App\Models\User|null $approver
+ * @property int $id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon $date
+ * @property \Illuminate\Support\Carbon|null $time_in
+ * @property \Illuminate\Support\Carbon|null $time_out
+ * @property numeric|null $latitude
+ * @property numeric|null $longitude
+ * @property string|null $image_path
+ * @property string|null $accomplishments
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read bool $is_image_required
  * @property-read bool $is_location_required
  * @property-read float|null $total_hours
- * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog approved()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog byDate($date)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog byDateRange($startDate, $endDate)
@@ -261,6 +274,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog pending()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog rejected()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereAccomplishments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereImagePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereTimeIn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereTimeOut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WfhTimelog whereUserId($value)
  */
 	class WfhTimelog extends \Eloquent {}
 }

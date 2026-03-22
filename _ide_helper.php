@@ -24988,6 +24988,13 @@ namespace App\Livewire\Admin {
             }
     }
 
+namespace App\Livewire\Employee {
+    /**
+     */
+    class Dashboard extends \Livewire\Component {
+            }
+    }
+
 
 namespace  {
     class App extends \Illuminate\Support\Facades\App {}

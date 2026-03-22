@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     protected $table = 'users';
 
@@ -21,8 +21,12 @@ class User extends Authenticatable
         'email_verified_at',
         'password_changed_at',
         'must_change_password',
+        'temp_password_expires_at',
         'last_login_at',
         'last_login_ip',
+        'password_reset_attempts',
+        'password_reset_date',
+        'remember_token',
     ];
 
     protected $hidden = [
@@ -33,7 +37,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password_changed_at' => 'datetime',
+        'temp_password_expires_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'password_reset_date' => 'date',
     ];
 
     // Don't cast status as boolean - check it directly
@@ -68,9 +74,10 @@ class User extends Authenticatable
 
     public function passwordExpired(): bool
     {
-        if (!$this->password_changed_at) {
+        if (! $this->password_changed_at) {
             return false; // Don't force change on first login
         }
+
         return $this->password_changed_at->diffInDays(now()) > 90;
     }
 
