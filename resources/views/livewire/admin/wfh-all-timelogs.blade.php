@@ -5,13 +5,14 @@
             <p class="text-sm text-gray-500 dark:text-zinc-400">View and manage all employee Work From Home timelogs</p>
         </div>
         <button
-            onclick="window.location.href='{{ route('admin.wfh-timelogs.export', [
+            onclick="window.location.href='{{ route('timelogs.export', [
                 'search' => $search,
                 'user_id' => $filterUserId,
                 'status' => $filterStatus,
                 'date_from' => $filterDateFrom,
                 'date_to' => $filterDateTo,
             ]) }}'"
+            target="_blank"
             class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

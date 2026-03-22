@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WfhTimelog;
 use App\Models\User;
+use App\Models\WfhTimelog;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WfhTimelogExportController extends Controller
 {
     public function exportPdf(Request $request)
     {
+        // Check authorization for all users export
+        $isSingleUser = $request->has('user_id') && $request->user_id;
+        if (! $isSingleUser && ! auth()->user()->hasRole('administrator')) {
+            abort(403, 'Unauthorized access');
+        }
+
         $query = WfhTimelog::with(['user', 'user.employee', 'user.employee.position', 'user.employee.office', 'user.employee.unit']);
 
         // Apply search filter
         if ($request->has('search') && $request->search) {
             $query->whereHas('user', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('employee_id', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -46,16 +53,21 @@ class WfhTimelogExportController extends Controller
 
         $dateRange = 'All';
         if ($request->date_from && $request->date_to) {
-            $dateRange = \Carbon\Carbon::parse($request->date_from)->format('M d, Y') . ' - ' . \Carbon\Carbon::parse($request->date_to)->format('M d, Y');
+            $dateRange = Carbon::parse($request->date_from)->format('M d, Y').' - '.Carbon::parse($request->date_to)->format('M d, Y');
         } elseif ($request->date_from) {
-            $dateRange = 'From: ' . \Carbon\Carbon::parse($request->date_from)->format('M d, Y');
+            $dateRange = 'From: '.Carbon::parse($request->date_from)->format('M d, Y');
         } elseif ($request->date_to) {
-            $dateRange = 'Until: ' . \Carbon\Carbon::parse($request->date_to)->format('M d, Y');
+            $dateRange = 'Until: '.Carbon::parse($request->date_to)->format('M d, Y');
         }
 
         // Check if exporting for a specific user (single user timelog)
         // or for all users (all timelogs)
         $isSingleUser = $request->has('user_id') && $request->user_id;
+
+        // Check authorization for all users export
+        if (! $isSingleUser && ! auth()->user()->hasRole('administrator')) {
+            abort(403, 'Unauthorized access');
+        }
 
         $employeeName = null;
         $employeePosition = null;
@@ -81,7 +93,7 @@ class WfhTimelogExportController extends Controller
                 'employeeOffice' => $employeeOffice,
                 'employeeUnit' => $employeeUnit,
             ]);
-            $filename = 'wfh-timelogs-' . now()->format('Y-m-d') . '.pdf';
+            $filename = 'wfh-timelogs-'.now()->format('Y-m-d').'.pdf';
         } else {
             // All users export - use wfh-all-timelogs-pdf (grouped by date)
             $pdf = Pdf::loadView('livewire.admin.wfh-all-timelogs-pdf', [
@@ -89,7 +101,7 @@ class WfhTimelogExportController extends Controller
                 'dateRange' => $dateRange,
                 'filterStatus' => $request->status,
             ]);
-            $filename = 'wfh-all-timelogs-' . now()->format('Y-m-d') . '.pdf';
+            $filename = 'wfh-all-timelogs-'.now()->format('Y-m-d').'.pdf';
         }
 
         return $pdf->stream($filename);

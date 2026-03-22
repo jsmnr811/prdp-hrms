@@ -24,7 +24,7 @@ class MyTimelogs extends Component
 
     public function mount()
     {
-        if (! Auth::user()->hasRole('Employee')) {
+        if (! Auth::user()->hasRole('employee')) {
             abort(403, 'Unauthorized access');
         }
     }
@@ -51,7 +51,7 @@ class MyTimelogs extends Component
             ->latest('date')
             ->paginate($this->perPage);
 
-        return view('livewire.employee.my-timelogs', [
+        return view('livewire.employee.wfh-timelogs', [
             'timelogs' => $timelogs,
         ])->layout('components.layouts.app');
     }

@@ -3,7 +3,80 @@
     {{-- Welcome Section --}}
     <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
         <h1 class="text-2xl font-bold mb-2">Welcome back, {{ auth()->user()->name }}!</h1>
-        <p class="text-blue-100">Here's an overview of your work from home activities.</p>
+        <p class="text-blue-100">Here's an overview of your profile and work activities.</p>
+    </div>
+
+    {{-- Profile and Organizational Info --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {{-- Personal Profile Summary --}}
+        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
+            <flux:heading size="lg" class="dark:text-white mb-4">Personal Profile</flux:heading>
+            <div class="flex items-center space-x-4">
+                @if ($employeeProfile->image)
+                    <img src="{{ asset('storage/' . $employeeProfile->image) }}" alt="Profile"
+                        class="w-16 h-16 rounded-full object-cover">
+                @else
+                    <flux:icon.user-circle class="w-16 h-16 text-zinc-400" />
+                @endif
+                <div>
+                    <h3 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ $employeeProfile->full_name }}
+                    </h3>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Employee
+                        #{{ $employeeProfile->formatted_employee_number }}</p>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                        {{ $organizationalInfo['position']->name ?? 'N/A' }}</p>
+                </div>
+            </div>
+            <div class="mt-4 space-y-2">
+                <div class="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
+                    <flux:icon.envelope class="w-4 h-4 mr-2" />
+                    {{ $employeeProfile->email }}
+                </div>
+                @if ($employeeProfile->contact_number)
+                    <div class="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
+                        <flux:icon.device-phone-mobile class="w-4 h-4 mr-2" />
+                        {{ $employeeProfile->contact_number }}
+                    </div>
+                @endif
+                <div class="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
+                    <flux:icon.briefcase class="w-4 h-4 mr-2" />
+                    {{ $employeeProfile->employment_status }}
+                </div>
+            </div>
+        </flux:card>
+
+        {{-- Organizational Information --}}
+        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
+            <flux:heading size="lg" class="dark:text-white mb-4">Organizational Information</flux:heading>
+            <div class="space-y-3">
+                <div>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Office</p>
+                    <p class="font-medium text-zinc-900 dark:text-white">
+                        {{ $organizationalInfo['office']->name ?? 'N/A' }}
+                        ({{ $organizationalInfo['office']->code ?? 'N/A' }})</p>
+                </div>
+                <div>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Unit</p>
+                    <p class="font-medium text-zinc-900 dark:text-white">
+                        {{ $organizationalInfo['unit']->name ?? 'N/A' }}
+                        ({{ $organizationalInfo['unit']->code ?? 'N/A' }})</p>
+                </div>
+                <div>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Position</p>
+                    <p class="font-medium text-zinc-900 dark:text-white">
+                        {{ $organizationalInfo['position']->name ?? 'N/A' }}</p>
+                </div>
+                @if ($employeeProfile->date_hired)
+                    <div>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400">Date Hired</p>
+                        <p class="font-medium text-zinc-900 dark:text-white">
+                            {{ $employeeProfile->date_hired->format('M d, Y') }}</p>
+                    </div>
+                @endif
+            </div>
+        </flux:card>
+
     </div>
 
     {{-- Stats Cards --}}
@@ -74,7 +147,7 @@
         </flux:card>
     </div>
 
-    {{-- Quick Actions & Recent Timelogs --}}
+    {{-- Quick Actions & Recent Activities --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {{-- Quick Actions --}}
@@ -84,13 +157,13 @@
 
                 <div class="space-y-2">
                     <flux:button variant="primary" class="w-full justify-start" icon="plus-circle"
-                        href="{{ route('employee.my-timelogs') }}">
+                        href="{{ route('wfh-timelogs') }}">
                         Log New Entry
                     </flux:button>
 
                     <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="clipboard-document-list" href="{{ route('employee.my-timelogs') }}">
+                        icon="clipboard-document-list" href="{{ route('wfh-timelogs') }}">
                         View My Timelogs
                     </flux:button>
 
@@ -99,16 +172,22 @@
                         icon="user-circle">
                         Update Profile
                     </flux:button>
+
+                    <flux:button variant="outline"
+                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+                        icon="megaphone">
+                        View Announcements
+                    </flux:button>
                 </div>
             </flux:card>
         </div>
 
-        {{-- Recent Timelogs --}}
+        {{-- Recent Activities --}}
         <div class="lg:col-span-2">
             <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
                 <div class="flex items-center justify-between mb-4">
-                    <flux:heading size="lg" class="dark:text-white">Recent Timelogs</flux:heading>
-                    <flux:button variant="ghost" size="sm" href="{{ route('employee.my-timelogs') }}"
+                    <flux:heading size="lg" class="dark:text-white">Recent Activities</flux:heading>
+                    <flux:button variant="ghost" size="sm" href="{{ route('wfh-timelogs') }}"
                         class="dark:text-zinc-300 hover:underline">
                         View All
                     </flux:button>
@@ -138,9 +217,9 @@
                                     <td class="px-4 py-3">
                                         <flux:badge
                                             :color="
-                                                                                            $timelog->status === 'approved' ? 'green' :
-                                                                                            ($timelog->status === 'rejected' ? 'red' :
-                                                                                            ($timelog->status === 'pending' ? 'yellow' : 'gray'))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            $timelog->status === 'approved' ? 'green' :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            ($timelog->status === 'rejected' ? 'red' :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            ($timelog->status === 'pending' ? 'yellow' : 'gray'))
                                             "
                                             size="sm">
                                             {{ ucfirst($timelog->status) }}

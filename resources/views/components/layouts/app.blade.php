@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@yield('title', 'Admin Dashboard') - PRDP HRMS</title>
+    <title>@yield('title', 'Employee Dashboard') - PRDP HRMS</title>
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -16,9 +16,9 @@
     @filepondScripts
 </head>
 
-<body class="min-h-screen bg-gray-50 dark:bg-zinc-900">
+<body class="min-h-screen bg-white dark:bg-zinc-800">
     <div class="flex min-h-screen">
-        <x-sidebar class="border-e border-gray-200 bg-white dark:border-zinc-700 dark:bg-zinc-800" />
+        <x-sidebar class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" />
 
         {{-- Main Content Area --}}
         <div class="flex-1 flex flex-col min-w-0">

@@ -10,7 +10,7 @@ class Dashboard extends Component
 {
     public function mount()
     {
-        if (! Auth::user()->hasRole('Employee')) {
+        if (! Auth::user()->hasRole('employee')) {
             abort(403, 'Unauthorized access');
         }
     }
@@ -20,6 +20,8 @@ class Dashboard extends Component
         return view('livewire.employee.dashboard', [
             'stats' => $this->getStats(),
             'recentTimelogs' => $this->getRecentTimelogs(),
+            'employeeProfile' => $this->getEmployeeProfile(),
+            'organizationalInfo' => $this->getOrganizationalInfo(),
         ])->layout('components.layouts.app');
     }
 
@@ -45,5 +47,21 @@ class Dashboard extends Component
             ->latest('date')
             ->take(5)
             ->get();
+    }
+
+    private function getEmployeeProfile()
+    {
+        return Auth::user()->employee;
+    }
+
+    private function getOrganizationalInfo()
+    {
+        $employee = $this->getEmployeeProfile();
+
+        return [
+            'office' => $employee->office,
+            'unit' => $employee->unit,
+            'position' => $employee->position,
+        ];
     }
 }

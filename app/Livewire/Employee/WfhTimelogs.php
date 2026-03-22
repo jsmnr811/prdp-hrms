@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Employee;
 
 use App\Models\WfhTimelog;
 use Illuminate\Support\Facades\Auth;

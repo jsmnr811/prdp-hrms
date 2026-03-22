@@ -28,56 +28,54 @@ class Dashboard extends Component
     }
 
     private function getStats(): array
-{
-    // Base query for employee users
-    $employeeUsers = User::role('Employee')
-        ->whereHas('employee')
-        ->where('status', 1);
+    {
+        // Base query for employee users
+        $employeeUsers = User::role('employee')
+            ->whereHas('employee')
+            ->where('status', 1);
 
-    return [
-        // Total employees
-        'total_employees' => (clone $employeeUsers)->count(),
+        return [
+            // Total employees
+            'total_employees' => (clone $employeeUsers)->count(),
 
-        // Active employees (Hired)
-        'active_employees' => (clone $employeeUsers)
-            ->whereHas('employee', fn($q) => $q->where('employment_status', 'Hired'))
-            ->count(),
+            // Active employees (Hired)
+            'active_employees' => (clone $employeeUsers)
+                ->whereHas('employee', fn ($q) => $q->where('employment_status', 'Hired'))
+                ->count(),
 
-        // Total users (excluding admin)
-        'total_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'Administrator'))
-            ->count(),
+            // Total users (excluding admin)
+            'total_users' => User::whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator'))
+                ->count(),
 
-        // Active users (excluding admin)
-        'active_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'Administrator'))
-            ->where('status', 1)
-            ->count(),
+            // Active users (excluding admin)
+            'active_users' => User::whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator'))
+                ->where('status', 1)
+                ->count(),
 
-        'total_offices' => Office::count(),
-        'total_positions' => Position::count(),
+            'total_offices' => Office::count(),
+            'total_positions' => Position::count(),
 
-        // New this month
-        'new_this_month' => (clone $employeeUsers)
-            ->whereHas('employee', fn($q) =>
-                $q->whereMonth('created_at', now()->month)
-                  ->whereYear('created_at', now()->year)
-            )
-            ->count(),
+            // New this month
+            'new_this_month' => (clone $employeeUsers)
+                ->whereHas('employee', fn ($q) => $q->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year)
+                )
+                ->count(),
 
-        // Resigned this month
-        'resigned_this_month' => (clone $employeeUsers)
-            ->whereHas('employee', fn($q) =>
-                $q->where('employment_status', 'Resigned')
-                  ->whereMonth('updated_at', now()->month)
-                  ->whereYear('updated_at', now()->year)
-            )
-            ->count(),
-    ];
-}
+            // Resigned this month
+            'resigned_this_month' => (clone $employeeUsers)
+                ->whereHas('employee', fn ($q) => $q->where('employment_status', 'Resigned')
+                    ->whereMonth('updated_at', now()->month)
+                    ->whereYear('updated_at', now()->year)
+                )
+                ->count(),
+        ];
+    }
 
     private function getRecentEmployees()
     {
         return Employee::with(['office', 'position', 'user'])
-            ->whereHas('user', fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator')))
+            ->whereHas('user', fn ($q) => $q->whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator')))
             ->latest()
             ->take(5)
             ->get();

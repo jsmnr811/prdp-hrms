@@ -26,6 +26,9 @@ Route::get('/forgot-password', function () {
 // Protected routes
 Route::middleware(['auth'])->group(function () {
 
+    // WFH Timelog Export PDF - accessible to all authenticated users for single user export, admins for all
+    Route::get('/timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('timelogs.export');
+
     // Admin routes - only for Administrators
     Route::middleware('role:administrator')->group(function () {
         // Admin dashboard
@@ -42,9 +45,6 @@ Route::middleware(['auth'])->group(function () {
 
         // WFH Monitoring (Map)
         Route::get('/admin/wfh-monitoring', WfhMonitoring::class)->name('admin.wfh-monitoring');
-
-        // WFH Timelog Export PDF
-        Route::get('/admin/wfh-timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('admin.wfh-timelogs.export');
     });
 
     // Employee routes - only for Employees
@@ -52,11 +52,8 @@ Route::middleware(['auth'])->group(function () {
         // Employee Dashboard
         Route::get('/dashboard', EmployeeDashboard::class)->name('dashboard');
 
-        // Employee my timelogs
-        Route::get('/my-timelogs', WfhTimelogs::class)->name('employee.my-timelogs');
-
-        Route::get('/admin/wfh-timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('admin.wfh-timelogs.export');
-
+        // WFH Timelogs
+        Route::get('/wfh-timelogs', WfhTimelogs::class)->name('wfh-timelogs');
     });
 
     // Logout
