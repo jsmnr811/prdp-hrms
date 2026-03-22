@@ -7,11 +7,15 @@ use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Login;
+use App\Livewire\Register;
 use Illuminate\Support\Facades\Route;
 
 // Landing page = Login
 Route::get('/', Login::class)->name('login')->middleware('guest');
 Route::get('/login', Login::class)->name('login')->middleware('guest');
+
+// Registration
+Route::get('/register', Register::class)->name('register')->middleware('guest');
 
 // Password reset routes
 Route::get('/forgot-password', function () {

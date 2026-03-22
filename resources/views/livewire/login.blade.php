@@ -114,6 +114,14 @@
             </flux:button>
         </form>
 
+        {{-- Register Link --}}
+        <div class="text-center text-sm text-zinc-500">
+            Don't have an account?
+            <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-700 font-medium transition">
+                Register here
+            </a>
+        </div>
+
         {{-- Footer --}}
         <div class="text-center text-xs text-zinc-400">
             © {{ date('Y') }} PRDP HRMS. All rights reserved.

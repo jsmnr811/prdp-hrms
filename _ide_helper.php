@@ -24959,6 +24959,10 @@ namespace App\Livewire {
      */
     class Login extends \Livewire\Component {
             }
+    /**
+     */
+    class Register extends \Livewire\Component {
+            }
     }
 
 namespace App\Livewire\Admin {
