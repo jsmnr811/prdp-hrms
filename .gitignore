@@ -22,3 +22,5 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+config/view.php
+app/Providers/AppServiceProvider.php
