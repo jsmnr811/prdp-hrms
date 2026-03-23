@@ -13,7 +13,7 @@
 
     @fluxAppearance
     @livewireStyles
-    @filepondScripts
+    <!-- @filepondScripts -->
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">

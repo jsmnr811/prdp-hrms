@@ -22,14 +22,15 @@ class EmployeeUsersSeeder extends Seeder
                 $username = 'admin';
                 $password = 'password';
             } else {
-                $firstInitial = strtolower(substr($employee->first_name, 0, 1));
+                $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
                 $lastInitial = strtolower(substr($employee->last_name, 0, 1));
+                $formattedLastName = strtolower($employee->last_name);
                 $employeeNumber = $employee->employee_number;
 
                 $username = $firstInitial . $lastInitial . $employeeNumber;
 
                 // Password: first initial + last name + employee_number
-                $password = $firstInitial . $employee->last_name . $employeeNumber;
+                $password = $firstInitial . $formattedLastName . $employeeNumber;
             }
 
             User::updateOrCreate(
