@@ -44,7 +44,7 @@
             <flux:callout variant="success" icon="check-circle" class="mt-4">
                 <flux:callout.heading>Registration Successful!</flux:callout.heading>
                 <flux:callout.text>
-                    You can now login. Please contact HR for your login credentials.
+                   You can now log in. Please check your email (including spam/junk folder) for your login credentials.
                 </flux:callout.text>
             </flux:callout>
         @endif
@@ -355,6 +355,7 @@
             {{-- Submit Button --}}
             <div class="pt-4">
                 <flux:button type="submit" variant="primary" class="w-full h-12 text-sm font-medium tracking-wide"
+                    wire:confirm="Is your email address {{ $email }} correct?"
                     wire:loading.attr="disabled">
                     <span wire:loading.remove>
                         Register Employee
@@ -366,6 +367,7 @@
                 </flux:button>
             </div>
         </form>
+
 
         {{-- Footer --}}
         <div class="text-center text-xs text-zinc-400 pt-4 border-t">

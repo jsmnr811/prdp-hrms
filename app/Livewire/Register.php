@@ -8,11 +8,16 @@ use App\Models\Position;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+
+use App\Mail\RegistrationPassword;
 
 class Register extends Component
 {
@@ -83,10 +88,14 @@ class Register extends Component
 
     // Blood type options
     public $bloodTypeOptions = [
-        'A+', 'A-',
-        'B+', 'B-',
-        'AB+', 'AB-',
-        'O+', 'O-',
+        'A+',
+        'A-',
+        'B+',
+        'B-',
+        'AB+',
+        'AB-',
+        'O+',
+        'O-',
     ];
 
     // Relationship options
@@ -345,18 +354,55 @@ class Register extends Component
 
         $this->validate();
 
+        // Show confirmation alert
+
+        LivewireAlert::title('Confirm Submission')
+            ->text('Are you sure you want to register?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Register')
+            ->withCancelButton('No, Cancel')
+            ->onConfirm('confirmedRegistration')
+            ->show();
+    }
+
+    public function confirmedRegistration()
+    {
         try {
-            // CREATE new employee only (no updates)
-            // Use the formatted employee number
+            // Format employee number
             $employeeNumber = $this->employeeNumberFormatted ?: $this->formatEmployeeNumber($this->employee_number);
 
+            // Map for standard suffix formats
+            $suffixMap = [
+                'jr' => 'Jr.',
+                'junior' => 'Jr.',
+                'sr' => 'Sr.',
+                'senior' => 'Sr.',
+                'ii' => 'II',
+                '2' => 'II',
+                'iii' => 'III',
+                '3' => 'III',
+                'iv' => 'IV',
+                '4' => 'IV',
+                'v' => 'V',
+                '5' => 'V',
+            ];
+
+            // Format names properly
+            $firstName = $this->first_name ? ucwords(strtolower($this->first_name)) : null;
+            $lastName = $this->last_name ? ucwords(strtolower($this->last_name)) : null;
+            $middleName = $this->middle_name ? ucwords(strtolower($this->middle_name)) : null;
+            $middleInitial = $middleName ? strtoupper(substr($middleName, 0, 1)) . '.' : null;
+            $suffix = $this->suffix ? ($suffixMap[strtolower($this->suffix)] ?? ucwords(strtolower($this->suffix))) : null;
+
+            // Create new employee
             $employee = Employee::create([
                 'employee_number' => $employeeNumber,
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'middle_name' => $this->middle_name ?: null,
-                'middle_initial' => $this->middle_name ? strtoupper(substr($this->middle_name, 0, 1)) . '.' : null,
-                'suffix' => $this->suffix ?: null,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'middle_name' => $middleName,
+                'middle_initial' => $middleInitial,
+                'suffix' => $suffix,
                 'contact_number' => $this->contact_number,
                 'email' => $this->email,
                 'gender' => $this->gender,
@@ -375,48 +421,56 @@ class Register extends Component
                 'date_hired' => now()->toDateString(),
             ]);
 
-            // Check if user account doesn't exist yet, then create one
+            // Create user account if it doesn't exist
             $existingUser = User::where('employee_number', $employeeNumber)->first();
 
             if (!$existingUser) {
-                // Default password - should be changed by admin or user
-                $defaultPassword = 'password123';
+                $firstNameInitial = strtoupper(substr($firstName, 0, 1));
+                $generatedPassword = $firstNameInitial . strtolower(str_replace(' ', '', $lastName)) . $employeeNumber;
 
-                User::create([
+                $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
+                $lastInitial  = strtolower(substr($employee->last_name, 0, 1));
+
+                $username = $firstInitial . $lastInitial . $employeeNumber;
+
+                $user = User::create([
                     'employee_number' => $employeeNumber,
-                    'username' => $employeeNumber,
-                    'password' => Hash::make($defaultPassword),
+                    'username' => $username,
+                    'password' => Hash::make($generatedPassword),
                     'status' => 1,
-                    'must_change_password' => 1,
+                    'must_change_password' => 0,
+                    'employee_id' => $employee->id,
                 ]);
+
+                // Assign employee role
+                $user->assignRole('employee');
+
+                // Send registration email
+                Mail::to($user->email)->send(new RegistrationPassword($user, $generatedPassword));
             }
 
-            // Save the image to storage
+            // Save employee image
             if ($this->image) {
                 $imagePath = $this->image->store('employees/' . $employee->id, 'public');
                 $employee->update(['image' => $imagePath]);
             }
 
-            // Set success message
+            // Set success state
             $this->registrationSuccess = true;
-            $this->successMessage = 'Registration successful! Your employee number is ' . $employeeNumber . '. Please contact HR for your login credentials.';
+            $this->successMessage = "Registration successful! Please check your email (including spam/junk folder) for your login credentials.";
 
-            // Clear form
+            // Reset form except essential data
             $this->resetExcept('registrationSuccess', 'successMessage', 'registrationError', 'errorMessage', 'offices', 'units', 'positions', 'genderOptions', 'bloodTypeOptions', 'relationshipOptions');
 
             return redirect()->route('login')->with('success', $this->successMessage);
-
         } catch (\Exception $e) {
-            // Set error state to display in the form
             $this->registrationError = true;
             $this->errorMessage = 'Please try again or contact system administrator.';
-
-            // Also log the error for debugging
             \Log::error('Registration failed: ' . $e->getMessage());
-
             return;
         }
     }
+
 
     public function togglePassword()
     {
