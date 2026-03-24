@@ -27,11 +27,13 @@ class User extends Authenticatable
         'password_reset_attempts',
         'password_reset_date',
         'remember_token',
+        'temp_password',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'temp_password',
     ];
 
     protected $casts = [
@@ -84,5 +86,10 @@ class User extends Authenticatable
     public function mustChangePassword(): bool
     {
         return (int) $this->must_change_password === 1;
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password;
     }
 }

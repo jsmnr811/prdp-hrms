@@ -24,11 +24,11 @@
 
         {{-- Success Message --}}
         @if (session('success'))
-            <flux:callout variant="success" class="mb-4">
-                <flux:callout.text>
-                    {{ session('success') }}
-                </flux:callout.text>
-            </flux:callout>
+        <flux:callout variant="success" class="mb-4">
+            <flux:callout.text>
+                {{ session('success') }}
+            </flux:callout.text>
+        </flux:callout>
         @endif
 
         {{-- Login Form --}}
@@ -69,9 +69,9 @@
                         <button type="button" wire:click="togglePassword"
                             class="text-xs text-zinc-500 hover:text-zinc-800 dark:hover:text-white flex items-center gap-1 transition">
                             @if ($showPassword)
-                                <flux:icon.eye-slash variant="mini" />
+                            <flux:icon.eye-slash variant="mini" />
                             @else
-                                <flux:icon.eye variant="mini" />
+                            <flux:icon.eye variant="mini" />
                             @endif
                         </button>
                     </x-slot>
@@ -84,10 +84,10 @@
             <div class="flex items-center justify-between text-sm">
                 <flux:checkbox wire:model="remember" label="Remember me" />
 
-                <button type="button" wire:click="$set('showForgotModal', true)"
+                <a href="{{ route('password.request') }}"
                     class="text-primary-600 hover:text-primary-700 font-medium transition">
                     Forgot password?
-                </button>
+                </a>
             </div>
 
             {{-- Submit --}}
@@ -115,111 +115,5 @@
         </div>
     </flux:card>
 
-    {{-- Forgot Password Modal --}}
-    <flux:modal wire:model="showForgotModal" wire:ignore class="max-w-md p-6 rounded-xl">
 
-        <div class="space-y-2">
-            <flux:heading size="lg" class="font-semibold">
-                Reset Password
-            </flux:heading>
-            <flux:subheading class="text-sm text-zinc-500">
-                Enter your email and we’ll send a reset link.
-            </flux:subheading>
-        </div>
-
-        @if ($forgotStatus)
-            @if ($isMaxAttemptsMessage)
-                <flux:callout variant="danger" icon="exclamation-triangle" class="mt-4">
-                    <flux:callout.heading>Too Many Attempts</flux:callout.heading>
-                    <flux:callout.text>
-                        You've reached the maximum number of password reset attempts for today. Please try again
-                        tomorrow or contact the system administrator for assistance.
-                    </flux:callout.text>
-                </flux:callout>
-            @else
-                <flux:callout :variant="$forgotStatusVariant ?? 'success'" class="mt-4 text-sm">
-                    {{ $forgotStatus }}
-                </flux:callout>
-
-                @if (!$maxResendReached)
-                    <div class="mt-4 text-center">
-                        <button type="button" wire:click="resendResetLink"
-                            class="text-sm text-primary-600 hover:text-primary-700 font-medium transition">
-                            Didn't receive the email? Resend
-                        </button>
-                    </div>
-                @endif
-            @endif
-        @endif
-
-        <form wire:submit="sendResetLink" class="mt-6 space-y-4">
-
-            <flux:field>
-                <flux:label class="text-sm font-medium">
-                    Email Address
-                </flux:label>
-
-                <flux:input wire:model="forgotEmail" type="email" placeholder="you@example.com" class="h-11" />
-
-                <flux:error name="forgotEmail" />
-            </flux:field>
-
-            <div class="flex justify-end gap-2 pt-2">
-                <flux:button type="button" variant="ghost" wire:click="$set('showForgotModal', false)">
-                    Cancel
-                </flux:button>
-
-                <flux:button type="submit" variant="primary" class="px-5">
-                    Send Link
-                </flux:button>
-            </div>
-        </form>
-    </flux:modal>
-
-    {{-- Change Password Modal --}}
-    <flux:modal wire:model="showChangePasswordModal" wire:ignore class="max-w-md p-6 rounded-xl">
-
-        <div class="space-y-2">
-            <flux:heading size="lg" class="font-semibold">
-                Change Your Password
-            </flux:heading>
-            <flux:subheading class="text-sm text-zinc-500">
-                You must change your temporary password before continuing.
-            </flux:subheading>
-        </div>
-
-        <form wire:submit="changePassword" class="mt-6 space-y-4">
-
-            <flux:field>
-                <flux:label class="text-sm font-medium">
-                    New Password
-                </flux:label>
-
-                <flux:input wire:model="newPassword" type="password" placeholder="Enter new password" class="h-11" />
-
-                <flux:error name="newPassword" />
-
-                <flux:description class="text-xs text-zinc-400">
-                    Minimum 8 characters
-                </flux:description>
-            </flux:field>
-
-            <flux:field>
-                <flux:label class="text-sm font-medium">
-                    Confirm New Password
-                </flux:label>
-
-                <flux:input wire:model="confirmPassword" type="password" placeholder="Confirm new password"
-                    class="h-11" />
-
-                <flux:error name="confirmPassword" />
-            </flux:field>
-
-            <div class="flex justify-end gap-2 pt-2">
-                <flux:button type="submit" variant="primary" class="px-5">
-                    Change Password
-                </flux:button>
-            </div>
-        </form>
-    </flux:modal>
 </div>

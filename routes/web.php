@@ -6,7 +6,9 @@ use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
+use App\Livewire\ChangePassword;
 use App\Livewire\Employee\Dashboard as EmployeeDashboard;
+use App\Livewire\ForgotPassword;
 use App\Livewire\Login;
 use App\Livewire\Register;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +21,7 @@ Route::get('/login', Login::class)->name('login')->middleware('guest');
 Route::get('/register', Register::class)->name('register')->middleware('guest');
 
 // Password reset routes
-Route::get('/forgot-password', function () {
-    return redirect('/')->with('status', 'Please use the login page.');
-})->middleware('guest')->name('password.request');
+Route::get('/forgot-password', ForgotPassword::class)->middleware('guest')->name('password.request');
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {
@@ -65,3 +65,6 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 });
+
+// Change Password - no middleware
+Route::get('/change-password', ChangePassword::class)->name('change-password');
