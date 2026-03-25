@@ -15,7 +15,9 @@ use App\Livewire\Register;
 use Illuminate\Support\Facades\Route;
 
 // Landing page = Login
-Route::get('/', Login::class)->name('home');
+Route::get('/', function (){
+    return redirect()->route('login');
+})->name('home');
 Route::get('/login', Login::class)->name('login')->middleware('guest');
 
 // Registration
