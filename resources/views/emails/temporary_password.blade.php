@@ -74,18 +74,16 @@
         </div>
         <div class="content">
             <h2>Hello {{ $user->name }},</h2>
-            <p>You have requested a temporary password for your account. For security reasons, please use the temporary
-                password below to log in and change your password immediately.</p>
+            <p>Your password has been reset to the default format. Please use the password below to log in and change your password immediately for security.</p>
 
             <div class="password-box">
                 {{ $temporaryPassword }}
             </div>
 
+            <p><strong>Employee Number:</strong> {{ $employeeNumber }}</p>
+
             <div class="warning">
-                <strong>Important:</strong> This password is temporary and will expire in 30 minutes. Please change it
-                as
-                soon as
-                possible after logging in.
+                <strong>Important:</strong> Please change this password as soon as possible after logging in.
             </div>
 
             <p>If you did not request this password reset, please contact our support team immediately.</p>

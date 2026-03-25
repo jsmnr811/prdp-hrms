@@ -38,8 +38,9 @@
             @endrole
 
             @role('administrator')
-                <flux:sidebar.item icon="users" href="#">
-                    {{ __('Employees') }}
+                <flux:sidebar.item icon="users" :href="route('admin.employee-list')"
+                    :current="request()->routeIs('admin.employee-list')" wire:navigate>
+                    {{ __('Employee List') }}
                 </flux:sidebar.item>
 
                 <flux:sidebar.item icon="building-office-2">

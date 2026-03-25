@@ -115,9 +115,9 @@
             <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
                 <div class="flex items-center justify-between mb-4">
                     <flux:heading size="lg" class="dark:text-white">Recent Employees</flux:heading>
-                    <flux:button variant="ghost" size="sm" href="#"
+                    <flux:button variant="ghost" size="sm" href="{{ route('admin.employee-list') }}"
                         class="dark:text-zinc-300 hover:underline">
-                        View All
+                        View All Employees
                     </flux:button>
                 </div>
 

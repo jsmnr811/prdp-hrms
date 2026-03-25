@@ -76,9 +76,8 @@ class Employee extends Model
     {
         $name = $this->first_name;
 
-        if ($this->middle_initial) {
-            $name .= ' ' . $this->middle_initial;
-        } elseif ($this->middle_name) {
+        // Always use middle name if available
+        if ($this->middle_name) {
             $name .= ' ' . strtoupper(substr($this->middle_name, 0, 1)) . '.';
         }
 

@@ -19,13 +19,16 @@ class TemporaryPassword extends Mailable implements ShouldQueue
 
     public $temporaryPassword;
 
+    public $employeeNumber;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user, string $temporaryPassword)
+    public function __construct(User $user, string $temporaryPassword, string $employeeNumber = null)
     {
         $this->user = $user;
         $this->temporaryPassword = $temporaryPassword;
+        $this->employeeNumber = $employeeNumber;
     }
 
     /**
@@ -34,7 +37,7 @@ class TemporaryPassword extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Temporary Password',
+            subject: 'Your Password Has Been Reset',
         );
     }
 
