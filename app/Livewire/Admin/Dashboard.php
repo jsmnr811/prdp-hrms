@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Jobs\SendWelcomeEmails;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Position;
@@ -16,6 +17,12 @@ class Dashboard extends Component
         if (! Auth::user()->hasRole('administrator')) {
             abort(403, 'Unauthorized access');
         }
+    }
+
+    public function sendWelcomeEmails()
+    {
+        SendWelcomeEmails::dispatch();
+        session()->flash('message', 'Welcome emails have been queued for sending.');
     }
 
     public function render()

@@ -98,37 +98,7 @@
             </div>
         </flux:card>
 
-        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Pending Approval</p>
-                    <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['pending_timelogs']) }}</p>
-                </div>
-                <flux:badge color="yellow" size="lg">
-                    <flux:icon.clock class="w-5 h-5" />
-                </flux:badge>
-            </div>
-            <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-                Awaiting review
-            </div>
-        </flux:card>
 
-        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Approved</p>
-                    <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['approved_timelogs']) }}</p>
-                </div>
-                <flux:badge color="green" size="lg">
-                    <flux:icon.check-circle class="w-5 h-5" />
-                </flux:badge>
-            </div>
-            <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-                Successfully approved
-            </div>
-        </flux:card>
 
         <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
             <div class="flex items-center justify-between">
@@ -143,6 +113,38 @@
             </div>
             <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
                 Current month entries
+            </div>
+        </flux:card>
+
+        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Last Month</p>
+                    <p class="text-2xl font-bold text-zinc-900 dark:text-white">
+                        {{ number_format($stats['last_month_timelogs']) }}</p>
+                </div>
+                <flux:badge color="indigo" size="lg">
+                    <flux:icon.calendar-days class="w-5 h-5" />
+                </flux:badge>
+            </div>
+            <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                Last month entries
+            </div>
+        </flux:card>
+
+        <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400">Total Hours Worked</p>
+                    <p class="text-2xl font-bold text-zinc-900 dark:text-white">
+                        {{ $stats['total_hours_worked'] }} hrs</p>
+                </div>
+                <flux:badge color="orange" size="lg">
+                    <flux:icon.clock class="w-5 h-5" />
+                </flux:badge>
+            </div>
+            <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                All time worked hours
             </div>
         </flux:card>
     </div>
@@ -169,7 +171,7 @@
 
                     <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="user-circle">
+                        icon="user-circle" href="{{ route('update-profile') }}">
                         Update Profile
                     </flux:button>
 

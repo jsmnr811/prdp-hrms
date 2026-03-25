@@ -8,6 +8,7 @@ use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
 use App\Livewire\ChangePassword;
 use App\Livewire\Employee\Dashboard as EmployeeDashboard;
+use App\Livewire\Employee\UpdateProfile;
 use App\Livewire\ForgotPassword;
 use App\Livewire\Login;
 use App\Livewire\Register;
@@ -51,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:employee')->group(function () {
         // Employee Dashboard
         Route::get('/dashboard', EmployeeDashboard::class)->name('dashboard');
+
+        // Update Profile
+        Route::get('/update-profile', UpdateProfile::class)->name('update-profile');
 
         // WFH Timelogs
         Route::get('/wfh-timelogs', WfhTimelogs::class)->name('wfh-timelogs');

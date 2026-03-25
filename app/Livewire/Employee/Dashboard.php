@@ -29,8 +29,16 @@ class Dashboard extends Component
     {
         $userId = Auth::id();
 
+        $total_timelogs = WfhTimelog::where('user_id', $userId)->count();
+        $lastMonth = now()->subMonth();
+
+        // Get all timelogs for total_hours calculation
+        $timelogs = WfhTimelog::where('user_id', $userId)->get();
+        $total_hours_worked = $timelogs->sum('total_hours');
+        $average_hours_per_day = $total_timelogs > 0 ? number_format($total_hours_worked / $total_timelogs, 1) : '0.0';
+
         return [
-            'total_timelogs' => WfhTimelog::where('user_id', $userId)->count(),
+            'total_timelogs' => $total_timelogs,
             'pending_timelogs' => WfhTimelog::where('user_id', $userId)->pending()->count(),
             'approved_timelogs' => WfhTimelog::where('user_id', $userId)->approved()->count(),
             'rejected_timelogs' => WfhTimelog::where('user_id', $userId)->rejected()->count(),
@@ -38,6 +46,12 @@ class Dashboard extends Component
                 ->whereMonth('date', now()->month)
                 ->whereYear('date', now()->year)
                 ->count(),
+            'last_month_timelogs' => WfhTimelog::where('user_id', $userId)
+                ->whereMonth('date', $lastMonth->month)
+                ->whereYear('date', $lastMonth->year)
+                ->count(),
+            'total_hours_worked' => $total_hours_worked,
+            'average_hours_per_day' => $average_hours_per_day,
         ];
     }
 

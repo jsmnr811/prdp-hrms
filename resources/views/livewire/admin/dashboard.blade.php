@@ -99,6 +99,13 @@
                         icon="cog-6-tooth">
                         System Settings
                     </flux:button>
+
+                    <flux:button variant="outline"
+                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+                        icon="envelope"
+                        wire:click="sendWelcomeEmails">
+                        Send Welcome Emails
+                    </flux:button>
                 </div>
             </flux:card>
         </div>
