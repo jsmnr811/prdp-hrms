@@ -1,4 +1,7 @@
 <div class="space-y-6 p-6">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}">Dashboard</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -102,8 +105,7 @@
 
                     <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="envelope"
-                        wire:click="sendWelcomeEmails">
+                        icon="envelope" wire:click="sendWelcomeEmails">
                         Send Welcome Emails
                     </flux:button>
                 </div>
@@ -146,8 +148,8 @@
                                     <td class="px-4 py-3">
                                         <flux:badge
                                             :color="
-                                                                                            $employee->employment_status === 'Hired' ? 'green' :
-                                                                                            ($employee->employment_status === 'Resigned' ? 'red' : 'yellow')
+                                                                                                                                        $employee->employment_status === 'Hired' ? 'green' :
+                                                                                                                                        ($employee->employment_status === 'Resigned' ? 'red' : 'yellow')
                                             "
                                             size="sm">
                                             {{ $employee->employment_status }}

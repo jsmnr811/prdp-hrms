@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeUsersSeeder extends Seeder
 {
@@ -24,13 +22,13 @@ class EmployeeUsersSeeder extends Seeder
             } else {
                 $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
                 $lastInitial = strtolower(substr($employee->last_name, 0, 1));
-                $formattedLastName = strtolower($employee->last_name);
+                $formattedLastName = preg_replace('/\s+/', '', strtolower($employee->last_name));
                 $employeeNumber = $employee->employee_number;
 
-                $username = $firstInitial . $lastInitial . $employeeNumber;
+                $username = $firstInitial.$lastInitial.$employeeNumber;
 
                 // Password: first initial + last name + employee_number
-                $password = $firstInitial . $formattedLastName . $employeeNumber;
+                $password = $firstInitial.$formattedLastName.$employeeNumber;
             }
 
             User::updateOrCreate(
@@ -46,6 +44,6 @@ class EmployeeUsersSeeder extends Seeder
             );
         }
 
-        $this->command->info("All users created for existing employees.");
+        $this->command->info('All users created for existing employees.');
     }
 }

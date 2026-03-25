@@ -24501,6 +24501,157 @@ namespace Livewire {
             }
     }
 
+namespace Storvia\Vantage\Facades {
+    /**
+     * @see \Storvia\Vantage\Vantage
+     */
+    class Vantage {
+        /**
+         * Get the queue depth for all or specific queues.
+         *
+         * @static
+         */
+        public static function queueDepth($queue = null)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->queueDepth($queue);
+        }
+
+        /**
+         * Get jobs with a specific status.
+         *
+         * @static
+         */
+        public static function jobsByStatus($status, $limit = 50)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->jobsByStatus($status, $limit);
+        }
+
+        /**
+         * Get failed jobs.
+         *
+         * @static
+         */
+        public static function failedJobs($limit = 50)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->failedJobs($limit);
+        }
+
+        /**
+         * Get processing jobs.
+         *
+         * @static
+         */
+        public static function processingJobs($limit = 50)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->processingJobs($limit);
+        }
+
+        /**
+         * Get jobs by tag.
+         *
+         * @static
+         */
+        public static function jobsByTag($tag, $limit = 50)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->jobsByTag($tag, $limit);
+        }
+
+        /**
+         * Get statistics for the dashboard.
+         *
+         * @static
+         */
+        public static function statistics($startDate = null)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->statistics($startDate);
+        }
+
+        /**
+         * Retry a failed job.
+         *
+         * @static
+         */
+        public static function retryJob($jobId)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->retryJob($jobId);
+        }
+
+        /**
+         * Clean up stuck processing jobs.
+         *
+         * @static
+         */
+        public static function cleanupStuckJobs($hoursOld = 24)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->cleanupStuckJobs($hoursOld);
+        }
+
+        /**
+         * Prune old jobs.
+         *
+         * @static
+         */
+        public static function pruneOldJobs($daysOld = 30)
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->pruneOldJobs($daysOld);
+        }
+
+        /**
+         * Get the VantageLogger instance.
+         *
+         * @static
+         */
+        public static function logger()
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->logger();
+        }
+
+        /**
+         * Enable Vantage.
+         *
+         * @static
+         */
+        public static function enable()
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->enable();
+        }
+
+        /**
+         * Disable Vantage.
+         *
+         * @static
+         */
+        public static function disable()
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->disable();
+        }
+
+        /**
+         * Check if Vantage is enabled.
+         *
+         * @static
+         */
+        public static function enabled()
+        {
+            /** @var \Storvia\Vantage\Vantage $instance */
+            return $instance->enabled();
+        }
+
+            }
+    }
+
 namespace Orangehill\Iseed\Facades {
     /**
      */
@@ -24963,12 +25114,24 @@ namespace App\Livewire {
      */
     class Register extends \Livewire\Component {
             }
+    /**
+     */
+    class ForgotPassword extends \Livewire\Component {
+            }
+    /**
+     */
+    class ChangePassword extends \Livewire\Component {
+            }
     }
 
 namespace App\Livewire\Admin {
     /**
      */
     class Dashboard extends \Livewire\Component {
+            }
+    /**
+     */
+    class EmployeeList extends \Livewire\Component {
             }
     /**
      */
@@ -24992,6 +25155,14 @@ namespace App\Livewire\Employee {
     /**
      */
     class Dashboard extends \Livewire\Component {
+            }
+    /**
+     */
+    class UpdateProfile extends \Livewire\Component {
+            }
+    /**
+     */
+    class ChangePassword extends \Livewire\Component {
             }
     }
 
@@ -30063,8 +30234,10 @@ namespace  {
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class PDF extends \Barryvdh\DomPDF\Facade\Pdf {}
     class Pdf extends \Barryvdh\DomPDF\Facade\Pdf {}
+    class LivewireAlert extends \Jantinnerezo\LivewireAlert\LivewireAlert {}
     class Flux extends \Flux\Flux {}
     class Livewire extends \Livewire\Livewire {}
+    class Vantage extends \Storvia\Vantage\Facades\Vantage {}
     class Iseed extends \Orangehill\Iseed\Facades\Iseed {}
 }
 

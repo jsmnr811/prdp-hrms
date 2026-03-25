@@ -1,4 +1,9 @@
 <div>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>WFH Management</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>Monitoring</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">WFH Employee Monitoring</h1>
@@ -198,11 +203,14 @@
 
                     let iconHtml;
                     if (location.image_path) {
-                        iconHtml = `<img src="/storage/${location.image_path}" style="width: 48px; height: 48px; object-fit: cover; object-position: center; border-radius: 50%;" />`;
+                        iconHtml =
+                            `<img src="/storage/${location.image_path}" style="width: 48px; height: 48px; object-fit: cover; object-position: center; border-radius: 50%;" />`;
                     } else {
                         // Use initials
-                        const initials = location.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                        iconHtml = `<span style="color: white; font-weight: bold; font-size: 16px;">${initials}</span>`;
+                        const initials = location.name.split(' ').map(n => n[0]).join('').substring(0, 2)
+                            .toUpperCase();
+                        iconHtml =
+                            `<span style="color: white; font-weight: bold; font-size: 16px;">${initials}</span>`;
                     }
 
                     const customIcon = L.divIcon({

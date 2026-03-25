@@ -8,6 +8,7 @@ use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
 use App\Livewire\ChangePassword;
+use App\Livewire\Employee\ChangePassword as EmployeeChangePassword;
 use App\Livewire\Employee\Dashboard as EmployeeDashboard;
 use App\Livewire\Employee\UpdateProfile;
 use App\Livewire\ForgotPassword;
@@ -16,7 +17,7 @@ use App\Livewire\Register;
 use Illuminate\Support\Facades\Route;
 
 // Landing page = Login
-Route::get('/', function (){
+Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 Route::get('/login', Login::class)->name('login')->middleware('guest');
@@ -64,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
 
         // WFH Timelogs
         Route::get('/wfh-timelogs', WfhTimelogs::class)->name('wfh-timelogs');
+
+        // Change Password
+        Route::get('/employee/change-password', EmployeeChangePassword::class)->name('employee.change-password');
     });
 
     // Logout

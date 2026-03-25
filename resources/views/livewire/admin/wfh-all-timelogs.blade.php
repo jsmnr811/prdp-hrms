@@ -1,4 +1,10 @@
 <div>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>WFH Management</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>All TimeLogs</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
     <div class="mb-6 flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All WFH Timelogs</h1>
