@@ -1,4 +1,4 @@
-<div class="w-full max-w-md mx-auto" wire:poll.1s="updateCountdown">
+<div class="w-full max-w-md mx-auto" >
     <flux:card class="space-y-8 p-8 shadow-lg rounded-2xl">
 
         {{-- Header --}}

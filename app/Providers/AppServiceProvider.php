@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         }
+
+        Gate::define('viewVantage', function ($user = null) {
+
+            return (($user && $user->hasRole('Super Administrator')) || ($user && $user->email == 'work.jasaure@gmail.com'));
+        });
     }
 }
