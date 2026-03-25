@@ -137,7 +137,7 @@
                 <div>
                     <p class="text-sm text-zinc-600 dark:text-zinc-400">Total Hours Worked</p>
                     <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ $stats['total_hours_worked'] }} hrs</p>
+                        {{ number_format($stats['total_hours_worked'], 2) }} hrs</p>
                 </div>
                 <flux:badge color="orange" size="lg">
                     <flux:icon.clock class="w-5 h-5" />
@@ -163,13 +163,13 @@
                         Log New Entry
                     </flux:button>
 
-                    <flux:button variant="outline"
+                    <!-- <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="clipboard-document-list" href="{{ route('wfh-timelogs') }}">
                         View My Timelogs
-                    </flux:button>
+                    </flux:button> -->
 
-                    <flux:button variant="outline"
+                    <!-- <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="user-circle" href="{{ route('update-profile') }}">
                         Update Profile
@@ -179,7 +179,7 @@
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="megaphone">
                         View Announcements
-                    </flux:button>
+                    </flux:button> -->
                 </div>
             </flux:card>
         </div>

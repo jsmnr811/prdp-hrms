@@ -45,6 +45,7 @@ class WelcomeEmail extends Mailable implements ShouldQueue
             view: 'emails.welcome_email',
             with: [
                 'user' => $this->user,
+                'password' => $this->password,
                 'siteUrl' => url('/'),
             ],
         );

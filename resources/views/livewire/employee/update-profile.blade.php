@@ -1,4 +1,10 @@
 <div class="w-full max-w-6xl mx-auto bg-white dark:bg-zinc-900">
+        {{-- Breadcrumbs --}}
+        <flux:breadcrumbs class="mb-6">
+            <flux:breadcrumbs.item href="{{ route('dashboard') }}">Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Update Profile</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+
         {{-- Header --}}
         <div class="text-center space-y-4">
             @if($this->employee->image)

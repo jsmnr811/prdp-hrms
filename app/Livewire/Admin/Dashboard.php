@@ -47,15 +47,15 @@ class Dashboard extends Component
 
             // Active employees (Hired)
             'active_employees' => (clone $employeeUsers)
-                ->whereHas('employee', fn ($q) => $q->where('employment_status', 'Hired'))
+                ->whereHas('employee', fn($q) => $q->where('employment_status', 'Hired'))
                 ->count(),
 
             // Total users (excluding admin)
-            'total_users' => User::whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator'))
+            'total_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator'))
                 ->count(),
 
             // Active users (excluding admin)
-            'active_users' => User::whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator'))
+            'active_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator'))
                 ->where('status', 1)
                 ->count(),
 
@@ -64,16 +64,20 @@ class Dashboard extends Component
 
             // New this month
             'new_this_month' => (clone $employeeUsers)
-                ->whereHas('employee', fn ($q) => $q->whereMonth('created_at', now()->month)
-                    ->whereYear('created_at', now()->year)
+                ->whereHas(
+                    'employee',
+                    fn($q) => $q->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year)
                 )
                 ->count(),
 
             // Resigned this month
             'resigned_this_month' => (clone $employeeUsers)
-                ->whereHas('employee', fn ($q) => $q->where('employment_status', 'Resigned')
-                    ->whereMonth('updated_at', now()->month)
-                    ->whereYear('updated_at', now()->year)
+                ->whereHas(
+                    'employee',
+                    fn($q) => $q->where('employment_status', 'Resigned')
+                        ->whereMonth('updated_at', now()->month)
+                        ->whereYear('updated_at', now()->year)
                 )
                 ->count(),
         ];
@@ -82,7 +86,7 @@ class Dashboard extends Component
     private function getRecentEmployees()
     {
         return Employee::with(['office', 'position', 'user'])
-            ->whereHas('user', fn ($q) => $q->whereDoesntHave('roles', fn ($q) => $q->where('name', 'administrator')))
+            ->whereHas('user', fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator')))
             ->latest()
             ->take(5)
             ->get();

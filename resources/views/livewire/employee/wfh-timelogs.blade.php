@@ -1,5 +1,11 @@
 <div>
 
+    {{-- Breadcrumbs --}}
+    <flux:breadcrumbs class="mb-6">
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Home</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>My Timelogs</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
     <div class="mb-6 flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">My TimeLogs</h1>
