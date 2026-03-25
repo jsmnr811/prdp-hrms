@@ -247,6 +247,7 @@
                             }
                 }">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    @if($requireImage)
                     {{-- Selfie Upload (Filepond) --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2">
@@ -313,6 +314,7 @@
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
+                    @endif
 
                     {{-- Location Info Card --}}
                     <div class="flex flex-col justify-center">
