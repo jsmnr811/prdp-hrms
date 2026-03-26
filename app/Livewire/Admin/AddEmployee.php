@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\ActivityLog;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Unit;
@@ -154,6 +155,16 @@ class AddEmployee extends Component
 
         $user = User::create($userData);
         $user->assignRole('employee');
+
+        // Log employee creation
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'add_employee',
+            'description' => "Added employee {$employee->full_name} (Employee #{$employee->employee_number})",
+            'ip_address' => request()->ip(),
+            'affected_user_id' => $user->id,
+            'affected_employee_id' => $employee->id,
+        ]);
 
         // Send welcome email
         SendWelcomeEmailToUser::dispatch($user);

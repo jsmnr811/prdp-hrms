@@ -92,6 +92,12 @@
                             icon="user-group" :href="route('admin.employee-list')">
                             Manage Employees
                         </flux:button>
+
+                        <flux:button variant="outline"
+                            class="w-full justify-start text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            icon="clipboard-document-list" :href="route('admin.activity-logs')">
+                            Activity Logs
+                        </flux:button>
                     </div>
 
                     {{-- <flux:button variant="outline"

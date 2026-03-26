@@ -3,6 +3,7 @@
 namespace App\Livewire\Employee;
 
 use App\Mail\PasswordChanged;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -116,7 +117,12 @@ class ChangePassword extends Component
             'temp_password_expires_at' => null,
             'temp_password' => null,
         ]);
-
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'action' => 'change_password',
+            'description' => 'Changed password',
+            'ip_address' => request()->ip(),
+        ]);
         // Send password changed notification email
         Mail::to($user->email)->send(new PasswordChanged($user));
 

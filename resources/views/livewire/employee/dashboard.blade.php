@@ -178,6 +178,12 @@
                         Change Password
                     </flux:button>
 
+                    <flux:button variant="outline"
+                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+                        icon="clipboard-document-list" href="{{ route('employee.activity-logs') }}">
+                        Activity Logs
+                    </flux:button>
+
                     {{-- <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="megaphone">

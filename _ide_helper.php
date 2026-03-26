@@ -25161,6 +25161,10 @@ namespace App\Livewire\Admin {
      */
     class WfhMonitoring extends \Livewire\Component {
             }
+    /**
+     */
+    class ActivityLogs extends \Livewire\Component {
+            }
     }
 
 namespace App\Livewire\Employee {
@@ -25175,6 +25179,10 @@ namespace App\Livewire\Employee {
     /**
      */
     class ChangePassword extends \Livewire\Component {
+            }
+    /**
+     */
+    class ActivityLogs extends \Livewire\Component {
             }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,14 @@ class Login extends Component
         // Authenticate user
         Auth::login($user, $remember);
         session()->regenerate();
+
+        // Log login activity
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'action' => 'login',
+            'description' => 'User logged in successfully',
+            'ip_address' => request()->ip(),
+        ]);
 
         $user->updateLastLogin();
 

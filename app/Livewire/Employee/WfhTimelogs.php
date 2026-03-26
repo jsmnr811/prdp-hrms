@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employee;
 
+use App\Models\ActivityLog;
 use App\Models\WfhTimelog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -337,6 +338,14 @@ class WfhTimelogs extends Component
             'status' => 'pending',
         ]);
 
+        // Log timelog activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'timelog_timein',
+            'description' => 'Submitted time in for ' . now()->toDateString(),
+            'ip_address' => request()->ip(),
+        ]);
+
         // Reset the file upload and device location
         $this->selfie = null;
         $this->deviceLatitude = null;
@@ -372,6 +381,14 @@ class WfhTimelogs extends Component
             'time_out' => now()->format('H:i:s'),
             'accomplishments' => $this->accomplishments,
             'status' => 'completed',
+        ]);
+
+        // Log timelog activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'timelog_timeout',
+            'description' => 'Submitted time out for ' . $this->date,
+            'ip_address' => request()->ip(),
         ]);
 
         $this->reset(['accomplishments']);

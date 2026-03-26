@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Models\ActivityLog;
 
 class WfhTimelogs extends Component
 {
@@ -337,6 +338,13 @@ class WfhTimelogs extends Component
             'status' => 'pending',
         ]);
 
+         ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'time_in',
+            'description' => 'User timed in successfully',
+            'ip_address' => request()->ip(),
+        ]);
+
         // Reset the file upload and device location
         $this->selfie = null;
         $this->deviceLatitude = null;
@@ -373,6 +381,14 @@ class WfhTimelogs extends Component
             'accomplishments' => $this->accomplishments,
             'status' => 'completed',
         ]);
+
+         ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'time_out',
+            'description' => 'User timed out successfully',
+            'ip_address' => request()->ip(),
+        ]);
+
 
         $this->reset(['accomplishments']);
         $this->addFlash('success', 'Time out recorded successfully!');

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -81,7 +82,14 @@ class ChangePassword extends Component
             'temp_password_expires_at' => null,
             'temp_password' => null,
         ]);
-
+        if ($isTempPasswordChange) {
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'change_password',
+                'description' => 'Changed password (temporary)',
+                'ip_address' => request()->ip(),
+            ]);
+        }
         // Clear form
         $this->reset(['currentPassword', 'newPassword', 'confirmPassword']);
 

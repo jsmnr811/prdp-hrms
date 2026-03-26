@@ -13,6 +13,20 @@
 
 namespace App\Models{
 /**
+ * @property-read \App\Models\Employee|null $affectedEmployee
+ * @property-read \App\Models\User|null $affectedUser
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byAction($action)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog forUser($userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog query()
+ */
+	class ActivityLog extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property int $id
  * @property string $code
  * @property string $name

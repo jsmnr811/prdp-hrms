@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Employee;
 
+use App\Models\ActivityLog;
 use App\Models\Office;
 use App\Models\Position;
 use Illuminate\Support\Facades\Auth;
@@ -245,6 +246,14 @@ class UpdateProfile extends Component
 
         $this->employee->update($data);
 
+        // Log profile update
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update_profile',
+            'description' => 'Updated personal information',
+            'ip_address' => request()->ip(),
+        ]);
+
         session()->flash('personal_message', 'Personal information updated successfully.');
     }
 
@@ -291,6 +300,14 @@ class UpdateProfile extends Component
         ];
 
         $this->employee->update($data);
+
+        // Log profile update
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update_profile',
+            'description' => 'Updated contact information',
+            'ip_address' => request()->ip(),
+        ]);
 
         session()->flash('contact_message', 'Contact information updated successfully.');
     }
@@ -360,6 +377,14 @@ class UpdateProfile extends Component
         ];
 
         $this->employee->update($data);
+
+        // Log profile update
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update_profile',
+            'description' => 'Updated organizational information',
+            'ip_address' => request()->ip(),
+        ]);
 
         session()->flash('organizational_message', 'Organizational information updated successfully.');
     }
@@ -502,6 +527,14 @@ class UpdateProfile extends Component
         // Update password
         $user->update([
             'password' => Hash::make($this->new_password),
+        ]);
+
+        // Log password change
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'change_password',
+            'description' => 'Changed password',
+            'ip_address' => request()->ip(),
         ]);
 
         // Clear fields

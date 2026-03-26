@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\WfhTimelogExportController;
+use App\Models\ActivityLog;
+use App\Livewire\Admin\ActivityLogs as AdminActivityLogs;
 use App\Livewire\Admin\AddEmployee;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\EditEmployee;
@@ -10,6 +12,7 @@ use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
 use App\Livewire\ChangePassword;
+use App\Livewire\Employee\ActivityLogs as EmployeeActivityLogs;
 use App\Livewire\Employee\ChangePassword as EmployeeChangePassword;
 use App\Livewire\Employee\Dashboard as EmployeeDashboard;
 use App\Livewire\Employee\UpdateProfile;
@@ -57,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
 
         // WFH Monitoring (Map)
         Route::get('/admin/wfh-monitoring', WfhMonitoring::class)->name('admin.wfh-monitoring');
+
+        // Activity Logs
+        Route::get('/admin/activity-logs', AdminActivityLogs::class)->name('admin.activity-logs');
     });
 
     // Employee routes - only for Employees
@@ -72,10 +78,20 @@ Route::middleware(['auth'])->group(function () {
 
         // Change Password
         Route::get('/employee/change-password', EmployeeChangePassword::class)->name('employee.change-password');
+
+        // Activity Logs
+        Route::get('/employee/activity-logs', EmployeeActivityLogs::class)->name('employee.activity-logs');
     });
 
     // Logout
     Route::post('/logout', function () {
+        $user = Auth::user();
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'action' => 'logout',
+            'description' => 'User logged out',
+            'ip_address' => request()->ip(),
+        ]);
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();

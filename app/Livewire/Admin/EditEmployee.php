@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\ActivityLog;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Unit;
@@ -179,6 +180,16 @@ class EditEmployee extends Component
         if ($user) {
             $user->syncRoles([$this->role]);
         }
+
+        // Log employee edit
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'edit_employee',
+            'description' => "Edited employee {$employee->full_name} (Employee #{$employee->employee_number})",
+            'ip_address' => request()->ip(),
+            'affected_user_id' => $user ? $user->id : null,
+            'affected_employee_id' => $employee->id,
+        ]);
 
         session()->flash('message', 'Employee updated successfully.');
 
