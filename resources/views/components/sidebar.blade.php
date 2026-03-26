@@ -26,9 +26,7 @@
                     wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
-            @endrole
 
-            @role('employee')
                 <flux:sidebar.item icon="clock"
                     :href="auth()->user()->hasRole('admin') ? route('admin.wfh-timelogs') : route('wfh-timelogs')"
                     :current="request()->routeIs(auth()->user()->hasRole('admin') ? 'admin.wfh-timelogs' : 'wfh-timelogs')"
@@ -38,11 +36,6 @@
             @endrole
 
             @role('administrator')
-                <flux:sidebar.item icon="users" :href="route('admin.employee-list')"
-                    :current="request()->routeIs('admin.employee-list')" wire:navigate>
-                    {{ __('Employee List') }}
-                </flux:sidebar.item>
-
                 <flux:sidebar.item icon="building-office-2">
                     {{ __('Offices & Units') }}
                 </flux:sidebar.item>
@@ -56,10 +49,10 @@
         @role('administrator')
             <flux:sidebar.group :heading="__('User Management')" class="grid">
 
-                <flux:sidebar.item icon="user">
-                    {{ __('Users') }}
+                <flux:sidebar.item icon="users" :href="route('admin.employee-list')"
+                    :current="request()->routeIs('admin.employee-list')" wire:navigate>
+                    {{ __('Employees') }}
                 </flux:sidebar.item>
-
 
                 <flux:sidebar.item icon="shield-check">
                     {{ __('Roles & Permissions') }}
@@ -75,8 +68,11 @@
                     </flux:sidebar.item>
                     <flux:sidebar.item href="{{ route('admin.wfh-all-timelogs') }}" wire:navigate>All TimeLogs
                     </flux:sidebar.item>
-                    <flux:sidebar.item href="{{ route('admin.wfh-monitoring') }}" wire:navigate>Monitoring
-                    </flux:sidebar.item>
+                    @if (config('wfh.require_location'))
+                        <flux:sidebar.item href="{{ route('admin.wfh-monitoring') }}" wire:navigate>
+                            Monitoring
+                        </flux:sidebar.item>
+                    @endif
                 </flux:sidebar.group>
             </flux:sidebar.group>
         @endrole

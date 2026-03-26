@@ -9,6 +9,8 @@ use App\Models\Position;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+
 
 class Dashboard extends Component
 {
@@ -17,6 +19,18 @@ class Dashboard extends Component
         if (! Auth::user()->hasRole('administrator')) {
             abort(403, 'Unauthorized access');
         }
+    }
+
+      public function confirmSendWelcomeEmails()
+    {
+        LivewireAlert::title('Send Welcome Emails')
+            ->text('Are you sure you want to resend welcome emails to all users?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Send Emails')
+            ->withCancelButton('Cancel')
+            ->onConfirm('sendWelcomeEmails')
+            ->show();
     }
 
     public function sendWelcomeEmails()

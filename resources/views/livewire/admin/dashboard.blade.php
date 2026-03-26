@@ -87,27 +87,15 @@
 
                     <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="document-arrow-down">
-                        Generate Report
-                    </flux:button>
-
-                    <flux:button variant="outline"
-                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="user-group">
                         Manage Users
                     </flux:button>
 
-                    <flux:button variant="outline"
+                    {{-- <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="cog-6-tooth">
-                        System Settings
-                    </flux:button>
-
-                    <flux:button variant="outline"
-                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="envelope" wire:click="sendWelcomeEmails">
+                        icon="envelope" wire:click="confirmSendWelcomeEmails">
                         Send Welcome Emails
-                    </flux:button>
+                    </flux:button> --}}
                 </div>
             </flux:card>
         </div>

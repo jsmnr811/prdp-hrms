@@ -42,7 +42,7 @@ class SendWelcomeEmailToUser implements ShouldQueue
 
         // Generate default password
         $firstInitial = strtoupper(substr($user->employee->first_name, 0, 1));
-        $lastName = strtolower($user->employee->last_name);
+        $lastName = preg_replace('/\s+/', '', strtolower($user->employee->last_name));
         $defaultPassword = $firstInitial . $lastName . $user->employee_number;
 
         // Update user password

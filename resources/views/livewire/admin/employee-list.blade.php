@@ -1,7 +1,8 @@
 <div class="space-y-6 p-6">
 
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item href="{{ route('admin.employee-list') }}">Employee List</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>User Management</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="{{ route('admin.employee-list') }}">Employees</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     {{-- Flash Messages --}}
@@ -19,8 +20,17 @@
 
     {{-- Filters and Search --}}
     <div class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md rounded-lg p-6">
-        <h2 class="text-lg font-semibold mb-4 dark:text-white">Employee List</h2>
-
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold dark:text-white">Employees</h2>
+            <a href="{{ route('admin.add-employee') }}"
+                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
+                Add Employee
+                <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </a>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             {{-- Search --}}
             <div class="mb-4">
@@ -73,8 +83,10 @@
             <table class="w-full text-sm text-left border-collapse">
                 <thead class="text-xs text-zinc-600 uppercase bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-400">
                     <tr>
+                        <th class="px-2 py-3">Image</th>
+
                         <th wire:click="sortBy('employee_number')"
-                            class="px-4 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                            class="px-2 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
                             Employee #
                             @if ($sortField === 'employee_number')
                                 @if ($sortDirection === 'asc')
@@ -84,9 +96,8 @@
                                 @endif
                             @endif
                         </th>
-                        <th class="px-4 py-3">Image</th>
                         <th wire:click="sortBy('first_name')"
-                            class="px-4 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                            class="px-2 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
                             Name
                             @if ($sortField === 'first_name')
                                 @if ($sortDirection === 'asc')
@@ -96,9 +107,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th class="px-4 py-3">Email</th>
+                        <th class="px-2 py-3">Email</th>
                         <th wire:click="sortBy('employment_status')"
-                            class="px-4 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                            class="px-2 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
                             Status
                             @if ($sortField === 'employment_status')
                                 @if ($sortDirection === 'asc')
@@ -108,22 +119,24 @@
                                 @endif
                             @endif
                         </th>
-                        <th class="px-4 py-3">Actions</th>
+                        <th class="px-2 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($employees as $employee)
                         <tr
                             class="border-b dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors">
-                            <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
+                            <td class="px-2 py-3">
+                                <flux:avatar src="{{ $employee->image ? asset('storage/' . $employee->image) : null }}"
+                                    name="{{ $employee->full_name }}" size="sm" />
+                            </td>
+                            <td class="px-2 py-3 font-medium text-zinc-900 dark:text-white">
                                 {{ $employee->formatted_employee_number }}
                             </td>
-                            <td class="px-4 py-3">
-                                <flux:avatar src="{{ $employee->image ? asset('storage/' . $employee->image) : null }}" name="{{ $employee->full_name }}" size="sm" />
-                            </td>
-                            <td class="px-4 py-3 text-zinc-900 dark:text-white">{{ $employee->full_name }}</td>
-                            <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">{{ $employee->email }}</td>
-                            <td class="px-4 py-3">
+
+                            <td class="px-2 py-3 text-zinc-900 dark:text-white">{{ $employee->full_name }}</td>
+                            <td class="px-2 py-3 text-zinc-700 dark:text-zinc-300">{{ $employee->email }}</td>
+                            <td class="px-2 py-3">
                                 <span
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                     @if ($employee->employment_status === 'Hired') bg-green-100 text-green-800
@@ -132,18 +145,41 @@
                                     {{ $employee->employment_status }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3">
+                            <td class="px-2 py-3 relative">
                                 @if ($employee->user)
-                                    <button class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
-                                        wire:click="resendWelcomeEmail({{ $employee->user->id }})"
-                                        wire:confirm="Resend welcome email to {{ $employee->full_name }}?">
-                                        Resend Email
-                                    </button>
-                                    <button
-                                        class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 ml-2"
-                                        wire:click="openResetPasswordModal({{ $employee->id }})">
-                                        Reset Password
-                                    </button>
+                                    <div x-data="{ open: false }" class="inline-block text-left">
+                                        <button @click="open = !open"
+                                            class="inline-flex justify-center w-full px-3 py-1 text-sm font-medium bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            Actions
+                                            <svg class="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+
+                                        <div x-show="open" @click.away="open = false"
+                                            class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-zinc-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                                            x-transition:enter="transition ease-out duration-100"
+                                            x-transition:enter-start="transform opacity-0 scale-95"
+                                            x-transition:enter-end="transform opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="transform opacity-100 scale-100"
+                                            x-transition:leave-end="transform opacity-0 scale-95">
+                                            <div class="py-1">
+                                                {{-- <button wire:click="confirmResendWelcomeEmail({{ $employee->employee_number }})"
+                                                    class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
+                                                    Resend Email
+                                                </button> --}}
+                                                <button
+                                                    wire:click="confirmResetPassword({{ $employee->employee_number }})"
+                                                    class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
+                                                    Reset Password
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @else
                                     <span class="text-zinc-500 dark:text-zinc-400">No User</span>
                                 @endif
@@ -151,7 +187,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-4 py-8 text-center text-zinc-600 dark:text-zinc-400">
+                            <td colspan="6" class="px-2 py-8 text-center text-zinc-600 dark:text-zinc-400">
                                 No employees found
                             </td>
                         </tr>
@@ -165,30 +201,4 @@
             {{ $employees->links() }}
         </div>
     </div>
-    {{-- Reset Password Modal --}}
-    @if ($showResetPasswordModal)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" wire:ignore.self>
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-zinc-800">
-                <div class="mt-3 text-center">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">Reset Password</h3>
-                    <div class="mt-2 px-7 py-3">
-                        <p class="text-sm text-gray-600 dark:text-zinc-400">Are you sure you want to reset this
-                            employee's password to the default format?</p>
-                        <div class="flex items-center px-4 py-3 space-x-2">
-                            <button type="button"
-                                class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md flex-1 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                                wire:click="resetPassword">
-                                Reset Password
-                            </button>
-                            <button type="button"
-                                class="px-4 py-2 bg-gray-300 dark:bg-zinc-600 text-gray-900 dark:text-zinc-100 text-base font-medium rounded-md flex-1 shadow-sm hover:bg-gray-400 dark:hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                                wire:click="$set('showResetPasswordModal', false)">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 </div>

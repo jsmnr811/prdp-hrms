@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-use App\Jobs\SendWelcomeEmailToUser;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Unit;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 class EmployeeList extends Component
 {
@@ -71,10 +71,29 @@ class EmployeeList extends Component
             $this->sortDirection = 'asc';
         }
     }
-
-    public function resendWelcomeEmail($userId)
+    public function confirmResendWelcomeEmail($employeeId)
     {
-        $user = User::find($userId);
+        $employee = Employee::where('employee_number', $employeeId)->first();
+        if (!$employee) {
+            session()->flash('error', 'Employee not found.');
+            return;
+        }
+
+        $employeeName = $employee->first_name . ' ' . $employee->last_name;
+
+        LivewireAlert::title('Send Welcome Emails')
+            ->text("Are you sure you want to resend welcome emails to \"{$employeeName}\"?")
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Send Emails')
+            ->withCancelButton('Cancel')
+            // pass the ID as a parameter to the callback
+            ->onConfirm('resendWelcomeEmail', ['employeeId' => $employeeId])
+            ->show();
+    }
+    public function resendWelcomeEmail($employeeId)
+    {
+        $user = User::where('employee_number', $employeeId)->first();
         if (!$user || !$user->employee) {
             session()->flash('error', 'User not found or has no employee record.');
             return;
@@ -98,15 +117,30 @@ class EmployeeList extends Component
         session()->flash('message', 'Password reset to default and welcome email sent to ' . $user->name);
     }
 
-    public function openResetPasswordModal($employeeId)
+    public function confirmResetPassword($employeeId)
     {
-        $this->selectedEmployeeId = $employeeId;
-        $this->showResetPasswordModal = true;
+        $employee = Employee::where('employee_number', $employeeId)->first();
+
+        if (!$employee || !$employee->user) {
+            session()->flash('error', 'Employee or user not found.');
+            return;
+        }
+
+        $employeeName = $employee->first_name . ' ' . $employee->last_name;
+
+        LivewireAlert::title('Reset Password')
+            ->text("Are you sure you want to reset the password for \"{$employeeName}\" to the default?")
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Reset Password')
+            ->withCancelButton('Cancel')
+            ->onConfirm('resetPassword', ['employeeId' => $employeeId])
+            ->show();
     }
 
-    public function resetPassword()
+    public function resetPassword($employeeId)
     {
-        $employee = Employee::find($this->selectedEmployeeId);
+        $employee = Employee::where('employee_number', $employeeId)->first();
         if (!$employee || !$employee->user) {
             session()->flash('error', 'Employee or user not found.');
             return;
@@ -114,7 +148,7 @@ class EmployeeList extends Component
 
         // Generate default password: first initial + last name + employee number
         $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
-        $lastName = trim($employee->last_name);
+        $lastName = preg_replace('/\s+/', '', strtolower($employee->last_name));
         $employeeNumber = $employee->employee_number;
         $defaultPassword = $firstInitial . $lastName . $employeeNumber;
 
@@ -126,7 +160,6 @@ class EmployeeList extends Component
         Mail::to($employee->user->email)->send(new \App\Mail\TemporaryPassword($employee->user, $defaultPassword, $employeeNumber));
 
         session()->flash('message', 'Password reset to default and notification email sent to ' . $employee->user->name);
-        $this->showResetPasswordModal = false;
     }
 
     public function render()
@@ -138,8 +171,8 @@ class EmployeeList extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->whereRaw("CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) LIKE ?", ['%' . $this->search . '%'])
-                      ->orWhere('email', 'like', '%' . $this->search . '%')
-                      ->orWhere('employee_number', 'like', '%' . $this->search . '%');
+                        ->orWhere('email', 'like', '%' . $this->search . '%')
+                        ->orWhere('employee_number', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->statusFilter, function ($query) {

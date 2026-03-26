@@ -211,6 +211,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $temp_password_expires_at
+ * @property int $password_reset_attempts
+ * @property \Illuminate\Support\Carbon|null $password_reset_date
+ * @property string|null $temp_password
  * @property-read \App\Models\Employee|null $employee
  * @property-read string|null $email
  * @property-read string|null $name
@@ -237,8 +241,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMustChangePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePasswordChangedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePasswordResetAttempts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePasswordResetDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTempPassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTempPasswordExpiresAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
