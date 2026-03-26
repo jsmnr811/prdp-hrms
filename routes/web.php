@@ -3,6 +3,7 @@
 use App\Http\Controllers\WfhTimelogExportController;
 use App\Livewire\Admin\AddEmployee;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\EditEmployee;
 use App\Livewire\Admin\EmployeeList;
 use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
         // Employee List
         Route::get('/admin/employee-list', EmployeeList::class)->name('admin.employee-list');
         Route::get('/admin/add-employee', AddEmployee::class)->name('admin.add-employee');
+        Route::get('/admin/edit-employee/{employeeId}', EditEmployee::class)->name('admin.edit-employee');
 
         // WFH Timelogs
         Route::get('/admin/wfh-timelogs', WfhTimelogs::class)->name('admin.wfh-timelogs');

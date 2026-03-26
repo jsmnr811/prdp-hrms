@@ -162,6 +162,11 @@ class EmployeeList extends Component
         session()->flash('message', 'Password reset to default and notification email sent to ' . $employee->user->name);
     }
 
+    public function editEmployee($employeeId)
+    {
+        return redirect()->route('admin.edit-employee', $employeeId);
+    }
+
     public function render()
     {
         $employees = Employee::with(['user', 'office', 'unit', 'position'])

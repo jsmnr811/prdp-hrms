@@ -81,15 +81,18 @@
                 <flux:heading size="lg" class="dark:text-white">Quick Actions</flux:heading>
 
                 <div class="space-y-2">
-                    <flux:button variant="primary" class="w-full justify-start" icon="user-plus">
-                        Add New Employee
-                    </flux:button>
+                    <div class="space-y-2">
+                        <flux:button variant="primary" class="w-full justify-start text-sm font-medium" icon="user-plus"
+                            :href="route('admin.add-employee')">
+                            Add New Employee
+                        </flux:button>
 
-                    <flux:button variant="outline"
-                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="user-group">
-                        Manage Users
-                    </flux:button>
+                        <flux:button variant="outline"
+                            class="w-full justify-start text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            icon="user-group" :href="route('admin.employee-list')">
+                            Manage Employees
+                        </flux:button>
+                    </div>
 
                     {{-- <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
@@ -136,8 +139,8 @@
                                     <td class="px-4 py-3">
                                         <flux:badge
                                             :color="
-                                                                                                                                        $employee->employment_status === 'Hired' ? 'green' :
-                                                                                                                                        ($employee->employment_status === 'Resigned' ? 'red' : 'yellow')
+                                                                                                                                                                                    $employee->employment_status === 'Hired' ? 'green' :
+                                                                                                                                                                                    ($employee->employment_status === 'Resigned' ? 'red' : 'yellow')
                                             "
                                             size="sm">
                                             {{ $employee->employment_status }}

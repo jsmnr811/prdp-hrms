@@ -168,6 +168,10 @@
                                             x-transition:leave-start="transform opacity-100 scale-100"
                                             x-transition:leave-end="transform opacity-0 scale-95">
                                             <div class="py-1">
+                                                <button wire:click="editEmployee({{ $employee->id }})"
+                                                    class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
+                                                    Edit Employee
+                                                </button>
                                                 {{-- <button wire:click="confirmResendWelcomeEmail({{ $employee->employee_number }})"
                                                     class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
                                                     Resend Email

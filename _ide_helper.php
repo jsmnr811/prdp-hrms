@@ -25143,6 +25143,10 @@ namespace App\Livewire\Admin {
             }
     /**
      */
+    class EditEmployee extends \Livewire\Component {
+            }
+    /**
+     */
     class WfhTimelogs extends \Livewire\Component {
             }
     /**
