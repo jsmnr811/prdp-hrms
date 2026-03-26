@@ -1,4 +1,4 @@
-<div class="space-y-6 p-6">
+<div class="space-y-6">
     <flux:breadcrumbs class="mb-6">
         <flux:breadcrumbs.item>Dashboard</flux:breadcrumbs.item>
     </flux:breadcrumbs>
@@ -166,17 +166,11 @@
                         Log New Entry
                     </flux:button>
 
-                    {{-- <flux:button variant="outline"
-                        class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                        icon="clipboard-document-list" href="{{ route('wfh-timelogs') }}">
-                        View My Timelogs
-                    </flux:button>  --}}
-
-                    {{-- <flux:button variant="outline"
+                    <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                         icon="user-circle" href="{{ route('update-profile') }}">
                         Update Profile
-                    </flux:button> --}}
+                    </flux:button>
 
                     <flux:button variant="outline"
                         class="w-full justify-start dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700"
@@ -212,7 +206,6 @@
                                 <th class="px-4 py-3">Time In</th>
                                 <th class="px-4 py-3">Time Out</th>
                                 <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Accomplishments</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -228,16 +221,13 @@
                                     <td class="px-4 py-3">
                                         <flux:badge
                                             :color="
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $timelog->status === 'approved' ? 'green' :
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ($timelog->status === 'rejected' ? 'red' :
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ($timelog->status === 'pending' ? 'yellow' : 'gray'))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            $timelog->status === 'approved' ? 'green' :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ($timelog->status === 'rejected' ? 'red' :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ($timelog->status === 'pending' ? 'yellow' : 'gray'))
                                             "
                                             size="sm">
                                             {{ ucfirst($timelog->status) }}
                                         </flux:badge>
-                                    </td>
-                                    <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300 max-w-xs truncate">
-                                        {{ $timelog->accomplishments ?? 'N/A' }}
                                     </td>
                                 </tr>
                             @empty

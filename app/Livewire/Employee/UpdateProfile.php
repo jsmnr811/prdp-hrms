@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Employee;
 
-use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Position;
-use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -75,12 +76,28 @@ class UpdateProfile extends Component
 
         $this->employee = Auth::user()->employee;
 
-        // Basic fields...
+        // Personal information
         $this->first_name = $this->employee->first_name;
         $this->last_name = $this->employee->last_name;
-        // (keep the rest as is)
+        $this->middle_name = $this->employee->middle_name;
+        $this->suffix = $this->employee->suffix;
+        $this->gender = $this->employee->gender;
+        $this->birth_date = $this->employee->birth_date ? $this->employee->birth_date->format('Y-m-d') : null;
+        $this->tin = $this->employee->tin;
+        $this->blood_type = $this->employee->blood_type;
+        $this->landbank_account = $this->employee->landbank_account;
+        $this->height = $this->employee->height;
+        $this->weight = $this->employee->weight;
 
-        // ✅ Set selected values FIRST
+        // Contact information
+        $this->email = $this->employee->email;
+        $this->contact_number = $this->employee->contact_number;
+        $this->address = $this->employee->address;
+        $this->emergency_contact_name = $this->employee->emergency_contact_name;
+        $this->emergency_contact_relationship = $this->employee->emergency_contact_relationship;
+        $this->emergency_contact_number = $this->employee->emergency_contact_number;
+
+        // Organizational information
         $this->office_id = $this->employee->office_id;
         $this->unit_id = $this->employee->unit_id;
         $this->position_id = $this->employee->position_id;
@@ -99,25 +116,76 @@ class UpdateProfile extends Component
     }
 
     /**
-     * Save Personal Information
+     * Store uploaded image with random filename in employee-specific directory
      */
-    public function updatePersonal()
+    private function storeImage()
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        // Delete the old image if it exists
+        if ($this->employee->image) {
+            Storage::disk('public')->delete($this->employee->image);
+        }
+
+        $filename = Str::random(40) . '.' . $this->image->getClientOriginalExtension();
+
+        $directory = 'employee_images/' . $this->employee->employee_number;
+        Storage::disk('public')->makeDirectory($directory);
+
+        $path = $directory . '/' . $filename;
+        Storage::disk('public')->put($path, file_get_contents($this->image->getRealPath()));
+
+        return $path;
+    }
+
+    private function properCase($value)
+    {
+        if (!$value) return $value;
+
+        return collect(explode(' ', strtolower($value)))
+            ->map(function ($word) {
+                return ucfirst($word);
+            })
+            ->implode(' ');
+    }
+
+    /**
+     * Confirm Personal Information Update
+     */
+    public function confirmPersonal()
     {
         $this->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'suffix' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|in:Male,Female',
-            'birth_date' => 'nullable|date',
-            'tin' => 'nullable|string|max:255',
-            'blood_type' => 'nullable|string|max:10',
-            'landbank_account' => 'nullable|string|max:255',
-            'height' => 'nullable|numeric|min:0|max:300',
-            'weight' => 'nullable|numeric|min:0|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gender' => 'required|string|in:Male,Female',
+            'birth_date' => 'required|date',
+            'tin' => 'required|string|regex:/^\d{3}-\d{3}-\d{3}$/',
+            'blood_type' => 'required|string|max:10',
+            'landbank_account' => 'required|string|max:255',
+            'height' => 'required|numeric|min:0|max:300',
+            'weight' => 'required|numeric|min:0|max:500',
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif,jfif|max:5120',
         ]);
 
+        LivewireAlert::title('Confirm Personal Information Update')
+            ->text('Are you sure you want to update your personal information?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Update')
+            ->withCancelButton('Cancel')
+            ->onConfirm('confirmedPersonal')
+            ->show();
+    }
+
+    /**
+     * Confirmed Personal Information Update
+     */
+    public function confirmedPersonal()
+    {
         $data = [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -132,10 +200,7 @@ class UpdateProfile extends Component
             'weight' => $this->weight,
         ];
 
-        if ($this->image) {
-            $imagePath = $this->image->store('employee_images', 'public');
-            $data['image'] = $imagePath;
-        }
+        $data['image'] = $this->storeImage();
 
         $this->employee->update($data);
 
@@ -143,15 +208,56 @@ class UpdateProfile extends Component
     }
 
     /**
-     * Save Contact Information
+     * Save Personal Information
      */
-    public function updateContact()
+    public function updatePersonal()
+    {
+        $this->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'suffix' => 'nullable|string|max:255',
+            'gender' => 'required|string|in:Male,Female',
+            'birth_date' => 'required|date',
+            'tin' => 'required|string|regex:/^\d{3}-\d{3}-\d{3}$/',
+            'blood_type' => 'required|string|max:10',
+            'landbank_account' => 'required|string|max:255',
+            'height' => 'required|numeric|min:0|max:300',
+            'weight' => 'required|numeric|min:0|max:500',
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif,jfif|max:5120',
+        ]);
+
+        $data = [
+            'first_name' => $this->properCase($this->first_name),
+            'last_name' => $this->properCase($this->last_name),
+            'middle_name' => $this->properCase($this->middle_name),
+            'suffix' => $this->suffix,
+            'gender' => $this->gender,
+            'birth_date' => $this->birth_date,
+            'tin' => $this->tin,
+            'blood_type' => $this->blood_type,
+            'landbank_account' => $this->landbank_account,
+            'height' => $this->height,
+            'weight' => $this->weight,
+        ];
+
+        $data['image'] = $this->storeImage();
+
+        $this->employee->update($data);
+
+        session()->flash('personal_message', 'Personal information updated successfully.');
+    }
+
+    /**
+     * Confirm Contact Information Update
+     */
+    public function confirmContact()
     {
         $this->validate([
             'email' => [
                 'required',
                 'email',
-                Rule::unique('employees')->ignore($this->employee->id),
+                Rule::unique('employees', 'email')->ignore($this->employee->id),
             ],
             'contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
             'address' => 'required|string|max:500',
@@ -160,6 +266,21 @@ class UpdateProfile extends Component
             'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
         ]);
 
+        LivewireAlert::title('Confirm Contact Information Update')
+            ->text('Are you sure you want to update your contact information?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Update')
+            ->withCancelButton('Cancel')
+            ->onConfirm('confirmedContact')
+            ->show();
+    }
+
+    /**
+     * Confirmed Contact Information Update
+     */
+    public function confirmedContact()
+    {
         $data = [
             'email' => $this->email,
             'contact_number' => $this->contact_number,
@@ -172,6 +293,75 @@ class UpdateProfile extends Component
         $this->employee->update($data);
 
         session()->flash('contact_message', 'Contact information updated successfully.');
+    }
+
+    /**
+     * Save Contact Information
+     */
+    public function updateContact()
+    {
+        $this->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('employees', 'email')->ignore($this->employee->id),
+            ],
+            'contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
+            'address' => 'required|string|max:500',
+            'emergency_contact_name' => 'required|string|max:255',
+            'emergency_contact_relationship' => 'required|string|max:255',
+            'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
+        ]);
+
+        $data = [
+            'email' => $this->email,
+            'contact_number' => $this->contact_number,
+            'address' => $this->address,
+            'emergency_contact_name' => $this->properCase($this->emergency_contact_name),
+            'emergency_contact_relationship' => $this->emergency_contact_relationship,
+            'emergency_contact_number' => $this->emergency_contact_number,
+        ];
+
+        $this->employee->update($data);
+
+        session()->flash('contact_message', 'Contact information updated successfully.');
+    }
+
+    /**
+     * Confirm Organizational Information Update
+     */
+    public function confirmOrganizational()
+    {
+        $this->validate([
+            'office_id' => 'required|exists:offices,id',
+            'position_id' => 'required|exists:positions,id',
+            'unit_id' => 'nullable|exists:units,id',
+        ]);
+
+        LivewireAlert::title('Confirm Organizational Information Update')
+            ->text('Are you sure you want to update your organizational information?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Update')
+            ->withCancelButton('Cancel')
+            ->onConfirm('confirmedOrganizational')
+            ->show();
+    }
+
+    /**
+     * Confirmed Organizational Information Update
+     */
+    public function confirmedOrganizational()
+    {
+        $data = [
+            'office_id' => $this->office_id,
+            'position_id' => $this->position_id,
+            'unit_id' => $this->showUnit ? $this->unit_id : null,
+        ];
+
+        $this->employee->update($data);
+
+        session()->flash('organizational_message', 'Organizational information updated successfully.');
     }
 
     /**
@@ -213,14 +403,14 @@ class UpdateProfile extends Component
                 'email',
                 Rule::unique('employees')->ignore($this->employee->id),
             ],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,jfif|max:5120',
             'address' => 'required|string|max:500',
             'emergency_contact_name' => 'required|string|max:255',
             'emergency_contact_relationship' => 'required|string|max:255',
             'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
             'gender' => 'nullable|string|in:Male,Female',
             'birth_date' => 'nullable|date',
-            'tin' => 'nullable|string|max:255',
+            'tin' => 'nullable|string|regex:/^\d{3}-\d{3}-\d{3}$/',
             'blood_type' => 'nullable|string|max:10',
             'landbank_account' => 'nullable|string|max:255',
             'height' => 'nullable|numeric|min:0|max:300',
@@ -251,8 +441,7 @@ class UpdateProfile extends Component
         ];
 
         if ($this->image) {
-            $imagePath = $this->image->store('employee_images', 'public');
-            $data['image'] = $imagePath;
+            $data['image'] = $this->storeImage();
         }
 
         $this->employee->update($data);

@@ -295,6 +295,14 @@ class Register extends Component
 
         return $rules;
     }
+    private function properCase($value)
+    {
+        if (!$value) return $value;
+
+        return collect(explode(' ', strtolower(trim($value))))
+            ->map(fn($word) => ucfirst($word))
+            ->implode(' ');
+    }
 
     public function updatedOfficeId()
     {
@@ -389,10 +397,9 @@ class Register extends Component
             ];
 
             // Format names properly
-            $firstName = $this->first_name ? ucwords(strtolower($this->first_name)) : null;
-            $lastName = $this->last_name ? ucwords(strtolower($this->last_name)) : null;
-            $middleName = $this->middle_name ? ucwords(strtolower($this->middle_name)) : null;
-            $middleInitial = $middleName ? strtoupper(substr($middleName, 0, 1)) . '.' : null;
+            $firstName = $this->properCase($this->first_name);
+            $lastName = $this->properCase($this->last_name);
+            $middleName = $this->properCase($this->middle_name);
             $suffix = $this->suffix ? ($suffixMap[strtolower($this->suffix)] ?? ucwords(strtolower($this->suffix))) : null;
 
             // Create new employee
@@ -401,7 +408,6 @@ class Register extends Component
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'middle_name' => $middleName,
-                'middle_initial' => $middleInitial,
                 'suffix' => $suffix,
                 'contact_number' => $this->contact_number,
                 'email' => $this->email,

@@ -84,6 +84,7 @@
                                 @endif
                             @endif
                         </th>
+                        <th class="px-4 py-3">Image</th>
                         <th wire:click="sortBy('first_name')"
                             class="px-4 py-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800">
                             Name
@@ -117,6 +118,9 @@
                             <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
                                 {{ $employee->formatted_employee_number }}
                             </td>
+                            <td class="px-4 py-3">
+                                <flux:avatar src="{{ $employee->image ? asset('storage/' . $employee->image) : null }}" name="{{ $employee->full_name }}" size="sm" />
+                            </td>
                             <td class="px-4 py-3 text-zinc-900 dark:text-white">{{ $employee->full_name }}</td>
                             <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">{{ $employee->email }}</td>
                             <td class="px-4 py-3">
@@ -147,7 +151,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-zinc-600 dark:text-zinc-400">
+                            <td colspan="6" class="px-4 py-8 text-center text-zinc-600 dark:text-zinc-400">
                                 No employees found
                             </td>
                         </tr>
