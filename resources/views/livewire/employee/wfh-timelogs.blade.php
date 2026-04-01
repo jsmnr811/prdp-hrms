@@ -63,27 +63,79 @@
             @endphp
 
             @if ($completedTimelog)
-                {{-- Completed Timelog --}}
-                <div
-                    class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 text-center">
-                    <div
-                        class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                @if ($editing)
+                    {{-- Edit Form --}}
+                    <form wire:submit.prevent="saveEdit" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center">
+                                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-blue-800 dark:text-blue-400 mb-4 text-center">Edit Today's Timelog</h3>
+
+                        <div class="space-y-4">
+                            {{-- Time Out --}}
+                            <div>
+                                <label for="editTimeOut" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2">
+                                    Time Out <span class="text-red-500">*</span>
+                                </label>
+                                <input type="time" id="editTimeOut" wire:model="editTimeOut"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('editTimeOut')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            {{-- Accomplishments --}}
+                            <div>
+                                <label for="editAccomplishments" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-2">
+                                    Accomplishments <span class="text-red-500">*</span>
+                                </label>
+                                <textarea id="editAccomplishments" wire:model="editAccomplishments" rows="4"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"></textarea>
+                                @error('editAccomplishments')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 mt-6">
+                            <button type="submit" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+                                Save Changes
+                            </button>
+                            <button type="button" wire:click="cancelEdit" class="flex-1 px-4 py-2 bg-gray-300 dark:bg-zinc-600 hover:bg-gray-400 dark:hover:bg-zinc-500 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg transition-colors">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    {{-- Completed Timelog --}}
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-green-800 dark:text-green-400 mb-2">Day Completed!</h3>
+                        <p class="text-sm text-green-600 dark:text-green-500 mb-4">
+                            You have successfully timed in and out for today.
+                        </p>
+                        <div class="flex justify-center gap-4 text-sm text-gray-600 dark:text-zinc-400 mb-4">
+                            <span>Time In: <strong>{{ \Carbon\Carbon::parse($completedTimelog->time_in)->format('h:i A') }}</strong></span>
+                            <span>Time Out: <strong>{{ \Carbon\Carbon::parse($completedTimelog->time_out)->format('h:i A') }}</strong></span>
+                        </div>
+                        @if ($completedTimelog->date === now()->toDateString())
+                            <button wire:click="startEdit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Edit
+                            </button>
+                        @endif
                     </div>
-                    <h3 class="text-lg font-semibold text-green-800 dark:text-green-400 mb-2">Day Completed!</h3>
-                    <p class="text-sm text-green-600 dark:text-green-500 mb-4">
-                        You have successfully timed in and out for today.
-                    </p>
-                    <div class="flex justify-center gap-4 text-sm text-gray-600 dark:text-zinc-400">
-                        <span>Time In:
-                            <strong>{{ \Carbon\Carbon::parse($completedTimelog->time_in)->format('h:i A') }}</strong></span>
-                        <span>Time Out:
-                            <strong>{{ \Carbon\Carbon::parse($completedTimelog->time_out)->format('h:i A') }}</strong></span>
-                    </div>
-                </div>
+                @endif
             @elseif ($currentTimelog)
                 {{-- Time Out Form --}}
                 <form wire:submit.prevent="timeOut">
@@ -136,7 +188,7 @@
                                 alert('Geolocation is not supported by your browser');
                                 return;
                             }
-                
+
                             navigator.geolocation.getCurrentPosition(
                                 (position) => {
                                     @this.set('deviceLatitude', position.coords.latitude);
@@ -155,35 +207,35 @@
                         async extractGpsFromFile(file) {
                                 // Client-side EXIF extraction using a simple GPS parser
                                 if (!file) return null;
-                
+
                                 try {
                                     const arrayBuffer = await file.arrayBuffer();
                                     const view = new DataView(arrayBuffer);
-                
+
                                     // Look for EXIF marker (0xFFE1)
                                     let offset = 2;
                                     while (offset < view.byteLength) {
                                         if (view.getUint16(offset) === 0xFFE1) {
                                             // Found APP1 marker
                                             const exifStart = offset + 4;
-                
+
                                             // Check for 'Exif' header
                                             if (view.getUint32(exifStart) === 0x45786966 && view.getUint16(exifStart + 4) === 0x0000) {
                                                 const tiffStart = exifStart + 6;
                                                 const littleEndian = view.getUint16(tiffStart) === 0x4949;
-                
+
                                                 const ifdOffset = view.getUint32(tiffStart + 4, littleEndian);
                                                 const numEntries = view.getUint16(tiffStart + ifdOffset, littleEndian);
-                
+
                                                 let gpsLatitude = null;
                                                 let gpsLongitude = null;
                                                 let latRef = 'N';
                                                 let lonRef = 'E';
-                
+
                                                 for (let i = 0; i < numEntries; i++) {
                                                     const entryOffset = tiffStart + ifdOffset + 12 + (i * 12);
                                                     const tag = view.getUint16(entryOffset, littleEndian);
-                
+
                                                     if (tag === 0x0001) latRef = String.fromCharCode(view.getUint8(entryOffset + 8));
                                                     if (tag === 0x0003) lonRef = String.fromCharCode(view.getUint8(entryOffset + 8));
                                                     if (tag === 0x0002) {
@@ -195,11 +247,11 @@
                                                         if (lonValues) gpsLongitude = lonValues;
                                                     }
                                                 }
-                
+
                                                 if (gpsLatitude && gpsLongitude) {
                                                     const lat = gpsLatitude[0] + gpsLatitude[1] / 60 + gpsLatitude[2] / 3600;
                                                     const lon = gpsLongitude[0] + gpsLongitude[1] / 60 + gpsLongitude[2] / 3600;
-                
+
                                                     return {
                                                         latitude: latRef === 'S' ? -lat : lat,
                                                         longitude: lonRef === 'W' ? -lon : lon

@@ -86,17 +86,19 @@ Route::middleware(['auth'])->group(function () {
     // Logout
     Route::post('/logout', function () {
         $user = Auth::user();
+
         ActivityLog::create([
             'user_id' => $user->id,
             'action' => 'logout',
             'description' => 'User logged out',
             'ip_address' => request()->ip(),
         ]);
-        Auth::logout();
-        session()->invalidate();
-        session()->regenerateToken();
 
-        return redirect('/');
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('login'); // 🔥 better
     })->name('logout');
 });
 

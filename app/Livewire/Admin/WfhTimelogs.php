@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\WfhTimelog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -34,6 +35,16 @@ class WfhTimelogs extends Component
 
     public $filterDateTo;
 
+    // Edit properties
+    public $editingId;
+
+    public $editAccomplishments;
+
+    // Timeout update properties
+    public $showTimeoutModal = false;
+    public $newTimeout;
+    public $currentTimePreview;
+
     // Debug properties
     public $debugInfo = '';
 
@@ -52,9 +63,9 @@ class WfhTimelogs extends Component
         $this->filterDateFrom = now()->startOfMonth()->toDateString();
         $this->filterDateTo = now()->endOfMonth()->toDateString();
 
-        $this->debugInfo = 'Config - requireLocation: '.($this->requireLocation ? 'true' : 'false').
-            ', requireImage: '.($this->requireImage ? 'true' : 'false').
-            ', requireImageLocation: '.($this->requireImageLocation ? 'true' : 'false');
+        $this->debugInfo = 'Config - requireLocation: ' . ($this->requireLocation ? 'true' : 'false') .
+            ', requireImage: ' . ($this->requireImage ? 'true' : 'false') .
+            ', requireImageLocation: ' . ($this->requireImageLocation ? 'true' : 'false');
     }
 
     public function render()
@@ -100,11 +111,11 @@ class WfhTimelogs extends Component
         try {
             // Get the temporary file path
             $filePath = $image->getRealPath();
-            Log::info('WFH: Reading EXIF from: '.$filePath);
+            Log::info('WFH: Reading EXIF from: ' . $filePath);
 
             // Check if file exists
             if (! file_exists($filePath)) {
-                Log::info('WFH: File does not exist at: '.$filePath);
+                Log::info('WFH: File does not exist at: ' . $filePath);
 
                 return null;
             }
@@ -252,9 +263,9 @@ class WfhTimelogs extends Component
         $imagePath = null;
 
         // Debug
-        $this->debugInfo = 'timeIn called. selfie: '.($this->selfie ? 'yes' : 'no').
-            ', requireLocation: '.($this->requireLocation ? 'true' : 'false').
-            ', requireImageLocation: '.($this->requireImageLocation ? 'true' : 'false');
+        $this->debugInfo = 'timeIn called. selfie: ' . ($this->selfie ? 'yes' : 'no') .
+            ', requireLocation: ' . ($this->requireLocation ? 'true' : 'false') .
+            ', requireImageLocation: ' . ($this->requireImageLocation ? 'true' : 'false');
 
         // Handle image upload
         if ($this->selfie) {
@@ -263,7 +274,7 @@ class WfhTimelogs extends Component
 
             // Debug - check the temp file
             $tempPath = $this->selfie->getRealPath();
-            $this->debugInfo .= ' | temp file: '.$tempPath.' | exists: '.(file_exists($tempPath) ? 'yes' : 'no');
+            $this->debugInfo .= ' | temp file: ' . $tempPath . ' | exists: ' . (file_exists($tempPath) ? 'yes' : 'no');
 
             // If location is required from image metadata
             if ($this->requireLocation && $this->requireImageLocation) {
@@ -271,14 +282,14 @@ class WfhTimelogs extends Component
                 if (! empty($this->deviceLatitude) && ! empty($this->deviceLongitude)) {
                     $latitude = $this->deviceLatitude;
                     $longitude = $this->deviceLongitude;
-                    $this->debugInfo .= ' | GPS from client-side: lat='.$latitude.', lon='.$longitude;
+                    $this->debugInfo .= ' | GPS from client-side: lat=' . $latitude . ', lon=' . $longitude;
                 } else {
                     // Fallback: try server-side EXIF extraction
                     $gpsData = $this->extractGpsFromImage($this->selfie);
                     if ($gpsData) {
                         $latitude = $gpsData['latitude'];
                         $longitude = $gpsData['longitude'];
-                        $this->debugInfo .= ' | GPS found (server): lat='.$latitude.', lon='.$longitude;
+                        $this->debugInfo .= ' | GPS found (server): lat=' . $latitude . ', lon=' . $longitude;
                     } else {
                         $this->debugInfo .= ' | GPS NOT found in image';
                     }
@@ -338,7 +349,7 @@ class WfhTimelogs extends Component
             'status' => 'pending',
         ]);
 
-         ActivityLog::create([
+        ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'time_in',
             'description' => 'User timed in successfully',
@@ -382,7 +393,7 @@ class WfhTimelogs extends Component
             'status' => 'completed',
         ]);
 
-         ActivityLog::create([
+        ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'time_out',
             'description' => 'User timed out successfully',
@@ -430,8 +441,134 @@ class WfhTimelogs extends Component
         $this->resetPage();
     }
 
+    public function startEditing($id)
+    {
+        $timelog = WfhTimelog::find($id);
+        if ($timelog && $timelog->user_id == Auth::id() && $timelog->date->isToday() && $timelog->status === 'completed') {
+            $this->editingId = $id;
+            $this->editAccomplishments = $timelog->accomplishments;
+        }
+    }
+
+    public function cancelEditing()
+    {
+        $this->editingId = null;
+        $this->editAccomplishments = null;
+    }
+
+    public function openTimeoutModal($id)
+    {
+        $timelog = WfhTimelog::find($id);
+        if ($timelog && $timelog->user_id == Auth::id() && $timelog->date->isToday() && $timelog->status === 'completed') {
+            $this->editingId = $id;
+            $this->newTimeout = now()->format('H:i');
+            $this->currentTimePreview = now()->format('h:i A');
+            $this->showTimeoutModal = true;
+        }
+    }
+
+    public function closeTimeoutModal()
+    {
+        $this->showTimeoutModal = false;
+        $this->newTimeout = null;
+        $this->currentTimePreview = null;
+    }
+
+    public function updateTimeout()
+    {
+        $this->validate([
+            'newTimeout' => 'required|date_format:H:i',
+        ]);
+
+        $timelog = WfhTimelog::find($this->editingId);
+        if ($timelog && $timelog->user_id == Auth::id() && $timelog->date->isToday() && $timelog->status === 'completed') {
+            $timelog->update([
+                'time_out' => $this->newTimeout . ':00', // Add seconds
+            ]);
+
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'update_timeout',
+                'description' => 'Updated timeout to ' . $this->newTimeout . ' for ' . $timelog->date,
+                'ip_address' => request()->ip(),
+            ]);
+
+            $this->addFlash('success', 'Timeout updated successfully!');
+            $this->closeTimeoutModal();
+        }
+    }
+
+
+    public function confirmUpdateTimeoutToCurrent()
+    {
+        LivewireAlert::title('Update Timeout to Current Time')
+            ->text('Are you sure you want to update your timeout to the current time?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Update')
+            ->withCancelButton('Cancel')
+            ->onConfirm('updateTimeoutToCurrent')
+            ->show();
+    }
+
+    public function updateTimeoutToCurrent()
+    {
+        $timelog = WfhTimelog::find($this->editingId);
+        if ($timelog && $timelog->user_id == Auth::id() && $timelog->date->isToday() && $timelog->status === 'completed') {
+            $currentTime = now()->format('H:i:s');
+            $timelog->update([
+                'time_out' => $currentTime,
+            ]);
+
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'update_timeout',
+                'description' => 'Time-out updated for ' . $timelog->date->format('F j, Y'),
+                'ip_address' => request()->ip(),
+            ]);
+
+            $this->addFlash('success', 'Timeout updated to current time successfully!');
+        }
+    }
+
+    public function confirmUpdateAccomplishments()
+    {
+        LivewireAlert::title('Update Accomplishments')
+            ->text('Are you sure you want to update the accomplishments?')
+            ->question()
+            ->timer(0)
+            ->withConfirmButton('Yes, Update')
+            ->withCancelButton('Cancel')
+            ->onConfirm('updateAccomplishments')
+            ->show();
+    }
+
+    public function updateAccomplishments()
+    {
+        $this->validate([
+            'editAccomplishments' => 'required|string|min:1',
+        ]);
+
+        $timelog = WfhTimelog::find($this->editingId);
+        if ($timelog && $timelog->user_id == Auth::id() && $timelog->date->isToday() && $timelog->status === 'completed') {
+            $timelog->update([
+                'accomplishments' => $this->editAccomplishments,
+            ]);
+
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'update_accomplishments',
+                'description' => 'Updated accomplishments for ' . $timelog->date->format('F j, Y'),
+                'ip_address' => request()->ip(),
+            ]);
+
+            $this->addFlash('success', 'Accomplishments updated successfully!');
+            $this->cancelEditing();
+        }
+    }
+
     protected function addFlash($type, $message)
     {
-        session()->flash('flash.'.$type, $message);
+        session()->flash('flash.' . $type, $message);
     }
 }

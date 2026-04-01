@@ -34,6 +34,11 @@ class WfhTimelogs extends Component
 
     public $filterDateTo;
 
+    // Edit properties
+    public $editing = false;
+    public $editTimeOut;
+    public $editAccomplishments;
+
     // Debug properties
     public $debugInfo = '';
 
@@ -74,9 +79,9 @@ class WfhTimelogs extends Component
             ->orderBy('time_in', 'desc')
             ->paginate(10);
 
-        return view('livewire.admin.wfh-timelogs', [
+        return view('livewire.employee.wfh-timelogs', [
             'timelogs' => $timelogs,
-        ])->layout('components.layouts.admin');
+        ])->layout('components.layouts.app');
     }
 
     /**
@@ -429,6 +434,50 @@ class WfhTimelogs extends Component
         $this->filterDateFrom = null;
         $this->filterDateTo = null;
         $this->resetPage();
+    }
+
+    public function startEdit()
+    {
+        $completedTimelog = $this->getTodayCompletedTimelog();
+        if ($completedTimelog && $completedTimelog->date === now()->toDateString()) {
+            $this->editing = true;
+            $this->editTimeOut = $completedTimelog->time_out;
+            $this->editAccomplishments = $completedTimelog->accomplishments;
+        }
+    }
+
+    public function saveEdit()
+    {
+        $this->validate([
+            'editTimeOut' => 'required|date_format:H:i:s',
+            'editAccomplishments' => 'required|string|max:1000',
+        ]);
+
+        $completedTimelog = $this->getTodayCompletedTimelog();
+        if ($completedTimelog && $completedTimelog->date === now()->toDateString()) {
+            $completedTimelog->update([
+                'time_out' => $this->editTimeOut,
+                'accomplishments' => $this->editAccomplishments,
+            ]);
+
+            // Log edit activity
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'timelog_edit',
+                'description' => 'Edited timeout and accomplishments for ' . $completedTimelog->date,
+                'ip_address' => request()->ip(),
+            ]);
+
+            $this->editing = false;
+            $this->reset(['editTimeOut', 'editAccomplishments']);
+            $this->addFlash('success', 'Timelog updated successfully!');
+        }
+    }
+
+    public function cancelEdit()
+    {
+        $this->editing = false;
+        $this->reset(['editTimeOut', 'editAccomplishments']);
     }
 
     protected function addFlash($type, $message)

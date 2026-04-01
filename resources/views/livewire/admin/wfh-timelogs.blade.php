@@ -112,8 +112,9 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
 
+
+                    </div>
                     {{-- Accomplishments (Required for time out) --}}
                     <div class="mb-4">
                         <label for="accomplishments"
@@ -128,8 +129,8 @@
                     </div>
 
                     <button type="submit"
-                        class="w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-lg font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="w-auto ml-auto px-4 py-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-sm font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
@@ -144,7 +145,7 @@
                                 alert('Geolocation is not supported by your browser');
                                 return;
                             }
-                
+
                             navigator.geolocation.getCurrentPosition(
                                 (position) => {
                                     @this.set('deviceLatitude', position.coords.latitude);
@@ -163,35 +164,35 @@
                         async extractGpsFromFile(file) {
                                 // Client-side EXIF extraction using a simple GPS parser
                                 if (!file) return null;
-                
+
                                 try {
                                     const arrayBuffer = await file.arrayBuffer();
                                     const view = new DataView(arrayBuffer);
-                
+
                                     // Look for EXIF marker (0xFFE1)
                                     let offset = 2;
                                     while (offset < view.byteLength) {
                                         if (view.getUint16(offset) === 0xFFE1) {
                                             // Found APP1 marker
                                             const exifStart = offset + 4;
-                
+
                                             // Check for 'Exif' header
                                             if (view.getUint32(exifStart) === 0x45786966 && view.getUint16(exifStart + 4) === 0x0000) {
                                                 const tiffStart = exifStart + 6;
                                                 const littleEndian = view.getUint16(tiffStart) === 0x4949;
-                
+
                                                 const ifdOffset = view.getUint32(tiffStart + 4, littleEndian);
                                                 const numEntries = view.getUint16(tiffStart + ifdOffset, littleEndian);
-                
+
                                                 let gpsLatitude = null;
                                                 let gpsLongitude = null;
                                                 let latRef = 'N';
                                                 let lonRef = 'E';
-                
+
                                                 for (let i = 0; i < numEntries; i++) {
                                                     const entryOffset = tiffStart + ifdOffset + 12 + (i * 12);
                                                     const tag = view.getUint16(entryOffset, littleEndian);
-                
+
                                                     if (tag === 0x0001) latRef = String.fromCharCode(view.getUint8(entryOffset + 8));
                                                     if (tag === 0x0003) lonRef = String.fromCharCode(view.getUint8(entryOffset + 8));
                                                     if (tag === 0x0002) {
@@ -203,11 +204,11 @@
                                                         if (lonValues) gpsLongitude = lonValues;
                                                     }
                                                 }
-                
+
                                                 if (gpsLatitude && gpsLongitude) {
                                                     const lat = gpsLatitude[0] + gpsLatitude[1] / 60 + gpsLatitude[2] / 3600;
                                                     const lon = gpsLongitude[0] + gpsLongitude[1] / 60 + gpsLongitude[2] / 3600;
-                
+
                                                     return {
                                                         latitude: latRef === 'S' ? -lat : lat,
                                                         longitude: lonRef === 'W' ? -lon : lon
@@ -429,6 +430,9 @@
                         <th
                             class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">
                             Accomplishments</th>
+                        <th
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">
+                            Actions</th>
                     </tr>
                 </thead>
                 <tbody x-data="{ open: {} }" class="divide-y divide-gray-200 dark:divide-zinc-700">
@@ -491,12 +495,49 @@
                                     <span class="text-gray-400">-</span>
                                 @endif
                             </td>
+                            <td class="px-4 py-3">
+                                @if ($timelog->date->isToday() && $timelog->status === 'completed')
+                                    @if ($editingId == $timelog->id)
+                                        <div class="flex gap-2 flex-wrap">
+                                            <button wire:click="confirmUpdateTimeoutToCurrent"
+                                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 text-sm font-medium rounded-lg transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Update Timeout
+                                            </button>
+                                            <button wire:click="cancelEditing"
+                                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    @else
+                                        <button wire:click="startEditing({{ $timelog->id }})"
+                                            class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium rounded-lg transition-colors">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
 
                         <!-- Accomplishment Row -->
                         <tr x-show="open[{{ $uniqueId }}]" x-transition x-cloak
                             class="bg-gray-50 dark:bg-zinc-700/30">
-                            <td colspan="7" class="px-6 py-5">
+                            <td colspan="8" class="px-6 py-5">
 
                                 <div class="w-full">
                                     <h3
@@ -504,13 +545,34 @@
                                         Accomplishments
                                     </h3>
 
-                                    <div class="space-y-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
-                                        @foreach (preg_split('/\r\n|\r|\n/', $timelog->accomplishments) as $item)
-                                            @if (trim($item) !== '')
-                                                <p class="whitespace-pre-line">{{ trim($item) }}</p>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                                    @if ($editingId == $timelog->id)
+                                        <div class="flex flex-col gap-3">
+                                            <textarea wire:model="editAccomplishments" rows="4"
+                                                class="px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-700 text-gray-900 dark:text-white"></textarea>
+
+                                            <div class="flex justify-end">
+                                                <button wire:click="confirmUpdateAccomplishments"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 text-xs font-medium rounded-md transition-colors">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Save Accomplishment Changes
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div
+                                            class="space-y-2 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+                                            @foreach (preg_split('/\r\n|\r|\n/', $timelog->accomplishments) as $item)
+                                                @if (trim($item) !== '')
+                                                    <p class="whitespace-pre-line">{{ trim($item) }}</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
 
                             </td>
