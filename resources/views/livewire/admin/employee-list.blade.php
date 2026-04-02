@@ -181,6 +181,12 @@
                                                     class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
                                                     Reset Password
                                                 </button>
+                                                @if (auth()->user()->canImpersonate($employee->user))
+                                                    <a href="{{ route('impersonate', ['id' => $employee->user->id]) }}"
+                                                        class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
+                                                        Impersonate
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

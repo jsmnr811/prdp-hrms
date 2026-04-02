@@ -10,7 +10,7 @@ class EmployeeRoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Get or create roles
+        // Create roles if they don't exist
         $employeeRole = Role::firstOrCreate(['name' => 'Employee']);
         $adminRole = Role::firstOrCreate(['name' => 'Administrator']);
 
@@ -25,11 +25,6 @@ class EmployeeRoleSeeder extends Seeder
         $usersWithoutRoles = User::doesntHave('roles')
             ->where('employee_number', '!=', '0000')
             ->get();
-
-        if ($usersWithoutRoles->isEmpty()) {
-            $this->command->info('All users already have roles or are employee_number 0000.');
-            return;
-        }
 
         foreach ($usersWithoutRoles as $user) {
             $user->assignRole($employeeRole);

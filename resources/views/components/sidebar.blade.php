@@ -54,7 +54,8 @@
                     {{ __('Employees') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item icon="shield-check">
+                <flux:sidebar.item icon="shield-check" :href="route('admin.role-permission-management')"
+                    :current="request()->routeIs('admin.role-permission-management')" wire:navigate>
                     {{ __('Roles & Permissions') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>

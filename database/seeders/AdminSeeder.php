@@ -121,13 +121,11 @@ class AdminSeeder extends Seeder
                 'emergency_contact_relationship' => null,
                 'emergency_contact_number' => null,
                 'image' => null,
-                'terms' => 1,
                 'office_id' => 6,
+                'office_category_id' => null,
                 'unit_id' => 8,
                 'position_id' => 79,
                 'employment_status' => 'Hired',
-                'date_hired' => now(),
-                'date_ended' => null,
             ]
         );
 

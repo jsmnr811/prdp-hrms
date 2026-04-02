@@ -26,6 +26,6 @@ class CheckRole
         }
 
         logger('CheckRole: user does not have required role, aborting');
-        abort(403, 'Unauthorized access');
+        return redirect('/dashboard');
     }
 }

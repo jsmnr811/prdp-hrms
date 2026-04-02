@@ -8,7 +8,7 @@
     {{-- Header --}}
     <div class="text-center space-y-4">
         @if ($this->employee->image)
-            <flux:avatar src="{{ Storage::url($this->employee->image) }}" alt="Profile" size="xl"
+            <flux:avatar :src="asset('storage/' . $this->employee->image)" alt="Profile" size="xl"
                 class="mx-auto shadow-lg ring-4 ring-blue-100 dark:ring-blue-900" />
         @else
             <div class="flex justify-center">

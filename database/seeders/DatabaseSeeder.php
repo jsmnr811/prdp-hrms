@@ -23,12 +23,14 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(ComponentsTableSeeder::class);
         $this->call(OfficesTableSeeder::class);
+        $this->call(OfficeCategoriesTableSeeder::class);
         $this->call(PositionsTableSeeder::class);
         $this->call(UnitsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(EmployeeUsersSeeder::class);
         $this->call(EmployeeRoleSeeder::class);
+        $this->call(UpdateEmployeesOfficeCategorySeeder::class);
 
     }
 }

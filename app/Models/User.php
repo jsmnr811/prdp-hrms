@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, Impersonate, Notifiable;
 
     protected $table = 'users';
 
@@ -92,5 +94,15 @@ class User extends Authenticatable
     public function getAuthPassword()
     {
         return $this->password;
+    }
+
+    public function canImpersonate()
+    {
+        return $this->hasRole('administrator');
+    }
+
+    public function canBeImpersonated()
+    {
+        return !$this->hasRole('administrator');
     }
 }

@@ -4,9 +4,14 @@ use App\Http\Controllers\WfhTimelogExportController;
 use App\Models\ActivityLog;
 use App\Livewire\Admin\ActivityLogs as AdminActivityLogs;
 use App\Livewire\Admin\AddEmployee;
+use App\Livewire\Admin\CreatePermission;
+use App\Livewire\Admin\CreateRole;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\EditEmployee;
+use App\Livewire\Admin\EditPermission;
+use App\Livewire\Admin\EditRole;
 use App\Livewire\Admin\EmployeeList;
+use App\Livewire\Admin\RolePermissionManagement;
 use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhMonitoring;
@@ -63,6 +68,13 @@ Route::middleware(['auth'])->group(function () {
 
         // Activity Logs
         Route::get('/admin/activity-logs', AdminActivityLogs::class)->name('admin.activity-logs');
+
+        // Role & Permission Management
+        Route::get('/admin/role-permission-management', RolePermissionManagement::class)->name('admin.role-permission-management');
+        Route::get('/admin/roles/create', CreateRole::class)->name('admin.roles.create');
+        Route::get('/admin/roles/{role}/edit', EditRole::class)->name('admin.roles.edit');
+        Route::get('/admin/permissions/create', CreatePermission::class)->name('admin.permissions.create');
+        Route::get('/admin/permissions/{permission}/edit', EditPermission::class)->name('admin.permissions.edit');
     });
 
     // Employee routes - only for Employees
@@ -100,6 +112,9 @@ Route::middleware(['auth'])->group(function () {
 
         return redirect()->route('login'); // 🔥 better
     })->name('logout');
+
+    // Impersonate routes
+    Route::impersonate();
 });
 
 // Change Password - no middleware
