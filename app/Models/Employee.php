@@ -31,6 +31,7 @@ class Employee extends Model
         'emergency_contact_number',
         'image',
         'terms',
+        'office_category_id',
         'office_id',
         'unit_id',
         'position_id',

@@ -195,6 +195,21 @@
                     Organizational Information
                 </flux:heading>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Office Category -->
+                    <div>
+                        <flux:label class="text-sm font-medium py-2">Office Category *</flux:label>
+                        <select wire:model="office_category_id"
+                            class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Office Category</option>
+                            @foreach ($officeCategoryOptions as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('office_category_id')
+                            <flux:error>{{ $message }}</flux:error>
+                        @enderror
+                    </div>
+
                     <!-- Office -->
                     <div>
                         <flux:label class="text-sm font-medium py-2">Office *</flux:label>

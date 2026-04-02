@@ -25234,6 +25234,10 @@ namespace App\Livewire\Admin {
             }
     /**
      */
+    class ClusterList extends \Livewire\Component {
+            }
+    /**
+     */
     class WfhTimelogs extends \Livewire\Component {
             }
     /**

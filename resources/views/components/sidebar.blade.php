@@ -58,8 +58,10 @@
                     :current="request()->routeIs('admin.role-permission-management')" wire:navigate>
                     {{ __('Roles & Permissions') }}
                 </flux:sidebar.item>
-            </flux:sidebar.group>
 
+                <flux:sidebar.item icon="building-office-2" :href="route('admin.clusters')" :current="request()->routeIs('admin.clusters')" wire:navigate>{{ __('Cluster Management') }}</flux:sidebar.item>
+
+            </flux:sidebar.group>
             <flux:sidebar.group :heading="__('System')" class="grid">
                 <flux:sidebar.item icon="cog">
                     {{ __('Settings') }}

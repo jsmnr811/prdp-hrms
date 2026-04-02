@@ -11,6 +11,7 @@ use App\Livewire\Admin\EditEmployee;
 use App\Livewire\Admin\EditPermission;
 use App\Livewire\Admin\EditRole;
 use App\Livewire\Admin\EmployeeList;
+use App\Livewire\Admin\ClusterList;
 use App\Livewire\Admin\RolePermissionManagement;
 use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
@@ -53,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/employee-list', EmployeeList::class)->name('admin.employee-list');
         Route::get('/admin/add-employee', AddEmployee::class)->name('admin.add-employee');
         Route::get('/admin/edit-employee/{employeeId}', EditEmployee::class)->name('admin.edit-employee');
+
+        // Cluster List
+        Route::get('/admin/clusters', ClusterList::class)->name('admin.clusters');
 
         // WFH Timelogs
         Route::get('/admin/wfh-timelogs', WfhTimelogs::class)->name('admin.wfh-timelogs');

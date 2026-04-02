@@ -13,16 +13,43 @@
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $user_id
+ * @property string $action
+ * @property string $description
+ * @property string|null $ip_address
+ * @property int|null $affected_user_id
+ * @property int|null $affected_employee_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Employee|null $affectedEmployee
  * @property-read \App\Models\User|null $affectedUser
- * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byAction($action)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog forUser($userId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereAction($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereAffectedEmployeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereAffectedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereUserId($value)
  */
 	class ActivityLog extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster query()
+ */
+	class Cluster extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -69,13 +96,11 @@ namespace App\Models{
  * @property string|null $emergency_contact_relationship
  * @property string|null $emergency_contact_number
  * @property string|null $image
- * @property bool $terms
  * @property int|null $office_id
+ * @property int|null $office_category_id
  * @property int|null $unit_id
  * @property int|null $position_id
  * @property string $employment_status
- * @property \Illuminate\Support\Carbon|null $date_hired
- * @property \Illuminate\Support\Carbon|null $date_ended
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -98,8 +123,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereBloodType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereContactNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereDateEnded($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereDateHired($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereEmergencyContactName($value)
@@ -116,10 +139,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereMiddleInitial($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereMiddleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereOfficeCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereOfficeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee wherePositionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereSuffix($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereTerms($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereTin($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee whereUpdatedAt($value)
@@ -153,6 +176,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Office whereUpdatedAt($value)
  */
 	class Office extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Employee> $employees
+ * @property-read int|null $employees_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Office> $offices
+ * @property-read int|null $offices_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OfficeCategory whereUpdatedAt($value)
+ */
+	class OfficeCategory extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\ActivityLog;
 use App\Models\Employee;
 use App\Models\Office;
+use App\Models\OfficeCategory;
 use App\Models\Unit;
 use App\Models\Position;
 use App\Models\User;
@@ -33,6 +34,7 @@ class EditEmployee extends Component
     public $emergency_contact_name;
     public $emergency_contact_relationship;
     public $emergency_contact_number;
+    public $office_category_id;
     public $office_id;
     public $unit_id;
     public $position_id;
@@ -43,6 +45,7 @@ class EditEmployee extends Component
     public $genderOptions = ['Male', 'Female'];
     public $relationshipOptions = ['Parent', 'Sibling', 'Spouse', 'Child', 'Friend', 'Other'];
     public $employmentStatusOptions = ['Hired', 'Resigned', 'Terminated'];
+    public $officeCategoryOptions = [];
     public $officeOptions = [];
     public $unitOptions = [];
     public $positionOptions = [];
@@ -57,6 +60,7 @@ class EditEmployee extends Component
 
         $this->loadEmployeeData($employeeId);
 
+        $this->officeCategoryOptions = OfficeCategory::orderBy('name')->get();
         $this->officeOptions = Office::orderBy('name')->get();
         $this->positionOptions = Position::orderBy('name')->get();
         $this->roleOptions = Role::orderBy('name')->pluck('name')->toArray();
@@ -82,6 +86,7 @@ class EditEmployee extends Component
         $this->emergency_contact_name = $employee->emergency_contact_name;
         $this->emergency_contact_relationship = $employee->emergency_contact_relationship;
         $this->emergency_contact_number = $employee->emergency_contact_number;
+        $this->office_category_id = $employee->office_category_id;
         $this->office_id = $employee->office_id;
         $this->unit_id = $employee->unit_id;
         $this->position_id = $employee->position_id;
@@ -126,6 +131,7 @@ class EditEmployee extends Component
             'emergency_contact_name' => 'required|string|max:255',
             'emergency_contact_relationship' => 'required|string|max:255',
             'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
+            'office_category_id' => 'required|exists:office_categories,id',
             'office_id' => 'required|exists:offices,id',
             'unit_id' => 'nullable|exists:units,id',
             'position_id' => 'required|exists:positions,id',
@@ -166,6 +172,7 @@ class EditEmployee extends Component
             'emergency_contact_name' => $this->emergency_contact_name,
             'emergency_contact_relationship' => $this->emergency_contact_relationship,
             'emergency_contact_number' => $this->emergency_contact_number,
+            'office_category_id' => $this->office_category_id,
             'office_id' => $this->office_id,
             'unit_id' => $this->unit_id,
             'position_id' => $this->position_id,

@@ -170,9 +170,9 @@ class EmployeeList extends Component
     public function render()
     {
         $employees = Employee::with(['user', 'office', 'unit', 'position'])
-            ->whereHas('user', function ($query) {
-                $query->role('employee');
-            })
+            // ->whereHas('user', function ($query) {
+            //     $query->role('employee');
+            // })
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->whereRaw("CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) LIKE ?", ['%' . $this->search . '%'])
