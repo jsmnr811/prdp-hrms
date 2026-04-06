@@ -8,6 +8,8 @@ use App\Models\Office;
 use App\Models\OfficeCategory;
 use App\Models\Unit;
 use App\Models\Position;
+use App\Models\Cluster;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
@@ -41,6 +43,10 @@ class EditEmployee extends Component
     public $employment_status;
     public $role;
 
+    public $cluster_id;
+
+    public $region_id;
+
     // Options
     public $genderOptions = ['Male', 'Female'];
     public $relationshipOptions = ['Parent', 'Sibling', 'Spouse', 'Child', 'Friend', 'Other'];
@@ -50,6 +56,10 @@ class EditEmployee extends Component
     public $unitOptions = [];
     public $positionOptions = [];
     public $roleOptions = [];
+
+    public $clusterOptions = [];
+
+    public $regionOptions = [];
 
 
     public function mount($employeeId)
@@ -65,6 +75,10 @@ class EditEmployee extends Component
         $this->positionOptions = Position::orderBy('name')->get();
         $this->roleOptions = Role::orderBy('name')->pluck('name')->toArray();
         $this->updateUnitOptions();
+
+        $this->clusterOptions = Cluster::orderBy('name')->get();
+
+        $this->regionOptions = Region::orderBy('name')->get();
     }
 
     private function loadEmployeeData($employeeId)
@@ -87,6 +101,11 @@ class EditEmployee extends Component
         $this->emergency_contact_relationship = $employee->emergency_contact_relationship;
         $this->emergency_contact_number = $employee->emergency_contact_number;
         $this->office_category_id = $employee->office_category_id;
+
+        $this->cluster_id = $employee->cluster_id;
+
+        $this->region_id = $employee->region_id;
+
         $this->office_id = $employee->office_id;
         $this->unit_id = $employee->unit_id;
         $this->position_id = $employee->position_id;
@@ -132,6 +151,11 @@ class EditEmployee extends Component
             'emergency_contact_relationship' => 'required|string|max:255',
             'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
             'office_category_id' => 'required|exists:office_categories,id',
+
+            'cluster_id' => 'required|exists:clusters,id',
+
+            'region_id' => 'required|exists:regions,id',
+
             'office_id' => 'required|exists:offices,id',
             'unit_id' => 'nullable|exists:units,id',
             'position_id' => 'required|exists:positions,id',
@@ -173,6 +197,11 @@ class EditEmployee extends Component
             'emergency_contact_relationship' => $this->emergency_contact_relationship,
             'emergency_contact_number' => $this->emergency_contact_number,
             'office_category_id' => $this->office_category_id,
+
+            'cluster_id' => $this->cluster_id,
+
+            'region_id' => $this->region_id,
+
             'office_id' => $this->office_id,
             'unit_id' => $this->unit_id,
             'position_id' => $this->position_id,

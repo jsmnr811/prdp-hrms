@@ -169,6 +169,7 @@ class EmployeeList extends Component
 
     public function render()
     {
+        \Log::info('EmployeeList render with search: ' . $this->search);
         $employees = Employee::with(['user', 'office', 'unit', 'position'])
             // ->whereHas('user', function ($query) {
             //     $query->role('employee');
@@ -192,7 +193,7 @@ class EmployeeList extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(15);
 
-        // Logging removed after verification
+        \Log::info('EmployeeList query executed, count: ' . $employees->count());
 
         $offices = Office::orderBy('name')->get();
         $units = Unit::orderBy('name')->get();

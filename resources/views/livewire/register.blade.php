@@ -80,6 +80,45 @@
                         <flux:error name="employee_number" />
                     </flux:field>
 
+                    {{-- Office Category --}}
+                    <flux:field>
+                        <flux:label class="text-sm font-medium">Office Category</flux:label>
+                        <select wire:model="office_category_id"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                            <option value="">Select Office Category</option>
+                            @foreach ($officeCategoryOptions as $option)
+                                <option value="{{ $option->id }}">{{ $option->name }}</option>
+                            @endforeach
+                        </select>
+                        <flux:error name="office_category_id" />
+                    </flux:field>
+
+                    {{-- Clusters --}}
+                    <flux:field>
+                        <flux:label class="text-sm font-medium">Clusters</flux:label>
+                        <select wire:model="cluster_id"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                            <option value="">Select Cluster</option>
+                            @foreach ($clusterOptions as $option)
+                                <option value="{{ $option->id }}">{{ $option->name }}</option>
+                            @endforeach
+                        </select>
+                        <flux:error name="cluster_id" />
+                    </flux:field>
+
+                    {{-- Region --}}
+                    <flux:field>
+                        <flux:label class="text-sm font-medium">Region</flux:label>
+                        <select wire:model="region_id"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-11">
+                            <option value="">Select Region</option>
+                            @foreach ($regionOptions as $option)
+                                <option value="{{ $option->id }}">{{ $option->name }}</option>
+                            @endforeach
+                        </select>
+                        <flux:error name="region_id" />
+                    </flux:field>
+
                     {{-- Office/Component --}}
                     <flux:field>
                         <flux:label class="text-sm font-medium">Office/Component</flux:label>

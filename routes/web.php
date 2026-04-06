@@ -12,6 +12,7 @@ use App\Livewire\Admin\EditPermission;
 use App\Livewire\Admin\EditRole;
 use App\Livewire\Admin\EmployeeList;
 use App\Livewire\Admin\ClusterList;
+use App\Livewire\Admin\RegionList;
 use App\Livewire\Admin\RolePermissionManagement;
 use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
@@ -57,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
 
         // Cluster List
         Route::get('/admin/clusters', ClusterList::class)->name('admin.clusters');
+
+        // Region List
+        Route::get('/admin/regions', RegionList::class)->name('admin.regions');
 
         // WFH Timelogs
         Route::get('/admin/wfh-timelogs', WfhTimelogs::class)->name('admin.wfh-timelogs');

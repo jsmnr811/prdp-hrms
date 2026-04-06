@@ -25,6 +25,9 @@ class Register extends Component
 
     // Personal Information
     public $employee_number;
+    public $office_category_id = '';
+    public $cluster_id = '';
+    public $region_id = '';
     public $office_id = '';
     public $unit_id = '';
     public $position_id = '';
@@ -76,6 +79,9 @@ class Register extends Component
     public $showUnit = true;
 
     // Dropdown options
+    public $officeCategoryOptions = [];
+    public $clusterOptions = [];
+    public $regionOptions = [];
     public $offices = [];
     public $units = [];
     public $positions = [];
@@ -119,6 +125,9 @@ class Register extends Component
 
     public function loadDropdowns()
     {
+        $this->officeCategoryOptions = \App\Models\OfficeCategory::orderBy('name')->get();
+        $this->clusterOptions = \App\Models\Cluster::orderBy('name')->get();
+        $this->regionOptions = \App\Models\Region::orderBy('name')->get();
         $this->offices = Office::orderBy('name')->get();
         $this->units = [];
         $this->positions = [];
@@ -227,6 +236,9 @@ class Register extends Component
      */
     protected function resetFormFields()
     {
+        $this->office_category_id = '';
+        $this->cluster_id = '';
+        $this->region_id = '';
         $this->office_id = '';
         $this->unit_id = '';
         $this->position_id = '';
@@ -255,6 +267,9 @@ class Register extends Component
         // Base rules that always apply - registration is ONLY for new employees
         $rules = [
             'employee_number' => ['required', 'string'],
+            'office_category_id' => ['required', 'exists:office_categories,id'],
+            'cluster_id' => ['required', 'exists:clusters,id'],
+            'region_id' => ['required', 'exists:regions,id'],
             'office_id' => ['required', 'exists:offices,id'],
             'position_id' => ['required', 'exists:positions,id'],
             'first_name' => ['required', 'string', 'max:255'],
@@ -420,6 +435,9 @@ class Register extends Component
                 'emergency_contact_name' => $this->emergency_contact_name,
                 'emergency_contact_relationship' => $this->emergency_contact_relationship,
                 'emergency_contact_number' => $this->emergency_contact_number,
+                'office_category_id' => $this->office_category_id,
+                'cluster_id' => $this->cluster_id,
+                'region_id' => $this->region_id,
                 'office_id' => $this->office_id,
                 'unit_id' => $this->unit_id ?: null,
                 'position_id' => $this->position_id,

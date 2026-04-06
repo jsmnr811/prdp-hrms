@@ -18,4 +18,8 @@ class Cluster extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    public function regions()
+    {
+        return $this->hasMany(Region::class);
+    }
 }

@@ -210,6 +210,36 @@
                         @enderror
                     </div>
 
+                    <!-- Cluster -->
+                    <div>
+                        <flux:label class="text-sm font-medium py-2">Cluster *</flux:label>
+                        <select wire:model="cluster_id"
+                            class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Cluster</option>
+                            @foreach ($clusterOptions as $cluster)
+                                <option value="{{ $cluster->id }}">{{ $cluster->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('cluster_id')
+                            <flux:error>{{ $message }}</flux:error>
+                        @enderror
+                    </div>
+
+                    <!-- Region -->
+                    <div>
+                        <flux:label class="text-sm font-medium py-2">Region *</flux:label>
+                        <select wire:model="region_id"
+                            class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Region</option>
+                            @foreach ($regionOptions as $region)
+                                <option value="{{ $region->id }}">{{ $region->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('region_id')
+                            <flux:error>{{ $message }}</flux:error>
+                        @enderror
+                    </div>
+
                     <!-- Office -->
                     <div>
                         <flux:label class="text-sm font-medium py-2">Office *</flux:label>
@@ -272,7 +302,7 @@
                     </div>
 
                     <!-- Role -->
-                    <div class="md:col-span-2">
+                    <div>
                         <flux:label class="text-sm font-medium py-2">Role *</flux:label>
                         <select wire:model="role"
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">

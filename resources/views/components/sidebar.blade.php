@@ -61,6 +61,8 @@
 
                 <flux:sidebar.item icon="building-office-2" :href="route('admin.clusters')" :current="request()->routeIs('admin.clusters')" wire:navigate>{{ __('Cluster Management') }}</flux:sidebar.item>
 
+                <flux:sidebar.item icon="map" :href="route('admin.regions')" :current="request()->routeIs('admin.regions')" wire:navigate>{{ __('Regions') }}</flux:sidebar.item>
+
             </flux:sidebar.group>
             <flux:sidebar.group :heading="__('System')" class="grid">
                 <flux:sidebar.item icon="cog">

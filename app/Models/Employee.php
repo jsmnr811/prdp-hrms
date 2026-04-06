@@ -32,6 +32,8 @@ class Employee extends Model
         'image',
         'terms',
         'office_category_id',
+        'cluster_id',
+        'region_id',
         'office_id',
         'unit_id',
         'position_id',
@@ -64,6 +66,21 @@ class Employee extends Model
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function officeCategory()
+    {
+        return $this->belongsTo(OfficeCategory::class);
+    }
+
+    public function cluster()
+    {
+        return $this->belongsTo(Cluster::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 
     public function user()

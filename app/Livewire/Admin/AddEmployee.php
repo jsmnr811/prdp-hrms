@@ -7,6 +7,9 @@ use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Unit;
 use App\Models\Position;
+use App\Models\OfficeCategory;
+use App\Models\Cluster;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -34,6 +37,9 @@ class AddEmployee extends Component
     public $emergency_contact_name;
     public $emergency_contact_relationship;
     public $emergency_contact_number;
+    public $office_category_id;
+    public $cluster_id;
+    public $region_id;
     public $office_id;
     public $unit_id;
     public $position_id;
@@ -41,6 +47,9 @@ class AddEmployee extends Component
     // Options
     public $genderOptions = ['Male', 'Female'];
     public $relationshipOptions = ['Parent', 'Sibling', 'Spouse', 'Child', 'Friend', 'Other'];
+    public $officeCategoryOptions = [];
+    public $clusterOptions = [];
+    public $regionOptions = [];
     public $officeOptions = [];
     public $unitOptions = [];
     public $positionOptions = [];
@@ -51,6 +60,9 @@ class AddEmployee extends Component
             abort(403, 'Unauthorized access');
         }
 
+        $this->officeCategoryOptions = OfficeCategory::orderBy('name')->get();
+        $this->clusterOptions = Cluster::orderBy('name')->get();
+        $this->regionOptions = Region::orderBy('name')->get();
         $this->officeOptions = Office::orderBy('name')->get();
         $this->positionOptions = Position::orderBy('name')->get();
         $this->updateUnitOptions();
@@ -89,6 +101,9 @@ class AddEmployee extends Component
             'emergency_contact_name' => 'required|string|max:255',
             'emergency_contact_relationship' => 'required|string|max:255',
             'emergency_contact_number' => 'required|string|regex:/^[0-9\-\+\(\)\s]+$/|max:20',
+            'office_category_id' => 'required|exists:office_categories,id',
+            'cluster_id' => 'required|exists:clusters,id',
+            'region_id' => 'required|exists:regions,id',
             'office_id' => 'required|exists:offices,id',
             'unit_id' => 'nullable|exists:units,id',
             'position_id' => 'required|exists:positions,id',
@@ -127,6 +142,9 @@ class AddEmployee extends Component
             'emergency_contact_name' => $this->emergency_contact_name,
             'emergency_contact_relationship' => $this->emergency_contact_relationship,
             'emergency_contact_number' => $this->emergency_contact_number,
+            'office_category_id' => $this->office_category_id,
+            'cluster_id' => $this->cluster_id,
+            'region_id' => $this->region_id,
             'office_id' => $this->office_id,
             'unit_id' => $this->unit_id,
             'position_id' => $this->position_id,

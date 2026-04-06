@@ -45,9 +45,19 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cluster whereUpdatedAt($value)
  */
 	class Cluster extends \Eloquent {}
 }
@@ -224,6 +234,26 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Position whereUpdatedAt($value)
  */
 	class Position extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $cluster_id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Cluster $cluster
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereClusterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Region whereUpdatedAt($value)
+ */
+	class Region extends \Eloquent {}
 }
 
 namespace App\Models{

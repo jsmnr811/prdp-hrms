@@ -420,6 +420,42 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 
+                            {{-- Office Category --}}
+                            <flux:field>
+                                <flux:label class="text-sm font-medium">Office Category</flux:label>
+                                <flux:select wire:model="office_category_id" class="h-11">
+                                    <option value="">Select Office Category</option>
+                                    @foreach ($officeCategoryOptions as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:error name="office_category_id" />
+                            </flux:field>
+
+                            {{-- Clusters --}}
+                            <flux:field>
+                                <flux:label class="text-sm font-medium">Clusters</flux:label>
+                                <flux:select wire:model="cluster_id" class="h-11">
+                                    <option value="">Select Cluster</option>
+                                    @foreach ($clusterOptions as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:error name="cluster_id" />
+                            </flux:field>
+
+                            {{-- Region --}}
+                            <flux:field>
+                                <flux:label class="text-sm font-medium">Region</flux:label>
+                                <flux:select wire:model="region_id" class="h-11">
+                                    <option value="">Select Region</option>
+                                    @foreach ($regionOptions as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:error name="region_id" />
+                            </flux:field>
+
                             {{-- Office --}}
                             <flux:field>
                                 <flux:label class="text-sm font-medium">Office</flux:label>

@@ -25238,6 +25238,10 @@ namespace App\Livewire\Admin {
             }
     /**
      */
+    class RegionList extends \Livewire\Component {
+            }
+    /**
+     */
     class WfhTimelogs extends \Livewire\Component {
             }
     /**

@@ -42,6 +42,7 @@ class ClusterList extends Component
 
     public function updatingSearch()
     {
+        \Log::info('ClusterList updatingSearch: ' . $this->search);
         $this->resetPage();
     }
 
@@ -170,6 +171,7 @@ class ClusterList extends Component
 
     public function render()
     {
+        \Log::info('ClusterList render with search: ' . $this->search);
         $clusters = Cluster::when($this->search, function ($query) {
             $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
@@ -178,6 +180,8 @@ class ClusterList extends Component
         })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(15);
+
+        \Log::info('ClusterList query executed, count: ' . $clusters->count());
 
         return view('livewire.admin.cluster-list', [
             'clusters' => $clusters,

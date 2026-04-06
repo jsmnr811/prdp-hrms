@@ -3,8 +3,11 @@
 namespace App\Livewire\Employee;
 
 use App\Models\ActivityLog;
+use App\Models\Cluster;
 use App\Models\Office;
+use App\Models\OfficeCategory;
 use App\Models\Position;
+use App\Models\Region;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -45,9 +48,15 @@ class UpdateProfile extends Component
     public $landbank_account;
     public $height;
     public $weight;
+    public $office_category_id;
+    public $cluster_id;
+    public $region_id;
     public $office_id;
     public $unit_id;
     public $position_id;
+    public $officeCategoryOptions = [];
+    public $clusterOptions = [];
+    public $regionOptions = [];
     public $officeOptions = [];
     public $unitOptions = [];
     public $positionOptions = [];
@@ -99,11 +108,17 @@ class UpdateProfile extends Component
         $this->emergency_contact_number = $this->employee->emergency_contact_number;
 
         // Organizational information
+        $this->office_category_id = $this->employee->office_category_id;
+        $this->cluster_id = $this->employee->cluster_id;
+        $this->region_id = $this->employee->region_id;
         $this->office_id = $this->employee->office_id;
         $this->unit_id = $this->employee->unit_id;
         $this->position_id = $this->employee->position_id;
 
-        // ✅ Load office options
+        // ✅ Load options
+        $this->officeCategoryOptions = OfficeCategory::pluck('name', 'id')->toArray();
+        $this->clusterOptions = Cluster::pluck('name', 'id')->toArray();
+        $this->regionOptions = Region::pluck('name', 'id')->toArray();
         $this->officeOptions = Office::pluck('name', 'id')->toArray();
 
         // ✅ Load units - only for I-SUPPORT office
@@ -350,6 +365,9 @@ class UpdateProfile extends Component
     public function confirmOrganizational()
     {
         $this->validate([
+            'office_category_id' => 'nullable|exists:office_categories,id',
+            'cluster_id' => 'nullable|exists:clusters,id',
+            'region_id' => 'nullable|exists:regions,id',
             'office_id' => 'required|exists:offices,id',
             'position_id' => 'required|exists:positions,id',
             'unit_id' => 'nullable|exists:units,id',
@@ -371,6 +389,9 @@ class UpdateProfile extends Component
     public function confirmedOrganizational()
     {
         $data = [
+            'office_category_id' => $this->office_category_id,
+            'cluster_id' => $this->cluster_id,
+            'region_id' => $this->region_id,
             'office_id' => $this->office_id,
             'position_id' => $this->position_id,
             'unit_id' => $this->showUnit ? $this->unit_id : null,
@@ -395,12 +416,18 @@ class UpdateProfile extends Component
     public function updateOrganizational()
     {
         $this->validate([
+            'office_category_id' => 'nullable|exists:office_categories,id',
+            'cluster_id' => 'nullable|exists:clusters,id',
+            'region_id' => 'nullable|exists:regions,id',
             'office_id' => 'required|exists:offices,id',
             'position_id' => 'required|exists:positions,id',
             'unit_id' => 'nullable|exists:units,id',
         ]);
 
         $data = [
+            'office_category_id' => $this->office_category_id,
+            'cluster_id' => $this->cluster_id,
+            'region_id' => $this->region_id,
             'office_id' => $this->office_id,
             'position_id' => $this->position_id,
             'unit_id' => $this->showUnit ? $this->unit_id : null,
