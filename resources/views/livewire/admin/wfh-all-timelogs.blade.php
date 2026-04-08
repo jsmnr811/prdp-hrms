@@ -10,6 +10,7 @@
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All WFH Timelogs</h1>
             <p class="text-sm text-gray-500 dark:text-zinc-400">View and manage all employee Work From Home timelogs</p>
         </div>
+        @can('export-reports')
         <button
             onclick="window.location.href='{{ route('timelogs.export', [
                 'search' => $search,
@@ -26,6 +27,7 @@
             </svg>
             Export PDF
         </button>
+        @endcan
     </div>
 
     {{-- Flash Messages --}}

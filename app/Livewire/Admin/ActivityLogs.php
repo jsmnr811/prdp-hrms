@@ -16,6 +16,9 @@ class ActivityLogs extends Component
     public $filterDateFrom;
     public $filterDateTo;
 
+    public $showDescriptionModal = false;
+    public $selectedLog;
+
     protected $queryString = [
         'filterUser' => ['except' => ''],
         'filterAction' => ['except' => ''],
@@ -25,7 +28,7 @@ class ActivityLogs extends Component
 
     public function mount()
     {
-        if (!Auth::user()->hasRole('administrator')) {
+         if (! Auth::user()->can('view-admin-activity-logs')) {
             abort(403, 'Unauthorized access');
         }
 
@@ -72,5 +75,17 @@ class ActivityLogs extends Component
         $this->reset(['filterUser', 'filterAction', 'filterDateFrom', 'filterDateTo']);
         $this->filterDateFrom = now()->startOfMonth()->toDateString();
         $this->filterDateTo = now()->endOfMonth()->toDateString();
+    }
+
+    public function showFullDescription($logId)
+    {
+        $this->selectedLog = ActivityLog::with('user', 'affectedUser', 'affectedEmployee')->find($logId);
+        $this->showDescriptionModal = true;
+    }
+
+    public function closeDescriptionModal()
+    {
+        $this->showDescriptionModal = false;
+        $this->selectedLog = null;
     }
 }

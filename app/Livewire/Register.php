@@ -450,7 +450,14 @@ class Register extends Component
 
             if (!$existingUser) {
                 $firstNameInitial = strtoupper(substr($firstName, 0, 1));
-                $generatedPassword = $firstNameInitial . strtolower(str_replace(' ', '', $lastName)) . $employeeNumber;
+                $length = random_int(8, 9); // random length between 8 and 9
+                $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                $charactersLength = strlen($characters);
+                $password = '';
+
+                for ($i = 0; $i < $length; $i++) {
+                    $password .= $characters[random_int(0, $charactersLength - 1)];
+                }
 
                 $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
                 $lastInitial  = strtolower(substr($employee->last_name, 0, 1));
@@ -460,7 +467,7 @@ class Register extends Component
                 $user = User::create([
                     'employee_number' => $employeeNumber,
                     'username' => $username,
-                    'password' => Hash::make($generatedPassword),
+                    'password' => Hash::make($password),
                     'status' => 1,
                     'must_change_password' => 0,
                     'employee_id' => $employee->id,
@@ -470,7 +477,7 @@ class Register extends Component
                 $user->assignRole('employee');
 
                 // Send registration email
-                Mail::to($user->email)->send(new RegistrationPassword($user, $generatedPassword));
+                Mail::to($user->email)->send(new RegistrationPassword($user, $password));
             }
 
             // Save employee image

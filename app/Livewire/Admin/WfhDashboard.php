@@ -22,28 +22,47 @@ class WfhDashboard extends Component
 
     public function loadStats()
     {
-        // All WFH timelogs (admin can see all)
-        $this->totalTimelogs = WfhTimelog::count();
-        $this->pendingCount = WfhTimelog::where('status', 'pending')->count();
-        $this->completedCount = WfhTimelog::where('status', 'completed')->count();
+        $user = auth()->user();
+
+        // Base query with visibility scope
+        $baseQuery = WfhTimelog::query()
+            ->whereHas('user.employee', function ($q) use ($user) {
+                $q->visibleTo($user);
+            });
+
+        // Counts
+        $this->totalTimelogs = (clone $baseQuery)->count();
+
+        $this->pendingCount = (clone $baseQuery)
+            ->where('status', 'pending')
+            ->count();
+
+        $this->completedCount = (clone $baseQuery)
+            ->where('status', 'completed')
+            ->count();
 
         // Today's timelogs
-        $this->todayTimelogs = WfhTimelog::where('date', now()->toDateString())
-            ->with('user')
+        $this->todayTimelogs = (clone $baseQuery)
+            ->where('date', now()->toDateString())
+            ->with('user.employee')
             ->orderBy('time_in', 'desc')
             ->get();
 
         // This week's timelogs
-        $this->weekTimelogs = WfhTimelog::whereBetween('date', [
-            now()->startOfWeek()->toDateString(),
-            now()->endOfWeek()->toDateString()
-        ])->count();
+        $this->weekTimelogs = (clone $baseQuery)
+            ->whereBetween('date', [
+                now()->startOfWeek()->toDateString(),
+                now()->endOfWeek()->toDateString()
+            ])
+            ->count();
 
         // This month's timelogs
-        $this->monthTimelogs = WfhTimelog::whereBetween('date', [
-            now()->startOfMonth()->toDateString(),
-            now()->endOfMonth()->toDateString()
-        ])->count();
+        $this->monthTimelogs = (clone $baseQuery)
+            ->whereBetween('date', [
+                now()->startOfMonth()->toDateString(),
+                now()->endOfMonth()->toDateString()
+            ])
+            ->count();
     }
 
     public function render()

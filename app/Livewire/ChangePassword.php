@@ -104,7 +104,7 @@ class ChangePassword extends Component
             return redirect()->route('login');
         } else {
             // For regular password change, stay logged in and redirect to dashboard
-            if ($user->hasRole('administrator')) {
+            if ($user->can('view-admin-dashboard')) {
                 return redirect()->to('/admin/dashboard');
             } elseif ($user->hasRole('employee')) {
                 return redirect()->to('/dashboard');

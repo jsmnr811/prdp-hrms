@@ -126,9 +126,10 @@
             height: 100%;
             opacity: 0.2;
             z-index: -1;
-            background-image: url('{{ public_path('assets/images/Scale-Up Logo.png') }}');
+            background-image: url('{{ public_path('assets/images/Scale-Up Logo_Black.png') }}');
             background-repeat: repeat;
-            background-size: .75in .75in;
+            background-size: auto .5in;            /* preserves aspect ratio */
+            background-repeat: repeat;            /* tiles the watermark */
             background-position: center;
             filter: grayscale(100%);
             pointer-events: none;
@@ -163,6 +164,11 @@
         </table>
     </div>
 
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h3 style="margin: 0; font-weight: bold; text-transform: uppercase;">
+            Work From Home Time Logs and Accomplishments
+        </h3>
+    </div>
     <table>
         <thead>
             <tr>

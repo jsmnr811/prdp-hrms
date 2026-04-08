@@ -77,6 +77,44 @@
         }
     </script>
     @stack('scripts')
+
+    @if(auth()->check() && \Lab404\Impersonate\Impersonate::isImpersonating())
+       <div class="fixed bottom-5 right-5 z-50 flex items-center gap-2 px-3 py-1.5
+            rounded-full bg-red-600/10 border border-red-500/20
+            backdrop-blur-[2px] text-white shadow-sm">
+
+    <!-- Status Dot -->
+    <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-60"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+    </span>
+
+    <!-- Text -->
+    <span class="text-xs font-medium text-white/80">
+        Impersonating
+    </span>
+
+    <!-- Divider -->
+    <span class="w-px h-3 bg-white/20"></span>
+
+    <!-- Exit Icon -->
+    <a href="{{ route('impersonate.leave') }}"
+       class="flex items-center justify-center w-5 h-5 rounded
+              hover:bg-red-600/20 transition"
+       title="Exit impersonation"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-3.5 w-3.5 text-white/70 hover:text-white"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </a>
+
+</div>
+    @endif
 </body>
 
 </html>

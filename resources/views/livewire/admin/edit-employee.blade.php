@@ -16,22 +16,12 @@
                     Personal Information
                 </flux:heading>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Employee Number -->
-                    <div>
-                        <flux:label class="text-sm font-medium py-2">Employee Number *</flux:label>
-                        <flux:input wire:model="employee_number" type="number" min="1" max="9999"
-                            placeholder="e.g., 1234" />
-                        @error('employee_number')
-                            <flux:error>{{ $message }}</flux:error>
-                        @enderror
-                    </div>
-
                     <!-- First Name -->
                     <div>
                         <flux:label class="text-sm font-medium py-2">First Name *</flux:label>
                         <flux:input wire:model="first_name" placeholder="Enter first name" />
                         @error('first_name')
-                            <flux:error>{{ $message }}</flux:error>
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -40,7 +30,7 @@
                         <flux:label class="text-sm font-medium py-2">Last Name *</flux:label>
                         <flux:input wire:model="last_name" placeholder="Enter last name" />
                         @error('last_name')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -49,7 +39,7 @@
                         <flux:label class="text-sm font-medium py-2">Middle Name</flux:label>
                         <flux:input wire:model="middle_name" placeholder="Enter middle name" />
                         @error('middle_name')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -58,7 +48,7 @@
                         <flux:label class="text-sm font-medium py-2">Suffix</flux:label>
                         <flux:input wire:model="suffix" placeholder="e.g., Jr., Sr., III" />
                         @error('suffix')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -69,11 +59,11 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Gender</option>
                             @foreach ($genderOptions as $option)
-                                <option value="{{ $option }}">{{ $option }}</option>
+                            <option value="{{ $option }}">{{ $option }}</option>
                             @endforeach
                         </select>
                         @error('gender')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -82,7 +72,7 @@
                         <flux:label class="text-sm font-medium py-2">Birth Date *</flux:label>
                         <flux:input wire:model="birth_date" type="date" />
                         @error('birth_date')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -104,7 +94,7 @@
                             <flux:input wire:model="tin" @input="$wire.set('tin', formatTIN($event.target.value))"
                                 type="text" placeholder="XXX-XXX-XXX" class="h-11" />
                         </div> @error('tin')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -113,7 +103,7 @@
                         <flux:label class="text-sm font-medium py-2">Landbank Account *</flux:label>
                         <flux:input wire:model="landbank_account" placeholder="Enter landbank account" />
                         @error('landbank_account')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -122,7 +112,7 @@
                         <flux:label class="text-sm font-medium py-2">Contact Number *</flux:label>
                         <flux:input wire:model="contact_number" placeholder="e.g., +63 912 345 6789" />
                         @error('contact_number')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -131,7 +121,7 @@
                         <flux:label class="text-sm font-medium py-2">Email *</flux:label>
                         <flux:input wire:model="email" type="email" placeholder="employee@example.com" />
                         @error('email')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -140,7 +130,7 @@
                         <flux:label class="text-sm font-medium py-2">Address *</flux:label>
                         <flux:textarea wire:model="address" rows="3" placeholder="Enter full address" />
                         @error('address')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
                 </div>
@@ -158,7 +148,7 @@
                         <flux:label class="text-sm font-medium py-2">Emergency Contact Name *</flux:label>
                         <flux:input wire:model="emergency_contact_name" placeholder="Enter emergency contact name" />
                         @error('emergency_contact_name')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -169,11 +159,11 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Relationship</option>
                             @foreach ($relationshipOptions as $option)
-                                <option value="{{ $option }}">{{ $option }}</option>
+                            <option value="{{ $option }}">{{ $option }}</option>
                             @endforeach
                         </select>
                         @error('emergency_contact_relationship')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -182,7 +172,7 @@
                         <flux:label class="text-sm font-medium py-2">Emergency Contact Number *</flux:label>
                         <flux:input wire:model="emergency_contact_number" placeholder="e.g., +63 912 345 6789" />
                         @error('emergency_contact_number')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
                 </div>
@@ -202,43 +192,47 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Office Category</option>
                             @foreach ($officeCategoryOptions as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                         @error('office_category_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
                     <!-- Cluster -->
+                    @if($office_category_id != 3)
                     <div>
                         <flux:label class="text-sm font-medium py-2">Cluster *</flux:label>
                         <select wire:model="cluster_id"
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Cluster</option>
                             @foreach ($clusterOptions as $cluster)
-                                <option value="{{ $cluster->id }}">{{ $cluster->name }}</option>
+                            <option value="{{ $cluster->id }}">{{ $cluster->name }}</option>
                             @endforeach
                         </select>
                         @error('cluster_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
+                    @endif
 
                     <!-- Region -->
+                    @if($office_category_id != 2)
                     <div>
                         <flux:label class="text-sm font-medium py-2">Region *</flux:label>
                         <select wire:model="region_id"
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Region</option>
                             @foreach ($regionOptions as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
+                            <option value="{{ $region->id }}">{{ $region->name }}</option>
                             @endforeach
                         </select>
                         @error('region_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
+                    @endif
 
                     <!-- Office -->
                     <div>
@@ -247,11 +241,11 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Office</option>
                             @foreach ($officeOptions as $office)
-                                <option value="{{ $office->id }}">{{ $office->name }}</option>
+                            <option value="{{ $office->id }}">{{ $office->name }}</option>
                             @endforeach
                         </select>
                         @error('office_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -263,11 +257,11 @@
                             {{ empty($unitOptions) ? 'disabled' : '' }}>
                             <option value="">Select Unit</option>
                             @foreach ($unitOptions as $unit)
-                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                            <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                             @endforeach
                         </select>
                         @error('unit_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -278,11 +272,11 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Position</option>
                             @foreach ($positionOptions as $position)
-                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                            <option value="{{ $position->id }}">{{ $position->name }}</option>
                             @endforeach
                         </select>
                         @error('position_id')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
@@ -293,27 +287,55 @@
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Status</option>
                             @foreach ($employmentStatusOptions as $status)
-                                <option value="{{ $status }}">{{ $status }}</option>
+                            <option value="{{ $status }}">{{ $status }}</option>
                             @endforeach
                         </select>
                         @error('employment_status')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
 
                     <!-- Role -->
+                    @if(auth()->user()->hasRole('administrator'))
                     <div>
                         <flux:label class="text-sm font-medium py-2">Role *</flux:label>
                         <select wire:model="role"
                             class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Role</option>
                             @foreach ($roleOptions as $roleOption)
-                                <option value="{{ $roleOption }}">{{ $roleOption }}</option>
+                            <option value="{{ $roleOption }}">{{ $roleOption }}</option>
                             @endforeach
                         </select>
                         @error('role')
-                            <flux:error>{{ $message }}</flux:error>
+                        <flux:error>{{ $message }}</flux:error>
                         @enderror
+                    </div>
+                    @endif
+                    <!-- Employee Number -->
+                    <div>
+                        <flux:label class="text-sm font-medium py-2">Employee Number *</flux:label>
+
+                        <div class="flex items-center space-x-2">
+                            @if($prefix)
+                            <span class="font-semibold whitespace-nowrap">
+                                {{ $prefix }}-
+                            </span>
+                            @endif
+
+                            <flux:input
+                                wire:model="employee_number"
+                                type="number"
+                                min="1"
+                                max="9999"
+                                placeholder="1234"
+                                class="flex-1" />
+                        </div>
+
+                        @if($errors->has('employee_number'))
+                        <p class="text-red-500 text-sm">
+                            {{ $errors->first('employee_number') }}
+                        </p>
+                        @endif
                     </div>
                 </div>
             </flux:fieldset>

@@ -132,4 +132,28 @@ class Employee extends Model
     {
         return $query->where('office_id', $officeId);
     }
+
+    public function scopeVisibleTo($query, $user)
+    {
+        // ✅ admin → see everything
+        if ($user->hasRole('administrator')) {
+            return $query;
+        }
+
+        $employee = $user->employee;
+
+        // If no permission or no employee record → return none (safe fallback)
+        if (!$user->can('view-employees') || !$employee) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        return $query
+            ->where('office_category_id', $employee->office_category_id)
+            ->when($employee->office_category_id == 2, function ($q) use ($employee) {
+                $q->where('cluster_id', $employee->cluster_id);
+            })
+            ->when($employee->office_category_id == 3, function ($q) use ($employee) {
+                $q->where('region_id', $employee->region_id);
+            });
+    }
 }

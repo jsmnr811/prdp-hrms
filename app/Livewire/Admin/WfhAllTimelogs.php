@@ -25,13 +25,20 @@ class WfhAllTimelogs extends Component
 
     public function render()
     {
-        $query = WfhTimelog::with('user');
+        $user = auth()->user();
+
+        $query = WfhTimelog::with('user.employee')
+
+            // ✅ Apply visibility scope here
+            ->whereHas('user.employee', function ($q) use ($user) {
+                $q->visibleTo($user);
+            });
 
         // Apply search filter
         if ($this->search) {
             $query->whereHas('user', function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('employee_id', 'like', '%' . $this->search . '%');
+                    ->orWhere('employee_id', 'like', '%' . $this->search . '%');
             });
         }
 
@@ -58,7 +65,10 @@ class WfhAllTimelogs extends Component
             ->orderBy('time_in', 'desc')
             ->paginate(15);
 
-        $users = User::role('employee')->get();
+        // ✅ Also filter users dropdown using same scope
+        $users = User::whereHas('employee', function ($q) use ($user) {
+            $q->visibleTo($user);
+        })->role('employee')->get();
 
         return view('livewire.admin.wfh-all-timelogs', [
             'timelogs' => $timelogs,

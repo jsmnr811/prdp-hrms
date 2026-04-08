@@ -23,8 +23,6 @@ class EmployeeList extends Component
     public $unitFilter = '';
     public $sortField = 'employee_number';
     public $sortDirection = 'asc';
-    public $showResetPasswordModal = false;
-    public $selectedEmployeeId;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -37,26 +35,24 @@ class EmployeeList extends Component
 
     public function mount()
     {
-        if (!Auth::user()->hasRole('administrator')) {
+        if (!Auth::user()->can('view-employees')) {
             abort(403, 'Unauthorized access');
         }
     }
 
+    // Reset pagination on filters
     public function updatingSearch()
     {
         $this->resetPage();
     }
-
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
-
     public function updatingOfficeFilter()
     {
         $this->resetPage();
     }
-
     public function updatingUnitFilter()
     {
         $this->resetPage();
@@ -71,50 +67,55 @@ class EmployeeList extends Component
             $this->sortDirection = 'asc';
         }
     }
+
+    // ==============================
+    // ACTIONS
+    // ==============================
+
     public function confirmResendWelcomeEmail($employeeId)
     {
         $employee = Employee::where('employee_number', $employeeId)->first();
+
         if (!$employee) {
             session()->flash('error', 'Employee not found.');
             return;
         }
 
-        $employeeName = $employee->first_name . ' ' . $employee->last_name;
+        $name = $employee->full_name;
 
         LivewireAlert::title('Send Welcome Emails')
-            ->text("Are you sure you want to resend welcome emails to \"{$employeeName}\"?")
+            ->text("Resend welcome email to \"{$name}\"?")
             ->question()
-            ->timer(0)
-            ->withConfirmButton('Yes, Send Emails')
+            ->withConfirmButton('Yes')
             ->withCancelButton('Cancel')
-            // pass the ID as a parameter to the callback
             ->onConfirm('resendWelcomeEmail', ['employeeId' => $employeeId])
             ->show();
     }
+
     public function resendWelcomeEmail($employeeId)
     {
         $user = User::where('employee_number', $employeeId)->first();
+
         if (!$user || !$user->employee) {
-            session()->flash('error', 'User not found or has no employee record.');
+            session()->flash('error', 'User not found.');
             return;
         }
 
         $employee = $user->employee;
 
-        // Generate default password: first initial + last name + employee number
-        $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
-        $lastName = trim($employee->last_name);
-        $employeeNumber = $employee->employee_number;
-        $defaultPassword = $firstInitial . $lastName . $employeeNumber;
+        $defaultPassword =
+            strtoupper(substr($employee->first_name, 0, 1)) .
+            trim($employee->last_name) .
+            $employee->employee_number;
 
-        // Hash and save
-        $user->password = Hash::make($defaultPassword);
-        $user->save();
+        $user->update([
+            'password' => Hash::make($defaultPassword)
+        ]);
 
-        // Send welcome email with new credentials
-        Mail::to($user->email)->send(new \App\Mail\WelcomeEmail($user, $defaultPassword));
+        Mail::to($user->email)
+            ->send(new \App\Mail\WelcomeEmail($user, $defaultPassword));
 
-        session()->flash('message', 'Password reset to default and welcome email sent to ' . $user->name);
+        session()->flash('message', 'Welcome email resent.');
     }
 
     public function confirmResetPassword($employeeId)
@@ -122,17 +123,14 @@ class EmployeeList extends Component
         $employee = Employee::where('employee_number', $employeeId)->first();
 
         if (!$employee || !$employee->user) {
-            session()->flash('error', 'Employee or user not found.');
+            session()->flash('error', 'Employee not found.');
             return;
         }
 
-        $employeeName = $employee->first_name . ' ' . $employee->last_name;
-
         LivewireAlert::title('Reset Password')
-            ->text("Are you sure you want to reset the password for \"{$employeeName}\" to the default?")
+            ->text("Reset password for \"{$employee->full_name}\"?")
             ->question()
-            ->timer(0)
-            ->withConfirmButton('Yes, Reset Password')
+            ->withConfirmButton('Yes')
             ->withCancelButton('Cancel')
             ->onConfirm('resetPassword', ['employeeId' => $employeeId])
             ->show();
@@ -141,25 +139,29 @@ class EmployeeList extends Component
     public function resetPassword($employeeId)
     {
         $employee = Employee::where('employee_number', $employeeId)->first();
+
         if (!$employee || !$employee->user) {
-            session()->flash('error', 'Employee or user not found.');
+            session()->flash('error', 'Employee not found.');
             return;
         }
 
-        // Generate default password: first initial + last name + employee number
-        $firstInitial = strtoupper(substr($employee->first_name, 0, 1));
-        $lastName = preg_replace('/\s+/', '', strtolower($employee->last_name));
-        $employeeNumber = $employee->employee_number;
-        $defaultPassword = $firstInitial . $lastName . $employeeNumber;
+        $defaultPassword =
+            strtoupper(substr($employee->first_name, 0, 1)) .
+            strtolower(preg_replace('/\s+/', '', $employee->last_name)) .
+            $employee->employee_number;
 
-        // Hash and save
-        $employee->user->password = Hash::make($defaultPassword);
-        $employee->user->save();
+        $employee->user->update([
+            'password' => Hash::make($defaultPassword)
+        ]);
 
-        // Send notification email
-        Mail::to($employee->user->email)->send(new \App\Mail\TemporaryPassword($employee->user, $defaultPassword, $employeeNumber));
+        Mail::to($employee->user->email)
+            ->send(new \App\Mail\TemporaryPassword(
+                $employee->user,
+                $defaultPassword,
+                $employee->employee_number
+            ));
 
-        session()->flash('message', 'Password reset to default and notification email sent to ' . $employee->user->name);
+        session()->flash('message', 'Password reset successful.');
     }
 
     public function editEmployee($employeeId)
@@ -167,35 +169,60 @@ class EmployeeList extends Component
         return redirect()->route('admin.edit-employee', $employeeId);
     }
 
+    // ==============================
+    // RENDER
+    // ==============================
+
     public function render()
     {
-        \Log::info('EmployeeList render with search: ' . $this->search);
+        $user = Auth::user();
+
         $employees = Employee::with(['user', 'office', 'unit', 'position'])
-            // ->whereHas('user', function ($query) {
-            //     $query->role('employee');
-            // })
+            ->visibleTo($user) // 🔥 MAIN FILTER
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->whereRaw("CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) LIKE ?", ['%' . $this->search . '%'])
-                        ->orWhere('email', 'like', '%' . $this->search . '%')
-                        ->orWhere('employee_number', 'like', '%' . $this->search . '%');
+                    $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$this->search}%"])
+                        ->orWhere('email', 'like', "%{$this->search}%")
+                        ->orWhere('employee_number', 'like', "%{$this->search}%");
                 });
             })
-            ->when($this->statusFilter, function ($query) {
-                $query->where('employment_status', $this->statusFilter);
-            })
-            ->when($this->officeFilter, function ($query) {
-                $query->where('office_id', $this->officeFilter);
-            })
-            ->when($this->unitFilter, function ($query) {
-                $query->where('unit_id', $this->unitFilter);
-            })
+            ->when(
+                $this->statusFilter,
+                fn($q) =>
+                $q->where('employment_status', $this->statusFilter)
+            )
+            ->when(
+                $this->officeFilter,
+                fn($q) =>
+                $q->where('office_id', $this->officeFilter)
+            )
+            ->when(
+                $this->unitFilter,
+                fn($q) =>
+                $q->where('unit_id', $this->unitFilter)
+            )
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(15);
 
-        \Log::info('EmployeeList query executed, count: ' . $employees->count());
+        // 🔥 FILTERED DROPDOWNS
+        $offices = Office::query()
+            ->when(!$user->hasRole('administrator') && $user->employee, function ($q) use ($user) {
+                $emp = $user->employee;
 
-        $offices = Office::orderBy('name')->get();
+                // Filter offices THROUGH employees (correct way)
+                $q->whereHas('employees', function ($query) use ($emp) {
+                    $query->where('office_category_id', $emp->office_category_id)
+                        ->when($emp->office_category_id >= 2, function ($q) use ($emp) {
+                            $q->where('cluster_id', $emp->cluster_id);
+                        })
+                        ->when($emp->office_category_id == 3, function ($q) use ($emp) {
+                            $q->where('region_id', $emp->region_id);
+                        });
+                });
+            })
+            ->orderBy('name')
+            ->get();
+
         $units = Unit::orderBy('name')->get();
         $statuses = ['Hired', 'Resigned', 'Terminated'];
 

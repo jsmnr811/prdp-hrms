@@ -16,12 +16,12 @@ class Dashboard extends Component
 {
     public function mount()
     {
-        if (! Auth::user()->hasRole('administrator')) {
+        if (! Auth::user()->can('view-admin-dashboard')) {
             abort(403, 'Unauthorized access');
         }
     }
 
-      public function confirmSendWelcomeEmails()
+    public function confirmSendWelcomeEmails()
     {
         LivewireAlert::title('Send Welcome Emails')
             ->text('Are you sure you want to resend welcome emails to all users?')
@@ -50,56 +50,50 @@ class Dashboard extends Component
 
     private function getStats(): array
     {
-        // Base query for employee users
-        $employeeUsers = User::role('employee')
-            ->whereHas('employee')
-            ->where('status', 1);
+        $user = Auth::user();
+
+        // Employee query with visibility applied
+        $employeeUsers = Employee::visibleTo($user)
+            ->whereHas('user', function ($q) {
+                $q->where('status', 1)
+                    ->whereHas('roles', function ($q2) {
+                        $q2->where('name', 'employee');
+                    });
+            });
+
+        // User query with visibility applied
+        $visibleUsersQuery = User::whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator'))
+            ->whereHas('employee', fn($q) => $q->visibleTo($user));
 
         return [
-            // Total employees
             'total_employees' => (clone $employeeUsers)->count(),
+            'active_employees' => (clone $employeeUsers)->where('employment_status', 'Hired')->count(),
 
-            // Active employees (Hired)
-            'active_employees' => (clone $employeeUsers)
-                ->whereHas('employee', fn($q) => $q->where('employment_status', 'Hired'))
-                ->count(),
-
-            // Total users (excluding admin)
-            'total_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator'))
-                ->count(),
-
-            // Active users (excluding admin)
-            'active_users' => User::whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator'))
-                ->where('status', 1)
-                ->count(),
+            'total_users' => $visibleUsersQuery->count(),
+            'active_users' => (clone $visibleUsersQuery)->where('status', 1)->count(),
 
             'total_offices' => Office::count(),
             'total_positions' => Position::count(),
 
-            // New this month
             'new_this_month' => (clone $employeeUsers)
-                ->whereHas(
-                    'employee',
-                    fn($q) => $q->whereMonth('created_at', now()->month)
-                        ->whereYear('created_at', now()->year)
-                )
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
                 ->count(),
 
-            // Resigned this month
             'resigned_this_month' => (clone $employeeUsers)
-                ->whereHas(
-                    'employee',
-                    fn($q) => $q->where('employment_status', 'Resigned')
-                        ->whereMonth('updated_at', now()->month)
-                        ->whereYear('updated_at', now()->year)
-                )
+                ->where('employment_status', 'Resigned')
+                ->whereMonth('updated_at', now()->month)
+                ->whereYear('updated_at', now()->year)
                 ->count(),
         ];
     }
 
     private function getRecentEmployees()
     {
+        $user = Auth::user();
+
         return Employee::with(['office', 'position', 'user'])
+            ->visibleTo($user)
             ->whereHas('user', fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('name', 'administrator')))
             ->latest()
             ->take(5)

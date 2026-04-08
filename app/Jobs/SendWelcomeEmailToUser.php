@@ -43,11 +43,18 @@ class SendWelcomeEmailToUser implements ShouldQueue
         // Generate default password
         $firstInitial = strtoupper(substr($user->employee->first_name, 0, 1));
         $lastName = preg_replace('/\s+/', '', strtolower($user->employee->last_name));
-        $defaultPassword = $firstInitial . $lastName . $user->employee_number;
 
+        $length = random_int(8, 9); // random length between 8 and 9
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $charactersLength = strlen($characters);
+        $password = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[random_int(0, $charactersLength - 1)];
+        }
         // Update user password
         $user->update([
-            'password' => Hash::make($defaultPassword),
+            'password' => Hash::make($password),
             'must_change_password' => false,
             'temp_password' => null,
             'temp_password_expires_at' => null,
@@ -55,7 +62,7 @@ class SendWelcomeEmailToUser implements ShouldQueue
 
         // Send email
         Mail::to($user->email)->send(
-            new WelcomeEmail($user, $defaultPassword)
+            new WelcomeEmail($user, $password)
         );
 
         Log::info("Sent welcome email to user: {$user->email}");

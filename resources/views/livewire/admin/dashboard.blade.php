@@ -12,7 +12,8 @@
                 <div>
                     <p class="text-sm text-zinc-600 dark:text-zinc-400">System Users</p>
                     <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['total_users']) }}</p>
+                        {{ number_format($stats['total_users']) }}
+                    </p>
                 </div>
                 <flux:badge color="green" size="lg">
                     <flux:icon.users class="w-5 h-5" />
@@ -27,7 +28,8 @@
                 <div>
                     <p class="text-sm text-zinc-600 dark:text-zinc-400">Employee Profile</p>
                     <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['total_employees']) }}</p>
+                        {{ number_format($stats['total_employees']) }}
+                    </p>
                 </div>
                 <flux:badge color="blue" size="lg">
                     <flux:icon.user-circle class="w-5 h-5" />
@@ -44,7 +46,8 @@
                 <div>
                     <p class="text-sm text-zinc-600 dark:text-zinc-400">Offices</p>
                     <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['total_offices']) }}</p>
+                        {{ number_format($stats['total_offices']) }}
+                    </p>
                 </div>
                 <flux:badge color="purple" size="lg">
                     <flux:icon.building-office class="w-5 h-5" />
@@ -60,7 +63,8 @@
                 <div>
                     <p class="text-sm text-zinc-600 dark:text-zinc-400">Positions</p>
                     <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                        {{ number_format($stats['total_positions']) }}</p>
+                        {{ number_format($stats['total_positions']) }}
+                    </p>
                 </div>
                 <flux:badge color="orange" size="lg">
                     <flux:icon.clipboard-document-list class="w-5 h-5" />
@@ -82,17 +86,19 @@
 
                 <div class="space-y-2">
                     <div class="space-y-2">
+                        @can('create-employees')
                         <flux:button variant="primary" class="w-full justify-start text-sm font-medium" icon="user-plus"
                             :href="route('admin.add-employee')">
                             Add New Employee
                         </flux:button>
-
+                        @endcan
+                        @can('view-employees')
                         <flux:button variant="outline"
                             class="w-full justify-start text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-700"
                             icon="user-group" :href="route('admin.employee-list')">
                             Manage Employees
                         </flux:button>
-
+                        @endcan
                         <flux:button variant="outline"
                             class="w-full justify-start text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-700"
                             icon="clipboard-document-list" :href="route('admin.activity-logs')">
@@ -108,8 +114,8 @@
                 </div>
             </flux:card>
         </div>
-
         {{-- Recent Employees --}}
+        @can('view-employees')
         <div class="lg:col-span-2">
             <flux:card class="bg-white dark:bg-zinc-800 shadow-sm dark:shadow-md">
                 <div class="flex items-center justify-between mb-4">
@@ -119,7 +125,6 @@
                         View All Employees
                     </flux:button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left border-collapse">
                         <thead class="text-xs text-zinc-600 uppercase bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-400">
@@ -133,38 +138,43 @@
                         </thead>
                         <tbody>
                             @forelse($recentEmployees as $employee)
-                                <tr
-                                    class="border-b dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors">
-                                    <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
-                                        {{ $employee->formatted_employee_number }}</td>
-                                    <td class="px-4 py-3 text-zinc-900 dark:text-white">{{ $employee->full_name }}</td>
-                                    <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">
-                                        {{ $employee->office?->name ?? 'N/A' }}</td>
-                                    <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">
-                                        {{ $employee->position?->name ?? 'N/A' }}</td>
-                                    <td class="px-4 py-3">
-                                        <flux:badge
-                                            :color="
+                            <tr
+                                class="border-b dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors">
+                                <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
+                                    {{ $employee->formatted_employee_number }}
+                                </td>
+                                <td class="px-4 py-3 text-zinc-900 dark:text-white">{{ $employee->full_name }}</td>
+                                <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">
+                                    {{ $employee->office?->name ?? 'N/A' }}
+                                </td>
+                                <td class="px-4 py-3 text-zinc-700 dark:text-zinc-300">
+                                    {{ $employee->position?->name ?? 'N/A' }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    <flux:badge
+                                        :color="
                                                                                                                                                                                     $employee->employment_status === 'Hired' ? 'green' :
                                                                                                                                                                                     ($employee->employment_status === 'Resigned' ? 'red' : 'yellow')
                                             "
-                                            size="sm">
-                                            {{ $employee->employment_status }}
-                                        </flux:badge>
-                                    </td>
-                                </tr>
+                                        size="sm">
+                                        {{ $employee->employment_status }}
+                                    </flux:badge>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td colspan="5" class="px-4 py-8 text-center text-zinc-600 dark:text-zinc-400">
-                                        No employees found
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-zinc-600 dark:text-zinc-400">
+                                    No employees found
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
+
             </flux:card>
         </div>
+        @endcan
 
     </div>
 </div>

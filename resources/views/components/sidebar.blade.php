@@ -13,75 +13,84 @@
     </flux:sidebar.header>
 
     <flux:sidebar.nav>
-        <flux:sidebar.group :heading="__('Main')" class="grid">
-            @role('administrator')
-                <flux:sidebar.item icon="squares-2x2" :href="route('admin.dashboard')"
-                    :current="request()->routeIs('admin.dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:sidebar.item>
-            @endrole
+        @can('view-admin-dashboard')
+        <flux:sidebar.item icon="squares-2x2" :href="route('admin.dashboard')"
+            :current="request()->routeIs('admin.dashboard')" wire:navigate>
+            {{ __('Dashboard') }}
+        </flux:sidebar.item>
+        @endcan
 
-            @role('employee')
-                <flux:sidebar.item icon="squares-2x2" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>
-                    {{ __('Dashboard') }}
+        @can('view-dashboard')
+        <flux:sidebar.item icon="squares-2x2" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
+            wire:navigate>
+            {{ __('Dashboard') }}
+        </flux:sidebar.item>
+        @endcan
+
+        @can('manage-timelogs')
+        <flux:sidebar.item icon="clock"
+            :href="auth()->user()->hasRole('admin') ? route('admin.wfh-timelogs') : route('wfh-timelogs')"
+            :current="request()->routeIs(auth()->user()->hasRole('admin') ? 'admin.wfh-timelogs' : 'wfh-timelogs')"
+            wire:navigate>
+            {{ __('My TimeLogs') }}
+        </flux:sidebar.item>
+        @endcan
+
+
+
+        @can('view-settings')
+        <flux:sidebar.group :heading="__('System Settings')" class="grid">
+            @can('manage-organization')
+            <flux:sidebar.group expandable icon="building-office-2" heading="Organization Management" class="[&>button]:text-left [&>button]:justify-start">
+                <flux:sidebar.item href="{{ route('admin.clusters') }}" wire:navigate>
+                    Clusters
                 </flux:sidebar.item>
 
-                <flux:sidebar.item icon="clock"
-                    :href="auth()->user()->hasRole('admin') ? route('admin.wfh-timelogs') : route('wfh-timelogs')"
-                    :current="request()->routeIs(auth()->user()->hasRole('admin') ? 'admin.wfh-timelogs' : 'wfh-timelogs')"
-                    wire:navigate>
-                    {{ __('My TimeLogs') }}
-                </flux:sidebar.item>
-            @endrole
-
-            @role('administrator')
-                <flux:sidebar.item icon="building-office-2">
-                    {{ __('Offices & Units') }}
+                 <flux:sidebar.item href="{{ route('admin.regions') }}" wire:navigate>
+                    Regions
                 </flux:sidebar.item>
 
-                <flux:sidebar.item icon="briefcase">
-                    {{ __('Positions') }}
+                <flux:sidebar.item href="{{ route('admin.wfh-dashboard') }}" wire:navigate>
+                    Offices
                 </flux:sidebar.item>
-            @endrole
+
+                <flux:sidebar.item href="{{ route('admin.wfh-all-timelogs') }}" wire:navigate>
+                    Units
+                </flux:sidebar.item>
+            </flux:sidebar.group>
+            @endcan
+            @can('manage-users')
+            <flux:sidebar.group expandable icon="user-group" heading="User Management" class="[&>button]:text-left [&>button]:justify-start">
+                @can('view-employees')
+                <flux:sidebar.item href="{{ route('admin.employee-list') }}" wire:navigate>
+                    Employees
+                </flux:sidebar.item>
+                @endcan
+                @can('manage-roles-permissions')
+                <flux:sidebar.item href="{{ route('admin.role-permission-management') }}" wire:navigate>
+                    Roles & Permissions
+                </flux:sidebar.item>
+                @endcan
+
+            </flux:sidebar.group>
+            @endcan
+            @can('manage-timelogs')
+            <flux:sidebar.group expandable icon="briefcase" heading="WFH Management" class="grid">
+                <flux:sidebar.item href="{{ route('admin.wfh-dashboard') }}" wire:navigate>Dashboard
+                </flux:sidebar.item>
+                <flux:sidebar.item href="{{ route('admin.wfh-all-timelogs') }}" wire:navigate>All TimeLogs
+                </flux:sidebar.item>
+                @if (config('wfh.require_location'))
+                <flux:sidebar.item href="{{ route('admin.wfh-monitoring') }}" wire:navigate>
+                    Monitoring
+                </flux:sidebar.item>
+                @endif
+
+            </flux:sidebar.group>
+            @endcan
+
         </flux:sidebar.group>
-
-        @role('administrator')
-            <flux:sidebar.group :heading="__('User Management')" class="grid">
-
-                <flux:sidebar.item icon="users" :href="route('admin.employee-list')"
-                    :current="request()->routeIs('admin.employee-list')" wire:navigate>
-                    {{ __('Employees') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="shield-check" :href="route('admin.role-permission-management')"
-                    :current="request()->routeIs('admin.role-permission-management')" wire:navigate>
-                    {{ __('Roles & Permissions') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="building-office-2" :href="route('admin.clusters')" :current="request()->routeIs('admin.clusters')" wire:navigate>{{ __('Cluster Management') }}</flux:sidebar.item>
-
-                <flux:sidebar.item icon="map" :href="route('admin.regions')" :current="request()->routeIs('admin.regions')" wire:navigate>{{ __('Regions') }}</flux:sidebar.item>
-
-            </flux:sidebar.group>
-            <flux:sidebar.group :heading="__('System')" class="grid">
-                <flux:sidebar.item icon="cog">
-                    {{ __('Settings') }}
-                </flux:sidebar.item>
-                <flux:sidebar.group expandable heading="WFH Management" class="grid">
-                    <flux:sidebar.item href="{{ route('admin.wfh-dashboard') }}" wire:navigate>Dashboard
-                    </flux:sidebar.item>
-                    <flux:sidebar.item href="{{ route('admin.wfh-all-timelogs') }}" wire:navigate>All TimeLogs
-                    </flux:sidebar.item>
-                    @if (config('wfh.require_location'))
-                        <flux:sidebar.item href="{{ route('admin.wfh-monitoring') }}" wire:navigate>
-                            Monitoring
-                        </flux:sidebar.item>
-                    @endif
-                </flux:sidebar.group>
-            </flux:sidebar.group>
-        @endrole
-
+        @endcan
     </flux:sidebar.nav>
 
     <flux:spacer />
@@ -100,7 +109,8 @@
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {{ auth()->user()->name }}</p>
+                    {{ auth()->user()->name }}
+                </p>
                 <p class="text-xs text-gray-500 dark:text-zinc-400 truncate">
                     #{{ auth()->user()->employee_number }}</p>
             </div>

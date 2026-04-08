@@ -24,7 +24,7 @@ class Login extends Component
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->hasRole('administrator')) {
+            if ($user->can('view-admin-dashboard')) {
                 return redirect()->to('/admin/dashboard');
             } else {
                 return redirect()->to('/dashboard');
@@ -105,11 +105,11 @@ class Login extends Component
         $user->updateLastLogin();
 
         // Redirect based on role
-        if ($user->hasRole('administrator')) {
-            return redirect()->to('/admin/dashboard');
-        }
 
-        if ($user->hasRole('employee')) {
+
+        if ($user->can('view-admin-dashboard')) {
+            return redirect()->to('/admin/dashboard');
+        } else {
             return redirect()->to('/dashboard');
         }
 
