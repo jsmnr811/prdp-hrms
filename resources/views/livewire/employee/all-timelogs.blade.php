@@ -1,14 +1,13 @@
 <div>
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}">Dashboard</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>WFH Management</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>All TimeLogs</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>Employee Timelogs</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <div class="mb-6 flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All WFH Timelogs</h1>
-            <p class="text-sm text-gray-500 dark:text-zinc-400">View and manage all employee Work From Home timelogs</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Employee Timelogs</h1>
+            <p class="text-sm text-gray-500 dark:text-zinc-400">Monitor your Component Timelogs</p>
         </div>
         @can('export-reports')
         <button
@@ -16,9 +15,6 @@
                 'search' => $search,
                 'user_id' => $filterUserId,
                 'status' => $filterStatus,
-                'office_category_id' => $filterOfficeCategoryId,
-                'office_id' => $filterOfficeId,
-                'unit_id' => $filterUnitId,
                 'date_from' => $filterDateFrom,
                 'date_to' => $filterDateTo,
             ]) }}'"
@@ -42,7 +38,7 @@
 
     {{-- Filters --}}
     <div class="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-gray-200 dark:border-zinc-700 p-4 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {{-- Search --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
@@ -79,48 +75,6 @@
                 </select>
             </div>
 
-            {{-- Office Category Filter --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
-                    Office Category
-                </label>
-                <select wire:model.live="filterOfficeCategoryId"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Categories</option>
-                    @foreach ($officeCategories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            {{-- Office Filter --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
-                    Office
-                </label>
-                <select wire:model.live="filterOfficeId"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Offices</option>
-                    @foreach ($offices as $office)
-                    <option value="{{ $office->id }}">{{ $office->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            {{-- Unit Filter --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
-                    Unit
-                </label>
-                <select wire:model.live="filterUnitId"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Units</option>
-                    @foreach ($units as $unit)
-                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
             {{-- Date From --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
@@ -141,7 +95,7 @@
         </div>
 
         {{-- Clear Filters --}}
-        @if ($search || $filterStatus || $filterUserId || $filterOfficeCategoryId || $filterOfficeId || $filterUnitId || $filterDateFrom || $filterDateTo)
+        @if ($search || $filterStatus || $filterUserId || $filterDateFrom || $filterDateTo)
         <div class="mt-4 flex justify-end">
             <button wire:click="clearFilters"
                 class="px-4 py-2 text-sm text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white">
@@ -322,4 +276,6 @@
         </div>
         @endif
     </div>
+</div>
+
 </div>

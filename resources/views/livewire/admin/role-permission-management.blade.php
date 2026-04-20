@@ -78,7 +78,7 @@
                                         href="{{ route('admin.roles.edit', $role->id) }}" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
 
                                     @if ($role->name !== 'administrator')
-                                        <flux:button icon="trash" variant="danger" size="sm" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
+                                        <flux:button icon="trash" variant="danger" size="sm" wire:click="deleteRole({{ $role->id }})" wire:confirm="Are you sure you want to delete this role?" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
                                     @endif
                                 </div>
 
@@ -154,7 +154,7 @@
                         <div class="flex items-center gap-2 sm:self-auto">
                             <flux:button icon="pencil" variant="outline" size="sm"
                                 href="{{ route('admin.permissions.edit', $permission->id) }}" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
-                            <flux:button icon="trash" variant="danger" size="sm" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
+                            <flux:button icon="trash" variant="danger" size="sm" wire:click="deletePermission({{ $permission->id }})" wire:confirm="Are you sure you want to delete this permission?" class="min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto"></flux:button>
                         </div>
 
                     </flux:card>

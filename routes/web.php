@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\WfhTimelogExportController;
-use App\Models\ActivityLog;
 use App\Livewire\Admin\ActivityLogs as AdminActivityLogs;
 use App\Livewire\Admin\AddEmployee;
+use App\Livewire\Admin\ClusterList;
 use App\Livewire\Admin\CreatePermission;
 use App\Livewire\Admin\CreateRole;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -11,7 +11,6 @@ use App\Livewire\Admin\EditEmployee;
 use App\Livewire\Admin\EditPermission;
 use App\Livewire\Admin\EditRole;
 use App\Livewire\Admin\EmployeeList;
-use App\Livewire\Admin\ClusterList;
 use App\Livewire\Admin\RegionList;
 use App\Livewire\Admin\RolePermissionManagement;
 use App\Livewire\Admin\WfhAllTimelogs;
@@ -20,12 +19,14 @@ use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
 use App\Livewire\ChangePassword;
 use App\Livewire\Employee\ActivityLogs as EmployeeActivityLogs;
+use App\Livewire\Employee\AllTimelogs;
 use App\Livewire\Employee\ChangePassword as EmployeeChangePassword;
 use App\Livewire\Employee\Dashboard as EmployeeDashboard;
 use App\Livewire\Employee\UpdateProfile;
 use App\Livewire\ForgotPassword;
 use App\Livewire\Login;
 use App\Livewire\Register;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Route;
 
 // Landing page = Login
@@ -38,6 +39,7 @@ Route::get('/', function () {
             return redirect()->route('dashboard');
         }
     }
+
     return redirect()->route('login');
 })->name('home');
 Route::get('/login', Login::class)->name('login')->middleware('guest');
@@ -52,7 +54,7 @@ Route::get('/forgot-password', ForgotPassword::class)->middleware('guest')->name
 Route::middleware(['auth'])->group(function () {
 
     // WFH Timelog Export PDF - accessible to all authenticated users for single user export, admins for all
-    Route::get('/timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('timelogs.export')->middleware('permission:export-reports');;
+    Route::get('/timelogs/export', [WfhTimelogExportController::class, 'exportPdf'])->name('timelogs.export')->middleware('permission:export-reports');
 
     // Admin dashboard
     Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard')->middleware('permission:view-admin-dashboard');
@@ -99,6 +101,9 @@ Route::middleware(['auth'])->group(function () {
 
     // WFH Timelogs
     Route::get('/wfh-timelogs', WfhTimelogs::class)->name('wfh-timelogs')->middleware('permission:manage-timelogs');
+
+    // All Employee Timelogs
+    Route::get('/all-timelogs', AllTimelogs::class)->name('all-timelogs')->middleware('permission:view-timelogs');
 
     // Change Password
     Route::get('/employee/change-password', EmployeeChangePassword::class)->name('employee.change-password');

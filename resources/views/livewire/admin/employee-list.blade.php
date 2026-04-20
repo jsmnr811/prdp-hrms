@@ -161,43 +161,41 @@
                                     </svg>
                                 </button>
 
-                                <div x-show="open" @click.away="open = false"
-                                    class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-zinc-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="transform opacity-0 scale-95"
-                                    x-transition:enter-end="transform opacity-100 scale-100"
-                                    x-transition:leave="transition ease-in duration-75"
-                                    x-transition:leave-start="transform opacity-100 scale-100"
-                                    x-transition:leave-end="transform opacity-0 scale-95">
-                                    <div class="py-1">
-                                        @can('edit-employees')
-                                        <button wire:click="editEmployee({{ $employee->id }})"
-                                            class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
-                                            Edit Employee
-                                        </button>
-                                        @endcan
-                                        {{-- <button wire:click="confirmResendWelcomeEmail({{ $employee->employee_number }})"
-                                        class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
-                                        Resend Email
-                                        </button> --}}
-                                        @can('reset-employees-password')
-                                        <button
-                                            wire:click="confirmResetPassword({{ $employee->employee_number }})"
-                                            class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
-                                            Reset Password
-                                        </button>
-                                        @endcan
-                                        @can('impersonate-users')
-                                        @if(auth()->user()->canImpersonate() && $employee->user->canBeImpersonated())
-                                        <a href="{{ route('impersonate', ['id' => $employee->user->id]) }}"
-                                            class="block w-full text-left px-2 py-2 text-sm text-zinc-700 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600">
-                                            Impersonate
-                                        </a>
-                                        @endif
-                                        @endcan
-
-                                    </div>
-                                </div>
+<div x-show="open" @click.away="open = false"
+    class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-gray-50 dark:bg-zinc-700 ring-1 ring-gray-300 dark:ring-zinc-600 focus:outline-none z-10"
+    x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="transform opacity-0 scale-95"
+    x-transition:enter-end="transform opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-75"
+    x-transition:leave-start="transform opacity-100 scale-100"
+    x-transition:leave-end="transform opacity-0 scale-95">
+    <div class="py-1">
+        @can('edit-employees')
+        <button wire:click="editEmployee({{ $employee->id }})"
+            class="block w-full text-left px-2 py-2 text-sm text-gray-900 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600 transition-colors">
+            Edit Employee
+        </button>
+        @endcan
+        {{-- <button wire:click="confirmResendWelcomeEmail({{ $employee->employee_number }})"
+        class="block w-full text-left px-2 py-2 text-sm text-gray-900 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600 transition-colors">
+        Resend Email
+        </button> --}}
+        @can('reset-employees-password')
+        <button wire:click="confirmResetPassword({{ $employee->employee_number }})"
+            class="block w-full text-left px-2 py-2 text-sm text-gray-900 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600 transition-colors">
+            Reset Password
+        </button>
+        @endcan
+        @can('impersonate-users')
+        @if(auth()->user()->canImpersonate() && $employee->user->canBeImpersonated())
+        <a href="{{ route('impersonate', ['id' => $employee->user->id]) }}"
+            class="block w-full text-left px-2 py-2 text-sm text-gray-900 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-600 transition-colors">
+            Impersonate
+        </a>
+        @endif
+        @endcan
+    </div>
+</div>
                             </div>
                             @else
                             <span class="text-zinc-500 dark:text-zinc-400">No User</span>

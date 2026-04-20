@@ -12,8 +12,14 @@ class ActivityLogs extends Component
     use WithPagination;
 
     public $filterAction;
+
     public $filterDateFrom;
+
     public $filterDateTo;
+
+    public $showDescriptionModal = false;
+
+    public $selectedLog;
 
     protected $queryString = [
         'filterAction' => ['except' => ''],
@@ -23,7 +29,7 @@ class ActivityLogs extends Component
 
     public function mount()
     {
-        if (!Auth::user()->hasRole('employee')) {
+        if (! Auth::user()->can('view-activity-logs')) {
             abort(403, 'Unauthorized access');
         }
 
@@ -33,25 +39,51 @@ class ActivityLogs extends Component
 
     public function render()
     {
-        $query = ActivityLog::where('user_id', Auth::id());
+        $user = Auth::user();
 
-        // Apply filters
+        // ✅ MAIN QUERY (FIXED)
+        $query = ActivityLog::with(['user', 'affectedUser', 'affectedEmployee'])
+            ->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id) // own actions
+                    ->orWhere('affected_user_id', $user->id); // admin actions
+
+                if ($user->employee) {
+                    $q->orWhere('affected_employee_id', $user->employee->id);
+                }
+            });
+
+        // ✅ FILTER: action
         if ($this->filterAction) {
             $query->where('action', $this->filterAction);
         }
 
+        // ✅ FILTER: date
         if ($this->filterDateFrom && $this->filterDateTo) {
-            $query->whereBetween('created_at', [$this->filterDateFrom . ' 00:00:00', $this->filterDateTo . ' 23:59:59']);
+            $query->whereBetween('created_at', [
+                $this->filterDateFrom.' 00:00:00',
+                $this->filterDateTo.' 23:59:59',
+            ]);
         } elseif ($this->filterDateFrom) {
-            $query->where('created_at', '>=', $this->filterDateFrom . ' 00:00:00');
+            $query->where('created_at', '>=', $this->filterDateFrom.' 00:00:00');
         } elseif ($this->filterDateTo) {
-            $query->where('created_at', '<=', $this->filterDateTo . ' 23:59:59');
+            $query->where('created_at', '<=', $this->filterDateTo.' 23:59:59');
         }
 
+        // ✅ PAGINATION
         $activityLogs = $query->orderBy('created_at', 'desc')->paginate(20);
 
-        // Get filter options
-        $actions = ActivityLog::where('user_id', Auth::id())->select('action')->distinct()->pluck('action');
+        // ✅ ACTION FILTER OPTIONS (FIXED TOO)
+        $actions = ActivityLog::where(function ($q) use ($user) {
+            $q->where('user_id', $user->id)
+                ->orWhere('affected_user_id', $user->id);
+
+            if ($user->employee) {
+                $q->orWhere('affected_employee_id', $user->employee->id);
+            }
+        })
+            ->select('action')
+            ->distinct()
+            ->pluck('action');
 
         return view('livewire.employee.activity-logs', [
             'activityLogs' => $activityLogs,
@@ -62,7 +94,22 @@ class ActivityLogs extends Component
     public function clearFilters()
     {
         $this->reset(['filterAction', 'filterDateFrom', 'filterDateTo']);
+
         $this->filterDateFrom = now()->startOfMonth()->toDateString();
         $this->filterDateTo = now()->endOfMonth()->toDateString();
+
+        $this->resetPage(); // ✅ important for pagination
+    }
+
+    public function showFullDescription($logId)
+    {
+        $this->selectedLog = ActivityLog::with('user', 'affectedUser', 'affectedEmployee')->find($logId);
+        $this->showDescriptionModal = true;
+    }
+
+    public function closeDescriptionModal()
+    {
+        $this->showDescriptionModal = false;
+        $this->selectedLog = null;
     }
 }

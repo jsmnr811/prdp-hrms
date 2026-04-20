@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Office;
+use App\Models\OfficeCategory;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\WfhTimelog;
 use Livewire\Component;
@@ -12,10 +15,20 @@ class WfhAllTimelogs extends Component
     use WithPagination;
 
     public $search;
+
     public $filterStatus;
+
     public $filterDateFrom;
+
     public $filterDateTo;
+
     public $filterUserId;
+
+    public $filterOfficeCategoryId;
+
+    public $filterOfficeId;
+
+    public $filterUnitId;
 
     public function mount()
     {
@@ -37,8 +50,12 @@ class WfhAllTimelogs extends Component
         // Apply search filter
         if ($this->search) {
             $query->whereHas('user', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('employee_id', 'like', '%' . $this->search . '%');
+                $q->where('employee_id', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('employee', function ($sub) {
+                        $sub->where('first_name', 'like', '%'.$this->search.'%')
+                            ->orWhere('last_name', 'like', '%'.$this->search.'%')
+                            ->orWhere('employee_number', 'like', '%'.$this->search.'%');
+                    });
             });
         }
 
@@ -52,13 +69,35 @@ class WfhAllTimelogs extends Component
             $query->where('status', $this->filterStatus);
         }
 
+        // Apply office category filter
+        if ($this->filterOfficeCategoryId) {
+            $query->whereHas('user.employee', function ($q) {
+                $q->where('office_category_id', $this->filterOfficeCategoryId);
+            });
+        }
+
+        // Apply office filter
+        if ($this->filterOfficeId) {
+            $query->whereHas('user.employee', function ($q) {
+                $q->where('office_id', $this->filterOfficeId);
+            });
+        }
+
+        // Apply unit filter
+        if ($this->filterUnitId) {
+            $query->whereHas('user.employee', function ($q) {
+                $q->where('unit_id', $this->filterUnitId);
+            });
+        }
+
         // Apply date range filter
         if ($this->filterDateFrom && $this->filterDateTo) {
-            $query->whereBetween('date', [$this->filterDateFrom, $this->filterDateTo]);
+            $query->whereDate('date', '>=', $this->filterDateFrom)
+                ->whereDate('date', '<=', $this->filterDateTo);
         } elseif ($this->filterDateFrom) {
-            $query->where('date', '>=', $this->filterDateFrom);
+            $query->whereDate('date', '>=', $this->filterDateFrom);
         } elseif ($this->filterDateTo) {
-            $query->where('date', '<=', $this->filterDateTo);
+            $query->whereDate('date', '<=', $this->filterDateTo);
         }
 
         $timelogs = $query->orderBy('date', 'desc')
@@ -70,9 +109,25 @@ class WfhAllTimelogs extends Component
             $q->visibleTo($user);
         })->role('employee')->get();
 
+        // Get office categories, offices, units visible to user
+        $officeCategories = OfficeCategory::whereHas('employees', function ($q) use ($user) {
+            $q->visibleTo($user);
+        })->distinct()->get();
+
+        $offices = Office::whereHas('employees', function ($q) use ($user) {
+            $q->visibleTo($user);
+        })->distinct()->get();
+
+        $units = Unit::whereHas('employees', function ($q) use ($user) {
+            $q->visibleTo($user);
+        })->distinct()->get();
+
         return view('livewire.admin.wfh-all-timelogs', [
             'timelogs' => $timelogs,
             'users' => $users,
+            'officeCategories' => $officeCategories,
+            'offices' => $offices,
+            'units' => $units,
         ])->layout('components.layouts.admin');
     }
 
@@ -101,11 +156,29 @@ class WfhAllTimelogs extends Component
         $this->resetPage();
     }
 
+    public function updatedFilterOfficeCategoryId()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFilterOfficeId()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFilterUnitId()
+    {
+        $this->resetPage();
+    }
+
     public function clearFilters()
     {
         $this->search = null;
         $this->filterStatus = null;
         $this->filterUserId = null;
+        $this->filterOfficeCategoryId = null;
+        $this->filterOfficeId = null;
+        $this->filterUnitId = null;
         $this->filterDateFrom = null;
         $this->filterDateTo = null;
         $this->resetPage();

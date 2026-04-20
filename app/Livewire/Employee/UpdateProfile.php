@@ -80,7 +80,7 @@ class UpdateProfile extends Component
 
     public function mount()
     {
-        if (! Auth::user()->hasRole('employee')) {
+         if (! Auth::user()->can('edit-profile')) {
             abort(403, 'Unauthorized access');
         }
 

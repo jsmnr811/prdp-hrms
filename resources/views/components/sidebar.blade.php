@@ -36,6 +36,15 @@
         </flux:sidebar.item>
         @endcan
 
+        @can('view-timelogs')
+        <flux:sidebar.item icon="document-chart-bar"
+            href="{{ route('all-timelogs') }}"
+            :current="request()->routeIs('all-timelogs')"
+            wire:navigate>
+            {{ __('Employees Timelogs') }}
+        </flux:sidebar.item>
+        @endcan
+
 
 
         @can('view-settings')

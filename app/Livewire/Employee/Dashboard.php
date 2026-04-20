@@ -8,9 +8,9 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public function mount()
+     public function mount()
     {
-        if (! Auth::user()->hasRole('employee')) {
+        if (! Auth::user()->can('view-dashboard')) {
             abort(403, 'Unauthorized access');
         }
     }
