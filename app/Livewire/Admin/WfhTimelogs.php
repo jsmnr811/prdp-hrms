@@ -254,8 +254,30 @@ class WfhTimelogs extends Component
         // This is called when JavaScript updates the device location
     }
 
+    protected function ensureAuthenticated(string $action): bool
+    {
+        if (! Auth::check()) {
+            ActivityLog::create([
+                'action' => $action . '_unauthorized',
+                'description' => 'Attempted ' . $action . ' after session expired or logged out',
+                'ip_address' => request()->ip(),
+                'session_id' => session()->getId(),
+                'user_id' => Auth::id() ?? null,
+                'timestamp' => now(),
+            ]);
+
+            $this->addError($action, 'Your session has expired. Please log in to perform this action.');
+            return false;
+        }
+
+        return true;
+    }
     public function timeIn()
     {
+        if (! $this->ensureAuthenticated('time_in')) {
+            return;
+        }
+
         $this->validate();
 
         $latitude = null;
@@ -333,6 +355,12 @@ class WfhTimelogs extends Component
             ->first();
 
         if ($existingTimelog) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'timelog_timein_failed',
+                'description' => 'Attempted to time in but session already active for ' . $this->date,
+                'ip_address' => request()->ip(),
+            ]);
             $this->addError('timeIn', 'You have already timed in for today.');
 
             return;
@@ -366,6 +394,10 @@ class WfhTimelogs extends Component
 
     public function timeOut()
     {
+        if (! $this->ensureAuthenticated('time_out')) {
+            return;
+        }
+
         // Find the latest timelog for today without time out
         $timelog = WfhTimelog::where('user_id', Auth::id())
             ->where('date', $this->date)
@@ -374,6 +406,12 @@ class WfhTimelogs extends Component
             ->first();
 
         if (! $timelog) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'timelog_timeout_failed',
+                'description' => 'Attempted to time out but no active session for ' . $this->date,
+                'ip_address' => request()->ip(),
+            ]);
             $this->addError('timeOut', 'No active time in found for today.');
 
             return;

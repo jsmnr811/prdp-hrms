@@ -250,6 +250,10 @@ class WfhTimelogs extends Component
 
     public function timeIn()
     {
+        if (!Auth::check()) {
+            return $this->redirect('/login');
+        }
+
         $this->validate();
 
         $latitude = null;
@@ -327,6 +331,12 @@ class WfhTimelogs extends Component
             ->first();
 
         if ($existingTimelog) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'timelog_timein_failed',
+                'description' => 'Attempted to time in but session already active for ' . $this->date,
+                'ip_address' => request()->ip(),
+            ]);
             $this->addError('timeIn', 'You have already timed in for today.');
 
             return;
@@ -361,6 +371,10 @@ class WfhTimelogs extends Component
 
     public function timeOut()
     {
+        if (!Auth::check()) {
+            return $this->redirect('/login');
+        }
+
         // Find the latest timelog for today without time out
         $timelog = WfhTimelog::where('user_id', Auth::id())
             ->where('date', $this->date)
@@ -369,6 +383,12 @@ class WfhTimelogs extends Component
             ->first();
 
         if (! $timelog) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'timelog_timeout_failed',
+                'description' => 'Attempted to time out but no active session for ' . $this->date,
+                'ip_address' => request()->ip(),
+            ]);
             $this->addError('timeOut', 'No active time in found for today.');
 
             return;
@@ -438,6 +458,10 @@ class WfhTimelogs extends Component
 
     public function startEdit()
     {
+        if (!Auth::check()) {
+            return $this->redirect('/login');
+        }
+
         $completedTimelog = $this->getTodayCompletedTimelog();
         if ($completedTimelog && $completedTimelog->date === now()->toDateString()) {
             $this->editing = true;
@@ -448,6 +472,10 @@ class WfhTimelogs extends Component
 
     public function saveEdit()
     {
+        if (!Auth::check()) {
+            return $this->redirect('/login');
+        }
+
         $this->validate([
             'editTimeOut' => 'required|date_format:H:i:s',
             'editAccomplishments' => 'required|string|max:1000',

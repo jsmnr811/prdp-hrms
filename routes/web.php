@@ -17,6 +17,7 @@ use App\Livewire\Admin\WfhAllTimelogs;
 use App\Livewire\Admin\WfhDashboard;
 use App\Livewire\Admin\WfhMonitoring;
 use App\Livewire\Admin\WfhTimelogs;
+use App\Livewire\Admin\ActiveSessions;
 use App\Livewire\ChangePassword;
 use App\Livewire\Employee\ActivityLogs as EmployeeActivityLogs;
 use App\Livewire\Employee\AllTimelogs;
@@ -81,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
 
     // WFH Monitoring (Map)
     Route::get('/admin/wfh-monitoring', WfhMonitoring::class)->name('admin.wfh-monitoring')->middleware('permission:view-admin-dashboard');
+
+    // Active Sessions Management
+    Route::get('/admin/active-sessions', ActiveSessions::class)->name('admin.active-sessions')->middleware('permission:manage-sessions');
 
     // Activity Logs
     Route::get('/admin/activity-logs', AdminActivityLogs::class)->name('admin.activity-logs');

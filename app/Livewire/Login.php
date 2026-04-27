@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\ActivityLog;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -51,6 +50,13 @@ class Login extends Component
         $user = User::where('employee_number', $employeeNumber)->first();
 
         if (! $user) {
+            // Log failed login attempt - user not found
+            ActivityLog::create([
+                'action' => 'login_failed',
+                'description' => 'Login attempt with invalid employee number: '.$employeeNumber,
+                'ip_address' => request()->ip(),
+            ]);
+
             throw ValidationException::withMessages([
                 'login' => 'Invalid credentials.',
             ]);
@@ -58,6 +64,14 @@ class Login extends Component
 
         // Check active status
         if (! $user->isActive()) {
+            // Log failed login attempt - inactive account
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'login_failed',
+                'description' => 'Login attempt for deactivated account',
+                'ip_address' => request()->ip(),
+            ]);
+
             throw ValidationException::withMessages([
                 'login' => 'Account deactivated. Contact HR.',
             ]);
@@ -71,10 +85,26 @@ class Login extends Component
             Hash::check($this->password, $user->temp_password)
         ) {
             if ($user->temp_password_expires_at && $user->temp_password_expires_at->isPast()) {
+                // Log failed login attempt - expired temp password
+                ActivityLog::create([
+                    'user_id' => $user->id,
+                    'action' => 'login_failed',
+                    'description' => 'Login attempt with expired temporary password',
+                    'ip_address' => request()->ip(),
+                ]);
+
                 throw ValidationException::withMessages([
                     'login' => 'Temporary password has expired. Please request a new one.',
                 ]);
             }
+
+            // Log successful temp password login
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'temp_password_login',
+                'description' => 'User logged in with temporary password',
+                'ip_address' => request()->ip(),
+            ]);
 
             session(['temp_user_id' => $user->id]);
 
@@ -85,6 +115,14 @@ class Login extends Component
          * ✅ ORIGINAL PASSWORD LOGIN → ALLOW EVEN IF NOT CHANGED
          */
         if (! Hash::check($this->password, $user->password)) {
+            // Log failed login attempt - incorrect password
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'login_failed',
+                'description' => 'Login attempt with incorrect password',
+                'ip_address' => request()->ip(),
+            ]);
+
             throw ValidationException::withMessages([
                 'login' => 'Invalid credentials.',
             ]);
@@ -93,19 +131,19 @@ class Login extends Component
         // Authenticate user
         Auth::login($user, $remember);
         session()->regenerate();
+        session()->save();
 
         // Log login activity
         ActivityLog::create([
             'user_id' => $user->id,
             'action' => 'login',
-            'description' => 'User logged in successfully',
+            'description' => 'User logged in successfully with employee number: '.$user->employee_number,
             'ip_address' => request()->ip(),
         ]);
 
         $user->updateLastLogin();
 
         // Redirect based on role
-
 
         if ($user->can('view-admin-dashboard')) {
             return redirect()->to('/admin/dashboard');
@@ -115,7 +153,6 @@ class Login extends Component
 
         return redirect()->to('/admin'); // fallback
     }
-
 
     public function togglePassword()
     {
